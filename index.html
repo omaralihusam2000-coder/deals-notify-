@@ -16,6 +16,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 
   <!-- Chart.js CDN with SRI -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
@@ -201,11 +202,22 @@
         <h2 class="section-title">📰 Gaming News</h2>
         <button class="btn btn-outline btn-sm" onclick="NewsModule.fetchNews()">🔄 Refresh</button>
       </div>
+      <!-- Language toggle -->
+      <div class="news-lang-toggle" role="group" aria-label="Filter news by language">
+        <button class="btn news-lang-btn active" data-lang="all">All</button>
+        <button class="btn news-lang-btn" data-lang="en">English 🇬🇧</button>
+        <button class="btn news-lang-btn" data-lang="ar">العربية 🇮🇶</button>
+      </div>
+      <!-- Last updated indicator -->
+      <p id="news-last-updated" class="news-last-updated"></p>
       <div id="news-grid" class="news-grid" role="list" aria-label="Gaming news articles">
         <div class="empty-state">
           <div class="empty-icon">📰</div>
           <p>Click the "News" tab to load latest gaming news.</p>
         </div>
+      </div>
+      <div id="news-load-more-wrap" class="load-more-wrap" style="display:none;">
+        <button id="news-load-more-btn" class="btn btn-outline">Load More News</button>
       </div>
     </section>
 
