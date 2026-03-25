@@ -3,15 +3,25 @@
  */
 
 const NewsModule = (() => {
+  const RSS2JSON_BASE = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
   const RSS_FEEDS = [
     {
-      name: 'IGN',
-      url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.feedburner.com%2Fign%2Fgames-all'
+      name: 'Polygon',
+      url: RSS2JSON_BASE + encodeURIComponent('https://www.polygon.com/rss/index.xml')
     },
     {
-      name: 'Eurogamer',
-      url: 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.eurogamer.net%2F%3Fformat%3Drss'
-    }
+      name: 'PC Gamer',
+      url: RSS2JSON_BASE + encodeURIComponent('https://www.pcgamer.com/rss/')
+    },
+    {
+      name: 'Kotaku',
+      url: RSS2JSON_BASE + encodeURIComponent('https://kotaku.com/rss')
+    },
+    {
+      name: 'Rock Paper Shotgun',
+      url: RSS2JSON_BASE + encodeURIComponent('https://www.rockpapershotgun.com/feed/rss')
+    },
   ];
 
   let allArticles = [];
@@ -29,7 +39,12 @@ const NewsModule = (() => {
 
       allArticles = [];
       results.forEach((result, i) => {
-        if (result.status === 'fulfilled' && result.value && result.value.items) {
+        if (
+          result.status === 'fulfilled' &&
+          result.value &&
+          result.value.status === 'ok' &&
+          Array.isArray(result.value.items)
+        ) {
           const items = result.value.items.slice(0, 10).map(item => ({
             ...item,
             source: RSS_FEEDS[i].name
