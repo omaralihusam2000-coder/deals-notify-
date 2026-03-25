@@ -190,14 +190,22 @@ const DealsModule = (() => {
                target="_blank" rel="noopener noreferrer">
               🔥 Get This Deal
             </a>
-            <button class="btn btn-outline btn-sm"
-                    onclick="ChartsModule.showPriceHistory('${escapeHtml(best.gameID)}', '${escapeHtml(best.title).replace(/'/g, "\\'")}')">
+            <button class="btn btn-outline btn-sm dotd-history-btn"
+                    data-gameid="${escapeHtml(best.gameID)}"
+                    data-title="${escapeHtml(best.title)}">
               📊 Price History
             </button>
           </div>
         </div>
       </div>
     `;
+
+    const historyBtn = content.querySelector('.dotd-history-btn');
+    if (historyBtn && typeof ChartsModule !== 'undefined') {
+      historyBtn.addEventListener('click', () => {
+        ChartsModule.showPriceHistory(historyBtn.dataset.gameid, historyBtn.dataset.title);
+      });
+    }
     section.style.display = 'block';
   }
 

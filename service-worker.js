@@ -56,10 +56,12 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests and cross-origin requests we don't cache
   if (event.request.method !== 'GET') return;
 
-  // Network-first strategy for API calls
-  const isAPI = url.hostname.includes('cheapshark.com') ||
-                url.hostname.includes('gamerpower.com') ||
-                url.hostname.includes('rss2json.com');
+  // Network-first strategy for API calls — use exact hostname matching
+  const isAPI = url.hostname === 'www.cheapshark.com' ||
+                url.hostname === 'cheapshark.com' ||
+                url.hostname === 'www.gamerpower.com' ||
+                url.hostname === 'gamerpower.com' ||
+                url.hostname === 'api.rss2json.com';
 
   if (isAPI) {
     event.respondWith(
