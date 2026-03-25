@@ -47,6 +47,7 @@
         <button id="notif-status-badge" class="notif-badge-btn" style="display:none;" aria-label="Enable notifications">
           🔔 Enable Alerts
         </button>
+        <div id="lang-switcher-container" class="lang-switcher-wrap"></div>
         <button id="theme-toggle" class="btn btn-ghost btn-sm theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle theme">
           ☀️
         </button>
@@ -60,7 +61,11 @@
       <button class="nav-tab active" role="tab" aria-selected="true"  data-tab="deals"        aria-controls="tab-deals">🔥 Deals</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="giveaways"    aria-controls="tab-giveaways">🆓 Free Games</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="bundles"      aria-controls="tab-bundles">🎁 Bundles</button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="console"      aria-controls="tab-console">🎮 Console</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="news"         aria-controls="tab-news">📰 News</button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="calendar"     aria-controls="tab-calendar">📅 Calendar</button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="quiz"         aria-controls="tab-quiz">🎮 Quiz</button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="collections"  aria-controls="tab-collections">📚 Collections</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="wishlist"     aria-controls="tab-wishlist">
         ⭐ Wishlist
         <span class="nav-count" id="wishlist-count" style="display:none;">0</span>
@@ -221,6 +226,59 @@
       </div>
     </section>
 
+    <!-- ===== CONSOLE DEALS TAB ===== -->
+    <section id="tab-console" class="tab-panel" role="tabpanel" aria-labelledby="console-tab">
+      <div class="section-header">
+        <h2 class="section-title">🎮 Console Deals</h2>
+      </div>
+      <div id="console-platform-filters" class="filter-chips" role="group" aria-label="Platform filter"></div>
+      <div id="console-deals-grid" class="cards-grid" role="list" aria-label="Console game deals">
+        <div class="empty-state">
+          <div class="empty-icon">🎮</div>
+          <p>Click the "Console" tab to load deals.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CALENDAR TAB ===== -->
+    <section id="tab-calendar" class="tab-panel" role="tabpanel" aria-labelledby="calendar-tab">
+      <div class="section-header">
+        <h2 class="section-title">📅 Sale Calendar</h2>
+      </div>
+      <div id="calendar-container" class="calendar-container">
+        <div class="empty-state">
+          <div class="empty-icon">📅</div>
+          <p>Click the "Calendar" tab to view sale events.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== QUIZ TAB ===== -->
+    <section id="tab-quiz" class="tab-panel" role="tabpanel" aria-labelledby="quiz-tab">
+      <div class="section-header">
+        <h2 class="section-title">🎮 What Should I Play?</h2>
+      </div>
+      <div id="quiz-container" class="quiz-container">
+        <div class="empty-state">
+          <div class="empty-icon">🎮</div>
+          <p>Click the "Quiz" tab to start the quiz.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COLLECTIONS TAB ===== -->
+    <section id="tab-collections" class="tab-panel" role="tabpanel" aria-labelledby="collections-tab">
+      <div class="section-header">
+        <h2 class="section-title">📚 Curated Collections</h2>
+      </div>
+      <div id="collections-container">
+        <div class="empty-state">
+          <div class="empty-icon">📚</div>
+          <p>Click the "Collections" tab to browse curated game collections.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== WISHLIST TAB ===== -->
     <section id="tab-wishlist" class="tab-panel" role="tabpanel" aria-labelledby="wishlist-tab">
       <div class="section-header">
@@ -350,6 +408,18 @@
           <button id="save-notif-prefs-btn" class="btn btn-primary">💾 Save Preferences</button>
         </div>
 
+        <!-- Advanced Notification Scheduling (rendered by NotificationsModule) -->
+        <div id="notif-schedule-section" style="margin-top:1rem;"></div>
+
+        <!-- Notification History (rendered by NotificationsModule) -->
+        <div id="notif-history-section" style="margin-top:1rem;"></div>
+
+        <!-- Newsletter Manage (rendered by NewsletterModule) -->
+        <div id="newsletter-manage-section" style="margin-top:1rem;"></div>
+
+        <!-- Discord Widget (rendered by DiscordModule) -->
+        <div id="discord-settings-section" style="margin-top:1rem;"></div>
+
         <div class="settings-card" style="margin-top:1.5rem;border-color:rgba(0,212,255,0.2);">
           <h3 class="settings-card-title">ℹ️ How It Works</h3>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
@@ -368,6 +438,8 @@
 
   <!-- ── Footer ──────────────────────────────────────────────────── -->
   <footer class="site-footer" role="contentinfo">
+    <!-- Discord Widget -->
+    <div id="discord-floating-widget" class="discord-footer-widget"></div>
     <p>
       Powered by
       <a href="https://apidocs.cheapshark.com/" target="_blank" rel="noopener noreferrer">CheapShark API</a>
@@ -387,6 +459,7 @@
 
   <!-- ── Scripts ─────────────────────────────────────────────────── -->
   <script src="js/utils.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/currency.js"></script>
   <script src="js/wishlist.js"></script>
   <script src="js/notifications.js"></script>
@@ -395,10 +468,19 @@
   <script src="js/recommendations.js"></script>
   <script src="js/steam-import.js"></script>
   <script src="js/gamification.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/price-advisor.js"></script>
+  <script src="js/game-detail.js"></script>
   <script src="js/deals.js"></script>
   <script src="js/giveaways.js"></script>
   <script src="js/bundles.js"></script>
   <script src="js/news.js"></script>
+  <script src="js/console-deals.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/collections.js"></script>
+  <script src="js/newsletter.js"></script>
+  <script src="js/discord.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/app.js"></script>
 

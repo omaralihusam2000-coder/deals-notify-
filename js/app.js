@@ -3,7 +3,7 @@
  */
 
 const AppModule = (() => {
-  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'news', 'wishlist', 'achievements', 'settings'];
+  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'collections', 'wishlist', 'achievements', 'settings'];
   let activeTab = 'deals';
 
   function switchTab(tabName) {
@@ -29,9 +29,21 @@ const AppModule = (() => {
       BundlesModule.init();
       if (typeof GamificationModule !== 'undefined') GamificationModule.recordEvent('view');
     }
+    if (tabName === 'console' && typeof ConsoleDealsModule !== 'undefined') {
+      ConsoleDealsModule.init();
+    }
     if (tabName === 'news' && typeof NewsModule !== 'undefined') {
       NewsModule.init();
       if (typeof GamificationModule !== 'undefined') GamificationModule.recordEvent('news_visit');
+    }
+    if (tabName === 'calendar' && typeof CalendarModule !== 'undefined') {
+      CalendarModule.init();
+    }
+    if (tabName === 'quiz' && typeof QuizModule !== 'undefined') {
+      QuizModule.init();
+    }
+    if (tabName === 'collections' && typeof CollectionsModule !== 'undefined') {
+      CollectionsModule.init();
     }
     if (tabName === 'wishlist') {
       WishlistModule.renderWishlist();
@@ -45,6 +57,12 @@ const AppModule = (() => {
       }
       if (typeof SteamImportModule !== 'undefined') {
         SteamImportModule.renderImportSection();
+      }
+      if (typeof NewsletterModule !== 'undefined') {
+        NewsletterModule.renderManageSection();
+      }
+      if (typeof DiscordModule !== 'undefined') {
+        DiscordModule.renderWidget && DiscordModule.init && DiscordModule.init();
       }
     }
   }
@@ -131,6 +149,9 @@ const AppModule = (() => {
   }
 
   async function init() {
+    // Init i18n first (before any other modules render text)
+    if (typeof I18nModule !== 'undefined') I18nModule.init();
+
     bindNavEvents();
     initDarkMode();
     initBackToTop();
@@ -145,6 +166,8 @@ const AppModule = (() => {
     if (typeof SteamImportModule !== 'undefined') SteamImportModule.init();
     if (typeof GamificationModule !== 'undefined') GamificationModule.init();
     if (typeof PWAModule !== 'undefined') PWAModule.init();
+    if (typeof NewsletterModule !== 'undefined') NewsletterModule.init();
+    if (typeof DiscordModule !== 'undefined') DiscordModule.init();
 
     // Deals tab is default — initialise immediately
     await DealsModule.init();
