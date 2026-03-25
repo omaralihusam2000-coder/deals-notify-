@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gaming Deals Notifier — Track the best game deals from Steam, GOG, Epic Games, and more. Get browser notifications for deals matching your preferences.">
+  <title>🎮 Gaming Deals Notifier</title>
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="site-logo" aria-label="Gaming Deals Notifier home">
+        <span class="logo-icon">🎮</span>
+        <span class="logo-text">Gaming Deals Notifier</span>
+      </a>
+      <button id="notif-status-badge" class="notif-badge-btn" style="display:none;" aria-label="Enable notifications">
+        🔔 Enable Alerts
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Tab Navigation ──────────────────────────────────────────── -->
+  <nav class="site-nav" role="navigation" aria-label="Main sections">
+    <div class="nav-inner" role="tablist">
+      <button class="nav-tab active" role="tab" aria-selected="true"  data-tab="deals"     aria-controls="tab-deals">
+        🔥 Deals
+      </button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="giveaways" aria-controls="tab-giveaways">
+        🆓 Free Games
+      </button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="wishlist"  aria-controls="tab-wishlist">
+        ⭐ Wishlist
+        <span class="nav-count" id="wishlist-count" style="display:none;">0</span>
+      </button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="settings"  aria-controls="tab-settings">
+        🔔 Notifications
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Main Content ─────────────────────────────────────────────── -->
+  <main class="site-main">
+
+    <!-- ===== DEALS TAB ===== -->
+    <section id="tab-deals" class="tab-panel active" role="tabpanel" aria-labelledby="deals-tab">
+
+      <div class="section-header">
+        <h1 class="section-title">🔥 Live Deals Feed</h1>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="search-filter-bar" role="search">
+        <div class="search-row">
+          <div class="search-input-wrapper">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input
+              type="search"
+              id="search-input"
+              class="search-input"
+              placeholder="Search game titles…"
+              aria-label="Search deals"
+              autocomplete="off"
+            >
+          </div>
+        </div>
+        <form id="deals-filter-form" class="filters-row" aria-label="Filter deals">
+          <div class="filter-group">
+            <label class="filter-label" for="filter-store">Store</label>
+            <select id="filter-store" name="store" class="filter-select" aria-label="Filter by store">
+              <option value="">All Stores</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="filter-max-price">Max Price ($)</label>
+            <input type="number" id="filter-max-price" name="max-price" class="filter-input"
+                   placeholder="Any" min="0" step="0.01" aria-label="Maximum price">
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="filter-min-saving">Min Discount</label>
+            <select id="filter-min-saving" name="min-saving" class="filter-select" aria-label="Minimum discount">
+              <option value="">Any</option>
+              <option value="25">25%+</option>
+              <option value="50">50%+</option>
+              <option value="75">75%+</option>
+              <option value="90">90%+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label" for="filter-sort-by">Sort By</label>
+            <select id="filter-sort-by" name="sort-by" class="filter-select" aria-label="Sort by">
+              <option value="DealRating">Deal Rating</option>
+              <option value="Price">Price (Low)</option>
+              <option value="Savings">Savings</option>
+              <option value="Name">Title</option>
+              <option value="Recent">Recent</option>
+            </select>
+          </div>
+          <div class="filter-group" style="justify-content: flex-end;">
+            <label class="filter-label">&nbsp;</label>
+            <button type="button" id="clear-filters-btn" class="btn btn-ghost btn-sm">
+              ✕ Clear
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Deals Grid -->
+      <div id="deals-grid" class="cards-grid" role="list" aria-label="Game deals">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Load More -->
+      <div class="load-more-wrap">
+        <button id="load-more-btn" class="btn btn-outline">
+          Load More Deals
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===== GIVEAWAYS TAB ===== -->
+    <section id="tab-giveaways" class="tab-panel" role="tabpanel" aria-labelledby="giveaways-tab">
+
+      <div class="section-header">
+        <h2 class="section-title">🆓 Free Games &amp; Giveaways</h2>
+      </div>
+
+      <!-- Platform + Type Filters -->
+      <div class="giveaway-filters-bar" role="group" aria-label="Filter giveaways">
+        <div id="giveaway-platform-filters" class="filter-chips" role="group" aria-label="Platform filter">
+          <!-- Populated by JS -->
+        </div>
+        <div class="filter-group">
+          <label class="filter-label" for="giveaway-type-filter">Type</label>
+          <select id="giveaway-type-filter" class="filter-select" aria-label="Filter by type">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Giveaways Grid -->
+      <div id="giveaways-grid" class="cards-grid" role="list" aria-label="Free game giveaways">
+        <div class="empty-state">
+          <div class="empty-icon">🆓</div>
+          <p>Click the "Free Games" tab to load giveaways.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== WISHLIST TAB ===== -->
+    <section id="tab-wishlist" class="tab-panel" role="tabpanel" aria-labelledby="wishlist-tab">
+
+      <div class="section-header">
+        <h2 class="section-title">⭐ My Wishlist</h2>
+        <button id="clear-wishlist-btn" class="btn btn-danger btn-sm" style="margin-left:auto;">
+          🗑️ Clear All
+        </button>
+      </div>
+
+      <div id="wishlist-grid" class="cards-grid" role="list" aria-label="Wishlisted games">
+        <!-- Populated by JS -->
+      </div>
+
+    </section>
+
+    <!-- ===== SETTINGS / NOTIFICATIONS TAB ===== -->
+    <section id="tab-settings" class="tab-panel" role="tabpanel" aria-labelledby="settings-tab">
+
+      <div class="section-header">
+        <h2 class="section-title">🔔 Notification Settings</h2>
+      </div>
+
+      <div class="settings-page">
+
+        <!-- Permission Card -->
+        <div class="settings-card">
+          <h3 class="settings-card-title">🔐 Browser Permission</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Notification Permission</strong>
+              Allow this site to send browser push notifications.
+            </div>
+            <span id="notif-permission-status" class="perm-badge perm-default">⏳ Not set</span>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Request Permission</strong>
+              Click to allow browser notifications for deal alerts.
+            </div>
+            <button id="request-notif-btn" class="btn btn-primary btn-sm">Enable</button>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Test Notification</strong>
+              Send a test notification to verify it's working.
+            </div>
+            <button id="test-notif-btn" class="btn btn-outline btn-sm">Send Test</button>
+          </div>
+        </div>
+
+        <!-- Deal Alerts Card -->
+        <div class="settings-card">
+          <h3 class="settings-card-title">🔥 Deal Alert Preferences</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Enable Deal Alerts</strong>
+              Receive notifications when new deals match your thresholds.
+            </div>
+            <label class="toggle-switch" aria-label="Enable deal alerts">
+              <input type="checkbox" id="notif-toggle">
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Price Threshold</strong>
+              Notify me when a deal is under this price (USD).
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+              <span style="color:var(--text-muted);font-size:0.9rem;">$</span>
+              <input type="number" id="notif-price-threshold" class="settings-input"
+                     value="5" min="0" step="0.5" aria-label="Price threshold in dollars">
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Discount Threshold</strong>
+              Notify me when a deal has at least this % off.
+            </div>
+            <div style="display:flex;align-items:center;gap:0.4rem;">
+              <input type="number" id="notif-discount-threshold" class="settings-input"
+                     value="75" min="0" max="100" step="5" aria-label="Discount threshold percentage">
+              <span style="color:var(--text-muted);font-size:0.9rem;">%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wishlist Alerts Card -->
+        <div class="settings-card">
+          <h3 class="settings-card-title">⭐ Wishlist Alerts</h3>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Wishlist Deal Alerts</strong>
+              Notify me when a game on my wishlist goes on sale or reaches a new low price.
+            </div>
+            <label class="toggle-switch" aria-label="Enable wishlist alerts">
+              <input type="checkbox" id="notif-wishlist-toggle" checked>
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div style="text-align:right;margin-top:0.5rem;">
+          <button id="save-notif-prefs-btn" class="btn btn-primary">
+            💾 Save Preferences
+          </button>
+        </div>
+
+        <!-- Info Card -->
+        <div class="settings-card" style="margin-top:1.5rem;border-color:rgba(0,212,255,0.2);">
+          <h3 class="settings-card-title">ℹ️ How It Works</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.75rem;font-size:0.85rem;color:var(--text-secondary);">
+            <li>🔔 The app checks for new deals every <strong style="color:var(--text-primary)">5 minutes</strong> when enabled.</li>
+            <li>💰 You'll be notified when any deal drops below your <strong style="color:var(--text-primary)">price threshold</strong>.</li>
+            <li>📉 You'll also be notified when a deal meets your <strong style="color:var(--text-primary)">discount threshold</strong>.</li>
+            <li>⭐ Wishlisted games are monitored for price drops and <strong style="color:var(--text-primary)">new lows</strong>.</li>
+            <li>💾 All preferences are saved locally in your browser — no account needed.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <p>
+      Powered by
+      <a href="https://apidocs.cheapshark.com/" target="_blank" rel="noopener noreferrer">CheapShark API</a>
+      &amp;
+      <a href="https://www.gamerpower.com/api-read" target="_blank" rel="noopener noreferrer">GamerPower API</a>
+      — All data is provided by third-party sources.
+    </p>
+  </footer>
+
+  <!-- ── Toast Container ─────────────────────────────────────────── -->
+  <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- ── Scripts ─────────────────────────────────────────────────── -->
+  <!-- Load order matters: utils → domain modules → app -->
+  <script src="js/utils.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/deals.js"></script>
+  <script src="js/giveaways.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
