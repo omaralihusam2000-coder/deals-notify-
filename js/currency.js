@@ -16,6 +16,7 @@ const CurrencyModule = (() => {
     JPY: { rate: 149.5,  symbol: '¥',  name: 'Japanese Yen' },
     BRL: { rate: 5.05,   symbol: 'R$', name: 'Brazilian Real' },
     INR: { rate: 83.2,   symbol: '₹',  name: 'Indian Rupee' },
+    IQD: { rate: 1310,   symbol: 'ع.د', name: 'Iraqi Dinar' },
   };
 
   function getCurrency() {
@@ -46,8 +47,8 @@ const CurrencyModule = (() => {
     const info = RATES[currency] || RATES.USD;
     const converted = num * info.rate;
 
-    if (currency === 'JPY' || currency === 'INR') {
-      return `${info.symbol}${Math.round(converted)}`;
+    if (currency === 'JPY' || currency === 'INR' || currency === 'IQD') {
+      return `${info.symbol}${Math.round(converted).toLocaleString()}`;
     }
     return `${info.symbol}${converted.toFixed(2)}`;
   }
