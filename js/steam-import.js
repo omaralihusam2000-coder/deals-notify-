@@ -14,9 +14,9 @@ const SteamImportModule = (() => {
     if (!gameTitle) return false;
     const owned = getOwnedGames();
     const lower = gameTitle.toLowerCase().trim();
-    return owned.some(g => g.toLowerCase().trim() === lower ||
-      lower.includes(g.toLowerCase().trim()) ||
-      g.toLowerCase().trim().includes(lower));
+    // Pre-normalize owned list once per call for efficiency
+    const ownedNorm = owned.map(g => g.toLowerCase().trim());
+    return ownedNorm.some(g => g === lower || lower.includes(g) || g.includes(lower));
   }
 
   function importFromText(text) {
@@ -27,9 +27,10 @@ const SteamImportModule = (() => {
       .filter(s => s.length > 0 && s.length < 200);
 
     const existing = getOwnedGames();
-    const combined = [...new Set([...existing, ...lines])];
-    storageSet(OWNED_KEY, combined);
-    return lines.length;
+    const existingNorm = new Set(existing.map(g => g.toLowerCase().trim()));
+    const newGames = lines.filter(g => !existingNorm.has(g.toLowerCase().trim()));
+    storageSet(OWNED_KEY, [...existing, ...newGames]);
+    return newGames.length;
   }
 
   function clearOwned() {

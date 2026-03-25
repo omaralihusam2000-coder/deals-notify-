@@ -272,10 +272,14 @@ const DealsModule = (() => {
     const flashSaleEnd = getFlashSaleCountdown(deal);
     const isFlashSale = flashSaleEnd !== null;
 
-    // Track view in recommendations
-    if (typeof RecommendationsModule !== 'undefined') {
+  // Track view in recommendations — only once per unique gameID per session
+  if (typeof RecommendationsModule !== 'undefined') {
+    if (!createDealCard._tracked) createDealCard._tracked = new Set();
+    if (!createDealCard._tracked.has(deal.gameID)) {
+      createDealCard._tracked.add(deal.gameID);
       RecommendationsModule.trackView(deal);
     }
+  }
 
     // Track view in gamification
     if (typeof GamificationModule !== 'undefined') {

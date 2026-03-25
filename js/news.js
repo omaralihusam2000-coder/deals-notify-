@@ -74,10 +74,15 @@ const NewsModule = (() => {
       const pubDate = article.pubDate ? new Date(article.pubDate) : null;
       const dateStr = pubDate ? pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
 
-      // Strip HTML from description
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = article.description || '';
-      const summary = truncate(tempDiv.textContent.trim(), 120);
+      // Safely strip HTML from description using DOMParser
+      let rawDescription = article.description || '';
+      let summary = '';
+      try {
+        const doc = new DOMParser().parseFromString(rawDescription, 'text/html');
+        summary = truncate(doc.body.textContent.trim(), 120);
+      } catch (_) {
+        summary = '';
+      }
 
       card.innerHTML = `
         <a class="news-card-link" href="${escapeHtml(article.link)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(article.title)}">

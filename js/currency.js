@@ -6,6 +6,8 @@ const CurrencyModule = (() => {
   const CURRENCY_KEY = 'selected_currency';
 
   const RATES = {
+    // NOTE: These are static exchange rates. They may drift over time.
+    // For production use, fetch live rates from a currency API (e.g., exchangerate-api.com).
     USD: { rate: 1,      symbol: '$',  name: 'US Dollar' },
     EUR: { rate: 0.92,   symbol: '€',  name: 'Euro' },
     GBP: { rate: 0.79,   symbol: '£',  name: 'British Pound' },
