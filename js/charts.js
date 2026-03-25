@@ -290,5 +290,51 @@ const ChartsModule = (() => {
     `;
   }
 
-  return { showPriceHistory, showPriceComparison, showTrailerModal };
+  async function renderInlineChart(canvasId, gameID, gameTitle) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === 'undefined') return;
+    try {
+      const data = await fetchJSON(`https://www.cheapshark.com/api/1.0/games?id=${encodeURIComponent(gameID)}`);
+      const deals = (data.deals || []).slice(0, 12);
+      if (deals.length === 0) {
+        canvas.parentNode.innerHTML = '<p class="text-muted">No price data available.</p>';
+        return;
+      }
+      const labels = deals.map((_, i) => `Deal ${i + 1}`);
+      const prices = deals.map(d => parseFloat(d.price));
+      const ctx = canvas.getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Price ($)',
+            data: prices,
+            borderColor: '#00d4ff',
+            backgroundColor: 'rgba(0,212,255,0.1)',
+            borderWidth: 2,
+            pointBackgroundColor: '#00d4ff',
+            fill: true,
+            tension: 0.4,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ` $${ctx.parsed.y.toFixed(2)}` } }
+          },
+          scales: {
+            x: { ticks: { color: '#a0a0b0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#a0a0b0', callback: v => `$${v}` }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+    } catch {
+      if (canvas.parentNode) canvas.parentNode.innerHTML = '<p class="text-muted">Chart unavailable.</p>';
+    }
+  }
+
+  return { showPriceHistory, showPriceComparison, showTrailerModal, renderInlineChart };
 })();

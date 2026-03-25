@@ -364,7 +364,9 @@ const DealsModule = (() => {
           <button class="btn btn-ghost btn-xs btn-history" data-gameid="${escapeHtml(deal.gameID)}" data-title="${escapeHtml(deal.title)}">📊 History</button>
           <button class="btn btn-ghost btn-xs btn-compare" data-gameid="${escapeHtml(deal.gameID)}" data-title="${escapeHtml(deal.title)}">🆚 Compare</button>
           <button class="btn btn-ghost btn-xs btn-community" data-dealid="${escapeHtml(deal.dealID)}" data-title="${escapeHtml(deal.title)}">💬 Community</button>
+          <button class="btn btn-ghost btn-xs btn-share-deal">📤 Share</button>
         </div>
+        ${typeof PriceAdvisorModule !== 'undefined' ? PriceAdvisorModule.createPlaceholderHTML() : ''}
       </div>
     `;
 
@@ -420,6 +422,22 @@ const DealsModule = (() => {
         CommunityModule.showDealModal(deal);
       }
     });
+
+    // Share button
+    card.querySelector('.btn-share-deal').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof ShareModule !== 'undefined') ShareModule.shareDeal(deal);
+    });
+
+    // Open Game Detail Modal on card click
+    card.addEventListener('click', () => {
+      if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(deal);
+    });
+
+    // Price advisor (async, no blocking)
+    if (typeof PriceAdvisorModule !== 'undefined') {
+      requestAnimationFrame(() => PriceAdvisorModule.applyToCard(card, deal));
+    }
 
     // Start countdown timer if flash sale
     if (isFlashSale) {

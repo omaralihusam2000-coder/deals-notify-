@@ -5,8 +5,10 @@
 
 const NotificationsModule = (() => {
   const STORAGE_KEY = 'notification_prefs';
+  const HISTORY_KEY = 'notification_history';
   const CHECK_INTERVAL_MS = 5 * 60 * 1000; // every 5 minutes
   let intervalId = null;
+  let dailyIntervalId = null;
   let seenDealIds = new Set();
 
   /**
@@ -17,6 +19,13 @@ const NotificationsModule = (() => {
     priceThreshold: 5,       // notify when price <= $5
     discountThreshold: 75,   // notify when discount >= 75%
     wishlistAlerts: true,
+    // Enhanced scheduling prefs
+    schedule: 'realtime',    // 'realtime' | 'daily' | 'weekly'
+    dailyTime: '09:00',      // HH:MM for daily digest
+    weeklyDay: '1',          // 0=Sun,1=Mon,...6=Sat
+    flashSaleAlerts: true,   // 90%+ discount instant alerts
+    freeGameAlerts: true,    // new free game alerts
+    wishlistOnlyMode: false, // only notify for wishlisted games
   };
 
   /**
@@ -54,6 +63,16 @@ const NotificationsModule = (() => {
   }
 
   /**
+   * Add a notification to the history log (last 20)
+   */
+  function addToHistory(title, body) {
+    const history = storageGet(HISTORY_KEY, []);
+    history.unshift({ title, body, ts: Date.now() });
+    if (history.length > 20) history.length = 20;
+    storageSet(HISTORY_KEY, history);
+  }
+
+  /**
    * Show a browser push notification
    * @param {string} title
    * @param {string} body
@@ -73,6 +92,7 @@ const NotificationsModule = (() => {
         n.close();
       };
     }
+    addToHistory(title, body);
   }
 
   /**
@@ -90,6 +110,24 @@ const NotificationsModule = (() => {
       const price = parseFloat(deal.salePrice);
       const savings = parseFloat(deal.savings);
 
+      // Wishlist-only mode
+      if (prefs.wishlistOnlyMode) {
+        const wishlisted = typeof WishlistModule !== 'undefined' && WishlistModule.isWishlisted(deal.gameID);
+        if (!wishlisted) return;
+      }
+
+      // Flash sale alert (90%+ discount instant)
+      if (prefs.flashSaleAlerts && savings >= 90) {
+        seenDealIds.add(deal.dealID);
+        sendNotification(
+          `⚡ Flash Sale: ${deal.title}`,
+          `${Math.round(savings)}% OFF — only ${formatPrice(deal.salePrice)}!`,
+          deal.thumb,
+          `https://www.cheapshark.com/redirect?dealID=${encodeURIComponent(deal.dealID)}`
+        );
+        return;
+      }
+
       const matchesPrice = !isNaN(price) && price <= prefs.priceThreshold;
       const matchesDiscount = !isNaN(savings) && savings >= prefs.discountThreshold;
 
@@ -106,28 +144,74 @@ const NotificationsModule = (() => {
   }
 
   /**
+   * Send a daily digest notification
+   */
+  async function sendDailyDigest() {
+    const prefs = loadPrefs();
+    if (!prefs.enabled || Notification.permission !== 'granted') return;
+    try {
+      const deals = await fetchJSON('https://www.cheapshark.com/api/1.0/deals?pageSize=5&sortBy=DealRating&desc=1');
+      if (deals.length > 0) {
+        const top = deals[0];
+        sendNotification(
+          '🎮 Daily Deal Digest',
+          `Top deal today: ${top.title} — ${formatPrice(top.salePrice)} (${formatSavings(top.savings)} off)`,
+          top.thumb,
+          `https://www.cheapshark.com/redirect?dealID=${encodeURIComponent(top.dealID)}`
+        );
+      }
+    } catch {
+      // silently fail
+    }
+  }
+
+  /**
+   * Check if daily/weekly notification should fire now
+   */
+  function checkScheduledNotification() {
+    const prefs = loadPrefs();
+    if (!prefs.enabled) return;
+    const now = new Date();
+
+    if (prefs.schedule === 'daily') {
+      const [h, m] = (prefs.dailyTime || '09:00').split(':').map(Number);
+      if (now.getHours() === h && now.getMinutes() === m) {
+        sendDailyDigest();
+      }
+    }
+    if (prefs.schedule === 'weekly') {
+      const targetDay = parseInt(prefs.weeklyDay) || 1;
+      if (now.getDay() === targetDay && now.getHours() === 9 && now.getMinutes() === 0) {
+        sendDailyDigest();
+      }
+    }
+  }
+
+  /**
    * Start periodic deal checking
    */
   function startChecking() {
     stopChecking();
-    intervalId = setInterval(async () => {
-      const prefs = loadPrefs();
-      if (!prefs.enabled) return;
-      try {
-        // Fetch latest deals for threshold checking
-        const deals = await fetchJSON(
-          `https://www.cheapshark.com/api/1.0/deals?pageSize=20&sortBy=DealRating&desc=1`
-        );
-        checkDeals(deals);
-
-        // Also check wishlist
-        if (prefs.wishlistAlerts && typeof WishlistModule !== 'undefined') {
-          WishlistModule.checkDeals();
+    const prefs = loadPrefs();
+    if (prefs.schedule === 'realtime') {
+      intervalId = setInterval(async () => {
+        const p = loadPrefs();
+        if (!p.enabled) return;
+        try {
+          const deals = await fetchJSON(
+            'https://www.cheapshark.com/api/1.0/deals?pageSize=20&sortBy=DealRating&desc=1'
+          );
+          checkDeals(deals);
+          if (p.wishlistAlerts && typeof WishlistModule !== 'undefined') {
+            WishlistModule.checkDeals();
+          }
+        } catch (err) {
+          console.warn('Background deal check failed:', err);
         }
-      } catch (err) {
-        console.warn('Background deal check failed:', err);
-      }
-    }, CHECK_INTERVAL_MS);
+      }, CHECK_INTERVAL_MS);
+    }
+    // Always run the 1-minute scheduler check for daily/weekly triggers
+    dailyIntervalId = setInterval(checkScheduledNotification, 60 * 1000);
   }
 
   /**
@@ -137,6 +221,10 @@ const NotificationsModule = (() => {
     if (intervalId !== null) {
       clearInterval(intervalId);
       intervalId = null;
+    }
+    if (dailyIntervalId !== null) {
+      clearInterval(dailyIntervalId);
+      dailyIntervalId = null;
     }
   }
 
@@ -164,6 +252,129 @@ const NotificationsModule = (() => {
                                 perm === 'default' ? '⏳ Not set' :
                                 '⚠️ Unsupported';
       statusBadge.className = `perm-badge perm-${perm}`;
+    }
+
+    // Render the advanced scheduling section
+    renderSchedulingSettings(prefs);
+    renderNotificationHistory();
+  }
+
+  /**
+   * Render advanced scheduling settings card
+   */
+  function renderSchedulingSettings(prefs) {
+    const container = document.getElementById('notif-schedule-section');
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="settings-card">
+        <h3 class="settings-card-title">⏰ Deal Alert Schedule</h3>
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>Notification Schedule</strong>
+            How often do you want deal alerts?
+          </div>
+          <select id="notif-schedule-select" class="filter-select">
+            <option value="realtime" ${prefs.schedule === 'realtime' ? 'selected' : ''}>Real-time (every 5 min)</option>
+            <option value="daily"    ${prefs.schedule === 'daily'    ? 'selected' : ''}>Daily Digest</option>
+            <option value="weekly"   ${prefs.schedule === 'weekly'   ? 'selected' : ''}>Weekly Summary</option>
+          </select>
+        </div>
+
+        <div class="settings-row" id="notif-daily-time-row" style="${prefs.schedule === 'daily' ? '' : 'display:none'}">
+          <div class="settings-label"><strong>Daily Digest Time</strong></div>
+          <input type="time" id="notif-daily-time" class="settings-input" value="${prefs.dailyTime || '09:00'}">
+        </div>
+
+        <div class="settings-row" id="notif-weekly-day-row" style="${prefs.schedule === 'weekly' ? '' : 'display:none'}">
+          <div class="settings-label"><strong>Weekly Summary Day</strong></div>
+          <select id="notif-weekly-day" class="filter-select">
+            ${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].map((d, i) =>
+              `<option value="${i}" ${(prefs.weeklyDay || '1') == i ? 'selected' : ''}>${d}</option>`
+            ).join('')}
+          </select>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>⚡ Flash Sale Alerts</strong>
+            Instant alerts for 90%+ discounts.
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notif-flash-toggle" ${prefs.flashSaleAlerts ? 'checked' : ''}>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>🆓 Free Game Alerts</strong>
+            Notify when new free games appear.
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notif-free-toggle" ${prefs.freeGameAlerts ? 'checked' : ''}>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-label">
+            <strong>⭐ Wishlist-Only Mode</strong>
+            Only notify for games on your wishlist.
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="notif-wishlist-only-toggle" ${prefs.wishlistOnlyMode ? 'checked' : ''}>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+    `;
+
+    const scheduleSelect = container.querySelector('#notif-schedule-select');
+    if (scheduleSelect) {
+      scheduleSelect.addEventListener('change', () => {
+        const v = scheduleSelect.value;
+        container.querySelector('#notif-daily-time-row').style.display = v === 'daily' ? '' : 'none';
+        container.querySelector('#notif-weekly-day-row').style.display = v === 'weekly' ? '' : 'none';
+      });
+    }
+  }
+
+  /**
+   * Render notification history
+   */
+  function renderNotificationHistory() {
+    const container = document.getElementById('notif-history-section');
+    if (!container) return;
+
+    const history = storageGet(HISTORY_KEY, []);
+
+    container.innerHTML = `
+      <div class="settings-card">
+        <h3 class="settings-card-title">📋 Notification History (Last 20)</h3>
+        ${history.length === 0
+          ? '<p class="text-muted" style="padding:0.5rem 0;">No notifications sent yet.</p>'
+          : `<div class="notif-history-list">
+              ${history.map(h => `
+                <div class="notif-history-item">
+                  <div class="notif-history-title">${escapeHtml(h.title)}</div>
+                  <div class="notif-history-body">${escapeHtml(h.body)}</div>
+                  <div class="notif-history-time">${new Date(h.ts).toLocaleString()}</div>
+                </div>
+              `).join('')}
+            </div>`
+        }
+        ${history.length > 0 ? '<button class="btn btn-ghost btn-sm" id="notif-clear-history-btn" style="margin-top:0.5rem;">🗑️ Clear History</button>' : ''}
+      </div>
+    `;
+
+    const clearBtn = container.querySelector('#notif-clear-history-btn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        storageSet(HISTORY_KEY, []);
+        showToast('Notification history cleared.', 'info');
+        renderNotificationHistory();
+      });
     }
   }
 
@@ -205,16 +416,29 @@ const NotificationsModule = (() => {
         const priceInput = document.getElementById('notif-price-threshold');
         const discountInput = document.getElementById('notif-discount-threshold');
         const wishlistToggle = document.getElementById('notif-wishlist-toggle');
+        const scheduleSelect = document.getElementById('notif-schedule-select');
+        const dailyTimeInput = document.getElementById('notif-daily-time');
+        const weeklyDaySelect = document.getElementById('notif-weekly-day');
+        const flashToggle = document.getElementById('notif-flash-toggle');
+        const freeToggle = document.getElementById('notif-free-toggle');
+        const wishlistOnlyToggle = document.getElementById('notif-wishlist-only-toggle');
 
         if (priceInput)    prefs.priceThreshold    = parseFloat(priceInput.value) || DEFAULT_PREFS.priceThreshold;
         if (discountInput) prefs.discountThreshold = parseFloat(discountInput.value) || DEFAULT_PREFS.discountThreshold;
         if (wishlistToggle) prefs.wishlistAlerts   = wishlistToggle.checked;
+        if (scheduleSelect) prefs.schedule         = scheduleSelect.value;
+        if (dailyTimeInput) prefs.dailyTime        = dailyTimeInput.value;
+        if (weeklyDaySelect) prefs.weeklyDay       = weeklyDaySelect.value;
+        if (flashToggle) prefs.flashSaleAlerts     = flashToggle.checked;
+        if (freeToggle) prefs.freeGameAlerts       = freeToggle.checked;
+        if (wishlistOnlyToggle) prefs.wishlistOnlyMode = wishlistOnlyToggle.checked;
 
         savePrefs(prefs);
         showToast('Notification preferences saved!', 'success');
 
-        // Test notification
+        // Restart checking with new schedule
         if (prefs.enabled && Notification.permission === 'granted') {
+          startChecking();
           sendNotification(
             '🎮 Deal Notifier Active',
             `Alerting for deals under ${formatPrice(prefs.priceThreshold)} or ${prefs.discountThreshold}%+ off.`
@@ -255,5 +479,5 @@ const NotificationsModule = (() => {
     }
   }
 
-  return { init, checkDeals, sendNotification, loadPrefs, startChecking, stopChecking, updateSettingsUI, requestPermission };
+  return { init, checkDeals, sendNotification, loadPrefs, startChecking, stopChecking, updateSettingsUI, requestPermission, renderNotificationHistory };
 })();

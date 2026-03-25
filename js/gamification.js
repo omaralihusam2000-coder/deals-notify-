@@ -20,13 +20,17 @@ const GamificationModule = (() => {
     { id: 'news_reader',    emoji: '📰', name: 'News Reader',      desc: 'Visited the news section',        condition: s => s.newsVisits >= 1 },
     { id: 'random_deal',    emoji: '🎲', name: 'Feeling Lucky',    desc: 'Used the random deal button',     condition: s => s.randomDeals >= 1 },
     { id: 'commenter',      emoji: '💬', name: 'Community Voice',  desc: 'Posted your first comment',       condition: s => s.comments >= 1 },
+    { id: 'deal_sharer',    emoji: '📤', name: 'Deal Sharer',      desc: 'Shared your first deal',          condition: s => s.shares >= 1 },
+    { id: 'influencer',     emoji: '📣', name: 'Influencer',       desc: 'Shared 10 deals',                 condition: s => s.shares >= 10 },
+    { id: 'quiz_taker',     emoji: '🧠', name: 'Know Thyself',     desc: 'Completed the game quiz',         condition: s => s.quizCompletes >= 1 },
   ];
 
   function getStats() {
     return storageGet(STATS_KEY, {
       views: 0, wishlistAdds: 0, totalSavings: 0,
       storesVisited: [], freeGamesClicked: 0,
-      newsVisits: 0, randomDeals: 0, comments: 0
+      newsVisits: 0, randomDeals: 0, comments: 0,
+      shares: 0, quizCompletes: 0,
     });
   }
 
@@ -63,6 +67,12 @@ const GamificationModule = (() => {
         break;
       case 'comment':
         stats.comments = (stats.comments || 0) + 1;
+        break;
+      case 'share':
+        stats.shares = (stats.shares || 0) + 1;
+        break;
+      case 'quiz_complete':
+        stats.quizCompletes = (stats.quizCompletes || 0) + 1;
         break;
     }
     saveStats(stats);
