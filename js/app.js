@@ -3,22 +3,17 @@
  */
 
 const AppModule = (() => {
-  const TABS = ['deals', 'giveaways', 'wishlist', 'settings'];
+  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'news', 'wishlist', 'achievements', 'settings'];
   let activeTab = 'deals';
 
-  /**
-   * Switch to a tab by name
-   * @param {string} tabName
-   */
   function switchTab(tabName) {
     if (!TABS.includes(tabName)) return;
 
-    // Update nav buttons
     document.querySelectorAll('.nav-tab').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.tab === tabName);
+      btn.setAttribute('aria-selected', btn.dataset.tab === tabName);
     });
 
-    // Update tab panels
     document.querySelectorAll('.tab-panel').forEach(panel => {
       panel.classList.toggle('active', panel.id === `tab-${tabName}`);
     });
@@ -30,52 +25,99 @@ const AppModule = (() => {
       document.getElementById('giveaways-grid').dataset.loaded = '1';
       GiveawaysModule.init();
     }
-
+    if (tabName === 'bundles' && typeof BundlesModule !== 'undefined') {
+      BundlesModule.init();
+      if (typeof GamificationModule !== 'undefined') GamificationModule.recordEvent('view');
+    }
+    if (tabName === 'news' && typeof NewsModule !== 'undefined') {
+      NewsModule.init();
+      if (typeof GamificationModule !== 'undefined') GamificationModule.recordEvent('news_visit');
+    }
     if (tabName === 'wishlist') {
       WishlistModule.renderWishlist();
     }
-
+    if (tabName === 'achievements' && typeof GamificationModule !== 'undefined') {
+      GamificationModule.renderAchievements();
+    }
     if (tabName === 'settings') {
-      NotificationsModule.updateSettingsUI ? NotificationsModule.updateSettingsUI() : null;
+      if (typeof NotificationsModule !== 'undefined' && NotificationsModule.updateSettingsUI) {
+        NotificationsModule.updateSettingsUI();
+      }
+      if (typeof SteamImportModule !== 'undefined') {
+        SteamImportModule.renderImportSection();
+      }
     }
   }
 
-  /**
-   * Bind global navigation events
-   */
   function bindNavEvents() {
     document.querySelectorAll('.nav-tab').forEach(btn => {
       btn.addEventListener('click', () => switchTab(btn.dataset.tab));
     });
   }
 
-  /**
-   * Initialise the entire application
-   */
-  async function init() {
-    bindNavEvents();
+  function initDarkMode() {
+    const savedTheme = storageGet('theme', 'dark');
+    applyTheme(savedTheme);
 
-    // Initialise modules
-    WishlistModule.init();
-    NotificationsModule.init();
-
-    // Deals tab is default — initialise immediately
-    await DealsModule.init();
-
-    // Show a welcome notification badge if unseen
-    updateNotifBadge();
+    const btn = document.getElementById('theme-toggle');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const current = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        storageSet('theme', next);
+        showToast(`${next === 'dark' ? '🌙 Dark' : '☀️ Light'} mode activated`, 'info');
+      });
+    }
   }
 
-  /**
-   * Show/hide notification permission badge in header
-   */
+  function applyTheme(theme) {
+    document.body.classList.toggle('light-mode', theme === 'light');
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+
+  function initBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  function initNewsletterSignup() {
+    const form = document.getElementById('newsletter-form');
+    if (!form) return;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('newsletter-email');
+      if (!emailInput) return;
+      const email = emailInput.value.trim();
+      if (!email || !email.includes('@')) {
+        showToast('Please enter a valid email address.', 'warning');
+        return;
+      }
+      const subscribers = storageGet('newsletter_subscribers', []);
+      if (subscribers.includes(email)) {
+        showToast('You are already subscribed!', 'info');
+        return;
+      }
+      subscribers.push(email);
+      storageSet('newsletter_subscribers', subscribers);
+      emailInput.value = '';
+      showToast(`✅ Subscribed! You'll get deal alerts at ${email}`, 'success');
+    });
+  }
+
   function updateNotifBadge() {
     const badge = document.getElementById('notif-status-badge');
     if (!badge) return;
-    if (!('Notification' in window)) {
-      badge.style.display = 'none';
-      return;
-    }
+    if (!('Notification' in window)) { badge.style.display = 'none'; return; }
     const perm = Notification.permission;
     badge.style.display = perm === 'default' ? 'flex' : 'none';
     badge.title = 'Enable deal notifications';
@@ -88,10 +130,31 @@ const AppModule = (() => {
     });
   }
 
+  async function init() {
+    bindNavEvents();
+    initDarkMode();
+    initBackToTop();
+    initNewsletterSignup();
+
+    // Core modules
+    WishlistModule.init();
+    NotificationsModule.init();
+
+    // New feature modules
+    if (typeof CurrencyModule !== 'undefined') CurrencyModule.init();
+    if (typeof SteamImportModule !== 'undefined') SteamImportModule.init();
+    if (typeof GamificationModule !== 'undefined') GamificationModule.init();
+    if (typeof PWAModule !== 'undefined') PWAModule.init();
+
+    // Deals tab is default — initialise immediately
+    await DealsModule.init();
+
+    updateNotifBadge();
+  }
+
   return { init, switchTab };
 })();
 
-// Start the app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   AppModule.init().catch(err => {
     console.error('App init failed:', err);
