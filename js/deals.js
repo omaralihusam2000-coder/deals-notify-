@@ -14,6 +14,11 @@ const DealsModule = (() => {
   let hasMore = true;
   let allLoadedDeals = [];
   const countdownTimers = new Map();
+  const trackedGameIDs = new Set();
+
+  // Flash sale constants
+  const FLASH_SALE_HOURS_RANGE = 20;
+  const FLASH_SALE_MIN_HOURS = 4;
 
   const STORE_COLORS = {
     'Steam': '#1b2838', 'GOG': '#5c2d91', 'Humble Store': '#cc0000',
@@ -237,7 +242,7 @@ const DealsModule = (() => {
 
     // Use deal ID as seed for a deterministic "expires in X hours"
     const seed = deal.dealID.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-    const hoursLeft = (seed % 20) + 4; // 4–23 hours
+    const hoursLeft = (seed % FLASH_SALE_HOURS_RANGE) + FLASH_SALE_MIN_HOURS;
     const endsAt = new Date(Date.now() + hoursLeft * 60 * 60 * 1000);
     return endsAt;
   }
@@ -282,9 +287,8 @@ const DealsModule = (() => {
 
   // Track view in recommendations — only once per unique gameID per session
   if (typeof RecommendationsModule !== 'undefined') {
-    if (!createDealCard._tracked) createDealCard._tracked = new Set();
-    if (!createDealCard._tracked.has(deal.gameID)) {
-      createDealCard._tracked.add(deal.gameID);
+    if (!trackedGameIDs.has(deal.gameID)) {
+      trackedGameIDs.add(deal.gameID);
       RecommendationsModule.trackView(deal);
     }
   }

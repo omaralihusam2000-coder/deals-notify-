@@ -5,6 +5,7 @@
 const CommunityModule = (() => {
   const VOTES_KEY = 'community_votes';
   const COMMENTS_KEY = 'community_comments';
+  const MAX_COMMENT_LENGTH = 500;
 
   function getVotes(dealID) {
     const all = storageGet(VOTES_KEY, {});
@@ -42,7 +43,7 @@ const CommunityModule = (() => {
 
   function addComment(dealID, text) {
     const trimmed = text.trim();
-    if (!trimmed || trimmed.length > 500) return false;
+    if (!trimmed || trimmed.length > MAX_COMMENT_LENGTH) return false;
     const all = storageGet(COMMENTS_KEY, {});
     if (!all[dealID]) all[dealID] = [];
     all[dealID].push({
@@ -91,7 +92,7 @@ const CommunityModule = (() => {
         <h4 class="comments-title">💬 Community Comments</h4>
         <div class="comments-list">${commentsHTML}</div>
         <div class="comment-form">
-          <textarea class="comment-input" placeholder="Share your thoughts about this deal…" maxlength="500" rows="2" aria-label="Add comment"></textarea>
+          <textarea class="comment-input" placeholder="Share your thoughts about this deal…" maxlength="${MAX_COMMENT_LENGTH}" rows="2" aria-label="Add comment"></textarea>
           <button class="btn btn-sm btn-primary comment-submit" data-deal="${escapeHtml(dealID)}">Post</button>
         </div>
       </div>
@@ -172,7 +173,7 @@ const CommunityModule = (() => {
             showToast('Comment posted!', 'success');
           }
         } else {
-          showToast('Comment cannot be empty or exceed 500 characters.', 'warning');
+          showToast(`Comment cannot be empty or exceed ${MAX_COMMENT_LENGTH} characters.`, 'warning');
         }
       });
     }

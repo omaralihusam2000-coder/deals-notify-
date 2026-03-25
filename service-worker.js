@@ -26,7 +26,14 @@ const STATIC_ASSETS = [
   '/manifest.json',
 ];
 
-// Install — cache static assets
+// API hostnames to use network-first strategy
+const API_HOSTNAMES = [
+  'www.cheapshark.com',
+  'cheapshark.com',
+  'www.gamerpower.com',
+  'gamerpower.com',
+  'api.rss2json.com',
+];
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -56,12 +63,8 @@ self.addEventListener('fetch', (event) => {
   // Skip non-GET requests and cross-origin requests we don't cache
   if (event.request.method !== 'GET') return;
 
-  // Network-first strategy for API calls — use exact hostname matching
-  const isAPI = url.hostname === 'www.cheapshark.com' ||
-                url.hostname === 'cheapshark.com' ||
-                url.hostname === 'www.gamerpower.com' ||
-                url.hostname === 'gamerpower.com' ||
-                url.hostname === 'api.rss2json.com';
+  // Network-first strategy for API calls — use array includes for maintainability
+  const isAPI = API_HOSTNAMES.includes(url.hostname);
 
   if (isAPI) {
     event.respondWith(

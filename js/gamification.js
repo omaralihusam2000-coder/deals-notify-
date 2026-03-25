@@ -5,6 +5,7 @@
 const GamificationModule = (() => {
   const STATS_KEY = 'gamification_stats';
   const BADGES_KEY = 'gamification_badges';
+  const MAX_RANDOM_PAGES = 5;
 
   const BADGE_DEFINITIONS = [
     { id: 'first_view',     emoji: '👀', name: 'Window Shopper',   desc: 'Viewed your first deal',         condition: s => s.views >= 1 },
@@ -169,7 +170,7 @@ const GamificationModule = (() => {
     recordEvent('random_deal');
 
     try {
-      const page = Math.floor(Math.random() * 5);
+      const page = Math.floor(Math.random() * MAX_RANDOM_PAGES);
       const deals = await fetchJSON(`https://www.cheapshark.com/api/1.0/deals?upperPrice=5&pageSize=20&pageNumber=${page}&sortBy=Savings&desc=1`);
       if (!deals || deals.length === 0) throw new Error('No cheap deals found');
 

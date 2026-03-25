@@ -5,6 +5,7 @@
 
 const SteamImportModule = (() => {
   const OWNED_KEY = 'steam_owned_games';
+  const MAX_GAME_TITLE_LENGTH = 200;
 
   function getOwnedGames() {
     return storageGet(OWNED_KEY, []);
@@ -24,7 +25,7 @@ const SteamImportModule = (() => {
     const lines = text
       .split(/[,\n]/)
       .map(s => s.trim())
-      .filter(s => s.length > 0 && s.length < 200);
+      .filter(s => s.length > 0 && s.length < MAX_GAME_TITLE_LENGTH);
 
     const existing = getOwnedGames();
     const existingNorm = new Set(existing.map(g => g.toLowerCase().trim()));

@@ -4,6 +4,7 @@
 
 const BundlesModule = (() => {
   const GAMERPOWER_BASE = 'https://www.gamerpower.com/api';
+  const BUNDLE_KEYWORDS = ['pack', 'bundle', 'dlc', 'collection', 'season pass'];
   let loaded = false;
 
   async function fetchBundles() {
@@ -24,10 +25,9 @@ const BundlesModule = (() => {
         allBundles.push(...loot.value.map(b => ({ ...b, _category: 'loot' })));
       }
       if (games.status === 'fulfilled' && Array.isArray(games.value)) {
-        // Only include games that look like bundles (title contains "pack", "bundle", "dlc")
-        const bundleKeywords = ['pack', 'bundle', 'dlc', 'collection', 'season pass'];
+        // Only include games that look like bundles (title contains bundle keywords)
         const filtered = games.value.filter(g =>
-          bundleKeywords.some(kw => g.title.toLowerCase().includes(kw))
+          BUNDLE_KEYWORDS.some(kw => g.title.toLowerCase().includes(kw))
         );
         allBundles.push(...filtered.map(b => ({ ...b, _category: 'bundle' })));
       }
