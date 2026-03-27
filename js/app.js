@@ -3,7 +3,7 @@
  */
 
 const AppModule = (() => {
-  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'collections', 'wishlist', 'achievements', 'settings'];
+  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'collections', 'wishlist', 'achievements', 'profile', 'settings'];
   let activeTab = 'deals';
 
   function switchTab(tabName) {
@@ -57,6 +57,9 @@ const AppModule = (() => {
     if (tabName === 'achievements' && typeof GamificationModule !== 'undefined') {
       GamificationModule.renderAchievements();
     }
+    if (tabName === 'profile' && typeof ProfileModule !== 'undefined') {
+      ProfileModule.renderProfile();
+    }
     if (tabName === 'settings') {
       if (typeof NotificationsModule !== 'undefined' && NotificationsModule.updateSettingsUI) {
         NotificationsModule.updateSettingsUI();
@@ -70,6 +73,8 @@ const AppModule = (() => {
       if (typeof DiscordModule !== 'undefined') {
         DiscordModule.renderWidget && DiscordModule.init && DiscordModule.init();
       }
+      if (typeof SmartAlertsModule !== 'undefined') SmartAlertsModule.renderSettings();
+      if (typeof SocialProofModule !== 'undefined') SocialProofModule.renderToggle();
     }
   }
 
@@ -249,6 +254,20 @@ const AppModule = (() => {
 
     // Mini stats dashboard
     if (typeof MiniStatsModule !== 'undefined') MiniStatsModule.init();
+
+    // Wave 4 modules
+    if (typeof SpotlightModule !== 'undefined') SpotlightModule.init();
+    if (typeof ThemePickerModule !== 'undefined') ThemePickerModule.init();
+    if (typeof SmartAlertsModule !== 'undefined') SmartAlertsModule.init();
+    if (typeof RecentlyViewedModule !== 'undefined') RecentlyViewedModule.init();
+    if (typeof FeedbackModule !== 'undefined') FeedbackModule.init();
+    if (typeof SparklinesModule !== 'undefined') SparklinesModule.init();
+    if (typeof ProfileModule !== 'undefined') ProfileModule.init();
+    if (typeof CountdownModule !== 'undefined') CountdownModule.init();
+    if (typeof CompareModule !== 'undefined') CompareModule.init();
+    if (typeof SocialProofModule !== 'undefined') SocialProofModule.init();
+    if (typeof DailyStreakModule !== 'undefined') DailyStreakModule.init();
+    if (typeof ImageZoomModule !== 'undefined') ImageZoomModule.init();
 
     // Sound effects toggle
     const soundsToggle = document.getElementById('sounds-toggle');

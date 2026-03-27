@@ -100,6 +100,7 @@
         <span class="nav-count" id="wishlist-count" style="display:none;">0</span>
       </button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="achievements" aria-controls="tab-achievements">🏅 Achievements</button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="profile"      aria-controls="tab-profile">👤 Profile</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="settings"     aria-controls="tab-settings">⚙️ Settings</button>
     </div>
   </nav>
@@ -128,6 +129,9 @@
         <h2 class="section-subtitle">🎯 Recommended For You</h2>
         <div class="reco-grid"></div>
       </div>
+
+      <!-- Recently Viewed -->
+      <div id="recently-viewed-section" class="recently-viewed-section" style="display:none;"></div>
 
       <!-- Search & Filter -->
       <div class="search-filter-bar" role="search">
@@ -334,6 +338,14 @@
       </div>
     </section>
 
+    <!-- ===== PROFILE TAB ===== -->
+    <section id="tab-profile" class="tab-panel" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="section-header">
+        <h2 class="section-title">👤 My Gaming Profile</h2>
+      </div>
+      <div id="profile-content" class="profile-page"></div>
+    </section>
+
     <!-- ===== SETTINGS TAB ===== -->
     <section id="tab-settings" class="tab-panel" role="tabpanel" aria-labelledby="settings-tab">
       <div class="section-header">
@@ -371,6 +383,13 @@
               <input type="checkbox" id="sounds-toggle" checked>
               <span class="toggle-track"></span>
             </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>Accent Color</strong>
+              Customize the app's accent color theme.
+            </div>
+            <div class="accent-picker" id="accent-picker-container"></div>
           </div>
         </div>
 
@@ -451,6 +470,9 @@
           <button id="save-notif-prefs-btn" class="btn btn-primary">💾 Save Preferences</button>
         </div>
 
+        <!-- Smart Alerts Card -->
+        <div id="smart-alerts-container"></div>
+
         <!-- Advanced Notification Scheduling (rendered by NotificationsModule) -->
         <div id="notif-schedule-section" style="margin-top:1rem;"></div>
 
@@ -462,6 +484,9 @@
 
         <!-- Discord Widget (rendered by DiscordModule) -->
         <div id="discord-settings-section" style="margin-top:1rem;"></div>
+
+        <!-- Social Proof Toggle -->
+        <div id="social-proof-settings-container" style="margin-top:1rem;"></div>
 
         <div class="settings-card" style="margin-top:1.5rem;border-color:rgba(0,212,255,0.2);">
           <h3 class="settings-card-title">ℹ️ How It Works</h3>
@@ -538,6 +563,18 @@
   <script src="js/pull-to-refresh.js"></script>
   <script src="js/bottom-nav.js"></script>
   <script src="js/pwa.js"></script>
+  <script src="js/spotlight.js"></script>
+  <script src="js/theme-picker.js"></script>
+  <script src="js/smart-alerts.js"></script>
+  <script src="js/recently-viewed.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/sparklines.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/countdown.js"></script>
+  <script src="js/compare.js"></script>
+  <script src="js/social-proof.js"></script>
+  <script src="js/daily-streak.js"></script>
+  <script src="js/image-zoom.js"></script>
   <script src="js/app.js"></script>
 
 </body>
