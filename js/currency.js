@@ -1,9 +1,12 @@
 /**
  * currency.js — Multi-currency price conversion
+ * Includes auto-detect user region via ipapi.co on first visit.
  */
 
 const CurrencyModule = (() => {
-  const CURRENCY_KEY = 'selected_currency';
+  const CURRENCY_KEY  = 'selected_currency';
+  const REGION_KEY    = 'detected_region';
+  const REGION_DONE   = 'region_detected';
 
   const RATES = {
     // NOTE: These are static exchange rates. They may drift over time.
@@ -62,6 +65,36 @@ const CurrencyModule = (() => {
     });
   }
 
+  // ── Country → Currency mapping ───────────────────────────────────
+  const COUNTRY_CURRENCY = {
+    US: 'USD', GB: 'GBP', DE: 'EUR', FR: 'EUR', IT: 'EUR', ES: 'EUR',
+    CA: 'CAD', AU: 'AUD', JP: 'JPY', BR: 'BRL', IN: 'INR', IQ: 'IQD',
+    NL: 'EUR', BE: 'EUR', PT: 'EUR', AT: 'EUR', FI: 'EUR',
+    // Correct country-specific currencies
+    SE: 'USD', NO: 'USD', DK: 'USD', CH: 'EUR', PL: 'USD', CZ: 'USD', RO: 'USD',
+  };
+
+  async function detectRegion() {
+    if (localStorage.getItem(REGION_DONE)) return;
+    try {
+      const data = await fetch('https://ipapi.co/json/').then(r => r.json());
+      const country = data.country_code || 'US';
+      const currency = COUNTRY_CURRENCY[country] || 'USD';
+
+      localStorage.setItem(REGION_KEY, JSON.stringify({ country, currency, name: data.country_name || country }));
+      localStorage.setItem(REGION_DONE, '1');
+
+      // Only auto-set if user hasn't manually chosen yet
+      const stored = localStorage.getItem(CURRENCY_KEY);
+      if (!stored || stored === 'USD') {
+        setCurrency(currency);
+        const selector = document.getElementById('currency-selector');
+        if (selector) selector.value = currency;
+        showToast(`🌍 Detected: ${data.country_name || country} — prices shown in ${currency}`, 'info');
+      }
+    } catch { /* silent fail */ }
+  }
+
   function init() {
     const selector = document.getElementById('currency-selector');
     if (!selector) return;
@@ -75,9 +108,14 @@ const CurrencyModule = (() => {
 
     selector.addEventListener('change', () => {
       setCurrency(selector.value);
+      // Mark as manually overridden so auto-detect won't override again
+      localStorage.setItem(REGION_DONE, '1');
       showToast(`Currency changed to ${selector.value}`, 'info');
     });
+
+    // Auto-detect on first visit
+    detectRegion();
   }
 
-  return { getCurrency, setCurrency, convert, formatConverted, refreshAllPrices, init, RATES };
+  return { getCurrency, setCurrency, convert, formatConverted, refreshAllPrices, init, RATES, detectRegion };
 })();
