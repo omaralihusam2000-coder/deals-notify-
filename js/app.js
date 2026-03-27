@@ -273,6 +273,10 @@ const AppModule = (() => {
     if (typeof DailyStreakModule !== 'undefined') DailyStreakModule.init();
     if (typeof ImageZoomModule !== 'undefined') ImageZoomModule.init();
 
+    // UX/SEO improvements
+    if (typeof TopDealsModule !== 'undefined') TopDealsModule.init();
+    if (typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
+
     // Sound effects toggle
     const soundsToggle = document.getElementById('sounds-toggle');
     if (soundsToggle && typeof SoundsModule !== 'undefined') {
