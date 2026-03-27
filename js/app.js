@@ -173,6 +173,21 @@ const AppModule = (() => {
     await DealsModule.init();
 
     updateNotifBadge();
+
+    // Welcome onboarding for first-time visitors
+    if (typeof WelcomeModule !== 'undefined') {
+      WelcomeModule.show();
+    }
+
+    // Live stats bar
+    if (typeof LiveStatsModule !== 'undefined') {
+      LiveStatsModule.init();
+    }
+
+    // Floating action button
+    if (typeof FABModule !== 'undefined') {
+      FABModule.init();
+    }
   }
 
   return { init, switchTab };
