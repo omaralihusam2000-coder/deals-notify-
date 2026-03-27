@@ -230,4 +230,3 @@ const ChatbotModule = (() => {
   return { init, toggleChat, sendMessage };
 })();
 
-document.addEventListener('DOMContentLoaded', () => ChatbotModule.init());
