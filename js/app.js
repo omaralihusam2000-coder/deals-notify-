@@ -277,6 +277,9 @@ const AppModule = (() => {
     if (typeof TopDealsModule !== 'undefined') TopDealsModule.init();
     if (typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
 
+    // AI Deal Assistant Chatbot
+    if (typeof ChatbotModule !== 'undefined') ChatbotModule.init();
+
     // Sound effects toggle
     const soundsToggle = document.getElementById('sounds-toggle');
     if (soundsToggle && typeof SoundsModule !== 'undefined') {
