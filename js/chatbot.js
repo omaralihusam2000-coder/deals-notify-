@@ -10,7 +10,7 @@ const ChatbotModule = (() => {
 
   const INTENTS = [
     { pattern: /free|giveaway|gratis/i,          action: 'findFree' },
-    { pattern: /cheap(?:est)?|lowest|under \$?(\d+(?:\.\d+)?)/i, action: 'findCheap' },
+    { pattern: /cheap(?:est)?|lowest/i,           action: 'findCheap' },
     { pattern: /best deal|top deal|best offer/i,  action: 'findBest' },
     { pattern: /rpg|role.?play/i,                 action: 'findGenre', genre: 'rpg' },
     { pattern: /fps|shooter|first.?person/i,       action: 'findGenre', genre: 'fps' },
@@ -100,10 +100,10 @@ const ChatbotModule = (() => {
           return `🆓 Here are some free games right now:<br>${free.map(formatDealCard).join('')}`;
         }
         case 'findCheap': {
-          const maxPrice = parseFloat(match[1] || 5);
+          const maxPrice = parseFloat(5);
           const cheap = deals.filter(d => d.salePrice <= maxPrice && d.salePrice > 0).sort((a, b) => a.salePrice - b.salePrice).slice(0, 3);
-          if (!cheap.length) return `💸 No games found under $${maxPrice}. Try a higher price!`;
-          return `💰 Cheapest games under $${maxPrice}:<br>${cheap.map(formatDealCard).join('')}`;
+          if (!cheap.length) return `💸 No games found under $${maxPrice}. Try "under $10" for more results!`;
+          return `💰 Cheapest games (under $${maxPrice}):<br>${cheap.map(formatDealCard).join('')}`;
         }
         case 'findBest': {
           const best = deals.sort((a, b) => b.savings - a.savings).slice(0, 3);

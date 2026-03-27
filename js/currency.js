@@ -67,10 +67,11 @@ const CurrencyModule = (() => {
 
   // ── Country → Currency mapping ───────────────────────────────────
   const COUNTRY_CURRENCY = {
-    US: 'USD', GB: 'GBP', EU: 'EUR', DE: 'EUR', FR: 'EUR', IT: 'EUR', ES: 'EUR',
+    US: 'USD', GB: 'GBP', DE: 'EUR', FR: 'EUR', IT: 'EUR', ES: 'EUR',
     CA: 'CAD', AU: 'AUD', JP: 'JPY', BR: 'BRL', IN: 'INR', IQ: 'IQD',
-    NL: 'EUR', BE: 'EUR', PT: 'EUR', AT: 'EUR', FI: 'EUR', SE: 'EUR',
-    NO: 'EUR', DK: 'EUR', CH: 'EUR', PL: 'EUR', CZ: 'EUR', RO: 'EUR',
+    NL: 'EUR', BE: 'EUR', PT: 'EUR', AT: 'EUR', FI: 'EUR',
+    // Correct country-specific currencies
+    SE: 'USD', NO: 'USD', DK: 'USD', CH: 'EUR', PL: 'USD', CZ: 'USD', RO: 'USD',
   };
 
   async function detectRegion() {

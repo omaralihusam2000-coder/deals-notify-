@@ -15,7 +15,7 @@ const AmbientModeModule = (() => {
   let musicNode  = null;
   let isEnabled  = false;
 
-  const PARTICLE_COUNT = navigator.hardwareConcurrency >= 4 ? 50 : 20;
+  const PARTICLE_COUNT = (navigator.hardwareConcurrency || 4) >= 4 ? 50 : 20;
 
   // ── Particles ─────────────────────────────────────────────────────
   function createParticle(w, h) {
@@ -183,10 +183,10 @@ const AmbientModeModule = (() => {
 
     // Bind toggle in Settings
     const toggle = document.getElementById('ambient-mode-toggle');
-    toggle?.addEventListener('change', () => toggleMusic ? toggle() : null);
-    document.getElementById('ambient-mode-settings-row')
-      ?.querySelector('#ambient-mode-toggle')
-      ?.addEventListener('change', toggle);
+    toggle?.addEventListener('change', () => {
+      if (toggle.checked) enable(); else disable();
+    });
+    // The settings-row toggle points to the same element, no duplicate binding needed
 
     const musicToggle = document.getElementById('ambient-music-toggle');
     musicToggle?.addEventListener('change', () => toggleMusic(musicToggle.checked));
