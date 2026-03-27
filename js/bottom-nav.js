@@ -2,6 +2,7 @@
  * bottom-nav.js — Fixed bottom navigation bar for mobile devices
  */
 const BottomNavModule = (() => {
+  const MOBILE_BREAKPOINT = 768;
   const TABS = [
     { id: 'deals', icon: '🔥', label: 'Deals' },
     { id: 'giveaways', icon: '🆓', label: 'Free' },
@@ -14,7 +15,7 @@ const BottomNavModule = (() => {
 
   function init() {
     // Only show on small screens
-    if (window.innerWidth > 768) return;
+    if (window.innerWidth > MOBILE_BREAKPOINT) return;
 
     const nav = document.createElement('nav');
     nav.className = 'bottom-nav';
@@ -94,7 +95,7 @@ const BottomNavModule = (() => {
 
     // Handle resize
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) {
+      if (window.innerWidth > MOBILE_BREAKPOINT) {
         nav.style.display = 'none';
         moreMenu.style.display = 'none';
         document.body.style.paddingBottom = '0';

@@ -61,7 +61,7 @@ const PullToRefreshModule = (() => {
 
   function triggerRefresh() {
     if (typeof SoundsModule !== 'undefined') SoundsModule.click();
-    showToast('🔄 Refreshing deals...', 'info');
+    if (typeof showToast !== 'undefined') showToast('🔄 Refreshing deals...', 'info');
 
     // Refresh current active tab
     const activeTab = document.querySelector('.nav-tab.active');

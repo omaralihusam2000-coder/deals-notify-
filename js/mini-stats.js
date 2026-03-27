@@ -15,7 +15,7 @@ const MiniStatsModule = (() => {
     }
 
     const stats = GamificationModule.getStats();
-    const badgeCount = (storageGet('gamification_badges', []) || []).length;
+    const badgeCount = (storageGet('gamification_badges', [])).length;
     const savings = GamificationModule.getSavings();
 
     bar.innerHTML = `
