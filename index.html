@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Gaming Deals Notifier — Track the best game deals from Steam, GOG, Epic Games, and more.">
+  <meta name="description" content="🎮 Gaming Deals Notifier — Track the best game deals from Steam, Epic Games, GOG, Humble Bundle & 20+ stores. Free games, price alerts, wishlist tracking, deal notifications, console deals & more. Never miss a sale again!">
 
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website">
@@ -12,6 +12,8 @@
   <meta property="og:image" content="https://omaralihusam2000-coder.github.io/deals-notify-/icons/icon-512.png">
   <meta property="og:url" content="https://omaralihusam2000-coder.github.io/deals-notify-/">
   <meta property="og:site_name" content="Gaming Deals Notifier">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ar_IQ">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -20,11 +22,52 @@
   <meta name="twitter:image" content="https://omaralihusam2000-coder.github.io/deals-notify-/icons/icon-512.png">
 
   <!-- Additional SEO -->
-  <meta name="keywords" content="gaming deals, game sales, steam deals, epic games free, GOG sales, game price tracker, cheap games, game deals notifier">
+  <meta name="keywords" content="gaming deals, game sales, steam deals, epic games free, GOG sales, game price tracker, cheap games, game deals notifier, PS5 deals, Xbox deals, Nintendo Switch deals, PC game deals, free games, game giveaways, humble bundle deals, price alerts, gaming wishlist, best game deals 2026, flash sales, game discounts">
   <meta name="author" content="Gaming Deals Notifier">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://omaralihusam2000-coder.github.io/deals-notify-/">
+
+  <!-- Enhanced SEO Meta Tags -->
+  <meta name="application-name" content="Gaming Deals Notifier">
+  <meta name="apple-mobile-web-app-title" content="Gaming Deals">
+  <meta name="msapplication-TileColor" content="#0a0e1a">
+  <meta name="msapplication-config" content="none">
+  <meta name="rating" content="general">
+  <meta name="revisit-after" content="1 day">
+  <meta name="coverage" content="Worldwide">
+  <meta name="distribution" content="Global">
+  <meta name="target" content="all">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- DNS Prefetch for performance -->
+  <link rel="preconnect" href="https://www.cheapshark.com">
+  <link rel="dns-prefetch" href="https://www.cheapshark.com">
+  <link rel="preconnect" href="https://www.gamerpower.com">
+  <link rel="dns-prefetch" href="https://www.gamerpower.com">
+
   <title>🎮 Gaming Deals Notifier</title>
+
+  <!-- Structured Data / JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Gaming Deals Notifier",
+    "url": "https://omaralihusam2000-coder.github.io/deals-notify-/",
+    "description": "Track the best game deals from Steam, Epic Games, GOG & 20+ stores. Get free games, price alerts, wishlist tracking, and deal notifications.",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web, Android, iOS",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Gaming Deals Notifier"
+    }
+  }
+  </script>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -116,6 +159,15 @@
       <!-- Deal of the Day Hero -->
       <div id="deal-of-day-section" class="dotd-section" style="display:none;">
         <div id="deal-of-day-content"></div>
+      </div>
+
+      <!-- Top Deals Hero Carousel -->
+      <div id="top-deals-section" class="top-deals-section" style="display:none;">
+        <div class="top-deals-header">
+          <h2 class="top-deals-title">🔥 Top Deals Right Now</h2>
+          <span class="top-deals-badge">HOT</span>
+        </div>
+        <div id="top-deals-carousel" class="top-deals-carousel"></div>
       </div>
 
       <div class="section-header">
@@ -673,6 +725,8 @@
   <script src="js/price-scheduler.js"></script>
   <script src="js/store-trust.js"></script>
   <script src="js/ambient-mode.js"></script>
+  <script src="js/top-deals.js"></script>
+  <script src="js/deal-badges.js"></script>
   <script src="js/app.js"></script>
 
 </body>
