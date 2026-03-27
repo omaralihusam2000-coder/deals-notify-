@@ -182,10 +182,10 @@
           <h1 class="hero-title">🎮 Find the Best Gaming Deals</h1>
           <p class="hero-subtitle">Track prices across 20+ stores. Never miss a sale again.</p>
           <div class="hero-cta-row">
-            <button class="btn btn-primary hero-cta-btn" onclick="document.getElementById('deals-grid').scrollIntoView({behavior:'smooth'})" aria-label="Browse top deals">
+            <button id="hero-browse-btn" class="btn btn-primary hero-cta-btn" aria-label="Browse top deals">
               🔥 Browse Top Deals
             </button>
-            <button class="btn btn-outline hero-cta-secondary" onclick="document.querySelector('[data-tab=deals]') && document.getElementById('filter-store') && document.getElementById('filter-store').focus()" aria-label="Set a price alert">
+            <button id="hero-alert-btn" class="btn btn-outline hero-cta-secondary" aria-label="Set a price alert">
               🔔 Set Price Alert
             </button>
           </div>

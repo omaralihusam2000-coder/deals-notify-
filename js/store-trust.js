@@ -30,12 +30,18 @@ const StoreTrustModule = (() => {
     return TRUST_DB[storeName] || TRUST_DB['default'];
   }
 
+  // Map trust level to a display icon
+  const TRUST_ICONS = { trusted: '\u2705', caution: '\u26a0\ufe0f', unknown: '\u2754' };
+  function getTrustIcon(level) {
+    return TRUST_ICONS[level] || TRUST_ICONS.unknown;
+  }
+
   function createBadge(storeName) {
     const trust = getTrust(storeName);
     const span = document.createElement('span');
     span.className = 'store-trust-badge store-trust-badge--' + trust.level;
-    const icon = trust.level === 'trusted' ? '\u2705' : trust.level === 'caution' ? '\u26a0\ufe0f' : '\u2754';
-    span.innerHTML = '\uD83D\uDD12 ' + icon + ' ' + trust.label;
+    // Build badge text safely using textContent (no innerHTML) to prevent XSS
+    span.textContent = '\uD83D\uDD12 ' + getTrustIcon(trust.level) + ' ' + trust.label;
     const tooltip = trust.detail + ' | \u2B50 ' + trust.rating + '/5 | Used by ' + trust.users + ' gamers';
     span.title = tooltip;
     span.setAttribute('data-tooltip', tooltip);
@@ -102,8 +108,7 @@ const StoreTrustModule = (() => {
     const trust = getTrust(storeName);
     document.getElementById('str-store-name').textContent = storeName;
     const badge = document.getElementById('str-store-badge');
-    const icon = trust.level === 'trusted' ? '\u2705' : trust.level === 'caution' ? '\u26a0\ufe0f' : '\u2754';
-    badge.textContent = icon + ' ' + trust.label;
+    badge.textContent = getTrustIcon(trust.level) + ' ' + trust.label;
     badge.className = 'str-store-badge store-trust-badge--' + trust.level;
     document.getElementById('str-rating').textContent = trust.rating;
     document.getElementById('str-users').textContent = trust.users;
@@ -138,11 +143,12 @@ const StoreTrustModule = (() => {
       if (!link) return;
       const href = link.getAttribute('href') || '';
       if (!href.startsWith('http')) return;
-      const isDealLink = link.closest('.deal-card, .card, .top-deal-card, .giveaway-card');
-      if (!isDealLink) return;
+      // Capture the deal card once; reuse for both containment check and store name lookup
+      const dealCard = link.closest('.deal-card, .card, .top-deal-card, .giveaway-card');
+      if (!dealCard) return;
       if (shouldSkipRedirect()) return;
 
-      const storeEl = link.closest('.deal-card, .card') && link.closest('.deal-card, .card').querySelector('.card-store, .deal-store');
+      const storeEl = dealCard.querySelector('.card-store, .deal-store');
       const rawText = storeEl ? (storeEl.firstChild ? storeEl.firstChild.textContent : storeEl.textContent) : '';
       const storeName = rawText.trim() || 'Store';
 

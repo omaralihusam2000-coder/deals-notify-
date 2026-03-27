@@ -277,6 +277,22 @@ const AppModule = (() => {
     if (typeof TopDealsModule !== 'undefined') TopDealsModule.init();
     if (typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
 
+    // Hero section CTA buttons
+    const heroBrowseBtn = document.getElementById('hero-browse-btn');
+    if (heroBrowseBtn) {
+      heroBrowseBtn.addEventListener('click', () => {
+        const grid = document.getElementById('deals-grid');
+        if (grid) grid.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+    const heroAlertBtn = document.getElementById('hero-alert-btn');
+    if (heroAlertBtn) {
+      heroAlertBtn.addEventListener('click', () => {
+        const storeFilter = document.getElementById('filter-store');
+        if (storeFilter) storeFilter.focus();
+      });
+    }
+
     // Sound effects toggle
     const soundsToggle = document.getElementById('sounds-toggle');
     if (soundsToggle && typeof SoundsModule !== 'undefined') {

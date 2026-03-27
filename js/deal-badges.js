@@ -42,12 +42,15 @@ const DealBadgesModule = (() => {
       badges.push({ text: '💎 BEST PRICE', cls: 'badge-best' });
     }
 
-    // ENDING SOON — uses data-last-change as a proxy; deal less than 24h old & expires soon
+    // ENDING SOON — requires data-last-change (Unix seconds) to be set on the card element
+    // by the deal renderer. A deal changed within 24 h is treated as potentially expiring soon
+    // because the CheapShark API does not expose explicit expiry timestamps.
     if (lastChange > 0 && (now - lastChange * 1000) < ONE_DAY_MS) {
       badges.push({ text: '⏰ ENDING SOON', cls: 'badge-ending' });
     }
 
-    // NEW — recently listed (release / first appearance within 24 h)
+    // NEW — requires data-release-date (Unix seconds) to be set on the card element
+    // by the deal renderer, representing when the deal was first listed.
     if (releaseDate > 0 && (now - releaseDate * 1000) < ONE_DAY_MS) {
       badges.push({ text: '🆕 NEW', cls: 'badge-new' });
     }

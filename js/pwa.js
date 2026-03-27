@@ -9,6 +9,7 @@ const PWAModule = (() => {
   let autoDismissTimer = null;
   const DISMISS_KEY = 'pwa_install_dismissed';
   const DISMISS_EXPIRY_DAYS = 7; // re-show after 7 days
+  const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
@@ -21,7 +22,7 @@ const PWAModule = (() => {
     const ts = localStorage.getItem(DISMISS_KEY);
     if (!ts) return false;
     const elapsed = Date.now() - parseInt(ts, 10);
-    return elapsed < DISMISS_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+    return elapsed < DISMISS_EXPIRY_DAYS * MS_PER_DAY;
   }
 
   function setupInstallPrompt() {
