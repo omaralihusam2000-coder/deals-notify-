@@ -60,7 +60,7 @@
       </div>
     </div>
     <div class="pwa-banner-actions">
-      <button id="pwa-install-btn" class="btn btn-primary btn-sm pwa-install-glow">⚡ Install Now</button>
+      <button id="pwa-install-btn" class="btn btn-primary btn-sm pwa-install-glow" data-tooltip="Install as a native app">⚡ Install Now</button>
       <button id="pwa-dismiss-btn" class="btn btn-ghost btn-sm" aria-label="Dismiss">Not now</button>
     </div>
   </div>
@@ -73,11 +73,11 @@
         <span class="logo-text">Gaming Deals Notifier</span>
       </a>
       <div class="header-actions">
-        <button id="notif-status-badge" class="notif-badge-btn" style="display:none;" aria-label="Enable notifications">
+        <button id="notif-status-badge" class="notif-badge-btn" style="display:none;" aria-label="Enable notifications" data-tooltip="Click to enable deal alerts">
           🔔 Enable Alerts
         </button>
         <div id="lang-switcher-container" class="lang-switcher-wrap"></div>
-        <button id="theme-toggle" class="btn btn-ghost btn-sm theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle theme">
+        <button id="theme-toggle" class="btn btn-ghost btn-sm theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle theme" data-tooltip="Toggle dark/light theme">
           ☀️
         </button>
       </div>
@@ -120,6 +120,8 @@
       </div>
 
       <div id="live-stats-bar" role="status" aria-label="Live deal statistics"></div>
+
+      <div id="mini-stats-bar" class="mini-stats-bar" role="status" aria-label="Your statistics" style="display:none;"></div>
 
       <!-- Recommended For You -->
       <div id="recommendations-section" class="recommendations-section" style="display:none;">
@@ -494,12 +496,14 @@
   <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
 
   <!-- ── Back to Top ─────────────────────────────────────────────── -->
-  <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top" data-tooltip="Scroll to top">
     ▲
   </button>
 
   <!-- ── Scripts ─────────────────────────────────────────────────── -->
   <script src="js/utils.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/tooltips.js"></script>
   <script src="js/sounds.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/currency.js"></script>
@@ -510,6 +514,7 @@
   <script src="js/recommendations.js"></script>
   <script src="js/steam-import.js"></script>
   <script src="js/gamification.js"></script>
+  <script src="js/mini-stats.js"></script>
   <script src="js/share.js"></script>
   <script src="js/price-advisor.js"></script>
   <script src="js/game-detail.js"></script>
@@ -529,6 +534,9 @@
   <script src="js/fab.js"></script>
   <script src="js/keyboard.js"></script>
   <script src="js/scroll-progress.js"></script>
+  <script src="js/intersection-animator.js"></script>
+  <script src="js/pull-to-refresh.js"></script>
+  <script src="js/bottom-nav.js"></script>
   <script src="js/pwa.js"></script>
   <script src="js/app.js"></script>
 

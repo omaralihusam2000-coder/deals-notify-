@@ -2046,3 +2046,261 @@ body.light-mode .notif-history-item { background: rgba(0,0,0,0.03); }
   box-shadow: 0 0 8px rgba(0,212,255,0.4);
   pointer-events: none;
 }
+
+/* ── Pull to Refresh ──────────────────────────────────────────── */
+.ptr-indicator {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-60px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  z-index: 9998;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  opacity: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.ptr-indicator.ptr-ready {
+  color: var(--accent-blue);
+}
+
+.ptr-indicator.ptr-ready .ptr-spinner {
+  animation: ptr-spin 0.6s linear infinite;
+}
+
+.ptr-text {
+  font-weight: 600;
+}
+
+@keyframes ptr-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Bottom Navigation (Mobile) ───────────────────────────────── */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  z-index: 1500;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.25rem;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .bottom-nav { display: flex; }
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0.4rem 0.6rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  border-radius: 8px;
+  min-width: 56px;
+}
+
+.bottom-nav-item .bottom-nav-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.bottom-nav-item.active {
+  color: var(--accent-blue);
+}
+
+.bottom-nav-item.active .bottom-nav-icon {
+  transform: scale(1.15);
+}
+
+.bottom-nav-item:active {
+  transform: scale(0.92);
+}
+
+/* ── More Menu ─────────────────────────────────────────────────── */
+.bottom-nav-more-menu {
+  display: none;
+  position: fixed;
+  bottom: 70px;
+  right: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem;
+  z-index: 1501;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.3);
+  min-width: 180px;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.bottom-nav-more-menu.visible {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s;
+  text-align: left;
+  width: 100%;
+}
+
+.more-menu-item:hover,
+.more-menu-item:focus {
+  background: var(--bg-input);
+}
+
+/* Hide top tab navigation on mobile when bottom nav exists */
+@media (max-width: 768px) {
+  .site-nav {
+    display: none;
+  }
+}
+
+/* ── Smart Tooltips ───────────────────────────────────────────── */
+.smart-tooltip {
+  position: fixed;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 3000;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  max-width: 250px;
+  white-space: normal;
+}
+
+.smart-tooltip.tooltip-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Mini Stats Bar ───────────────────────────────────────────── */
+.mini-stats-bar {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.mini-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.mini-stat-icon {
+  font-size: 1rem;
+}
+
+.mini-stat-value {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.mini-stat-label {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* ── Confetti ─────────────────────────────────────────────────── */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5000;
+  overflow: hidden;
+}
+
+.confetti-particle {
+  position: absolute;
+  top: -10px;
+  animation: confetti-fall ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(var(--drift-x, 0px)) rotate(var(--rotation, 360deg));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-particle { animation: none !important; display: none; }
+}
+
+/* ── Intersection Observer Card Animations ─────────────────────── */
+.card-will-animate {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.card-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-will-animate {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

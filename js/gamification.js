@@ -96,6 +96,8 @@ const GamificationModule = (() => {
       storageSet(BADGES_KEY, earned);
       newBadges.forEach(badge => {
         showToast(`🏅 Badge Unlocked: ${badge.name}! ${badge.emoji}`, 'success');
+        if (typeof ConfettiModule !== 'undefined') ConfettiModule.burst();
+        if (typeof SoundsModule !== 'undefined') SoundsModule.achievement();
       });
     }
     return newBadges;
