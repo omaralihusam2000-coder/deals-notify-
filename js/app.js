@@ -79,9 +79,36 @@ const AppModule = (() => {
     });
   }
 
+  function updateThemeToggleIcon() {
+    const btn = document.getElementById('theme-toggle');
+    const isLight = document.body.classList.contains('light-mode');
+    if (btn) btn.textContent = isLight ? '🌙' : '☀️';
+  }
+
+  function initAutoTheme() {
+    const userManualChoice = storageGet('theme_manual', false);
+    if (!userManualChoice) {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      if (prefersDark.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.body.classList.add('light-mode');
+      }
+      // Listen for system changes
+      prefersDark.addEventListener('change', (e) => {
+        if (!storageGet('theme_manual', false)) {
+          document.body.classList.toggle('light-mode', !e.matches);
+          updateThemeToggleIcon();
+        }
+      });
+    }
+  }
+
   function initDarkMode() {
-    const savedTheme = storageGet('theme', 'dark');
-    applyTheme(savedTheme);
+    initAutoTheme();
+    const savedTheme = storageGet('theme', null);
+    if (savedTheme) applyTheme(savedTheme);
 
     const btn = document.getElementById('theme-toggle');
     if (btn) {
@@ -90,6 +117,7 @@ const AppModule = (() => {
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
         storageSet('theme', next);
+        storageSet('theme_manual', true);
         showToast(`${next === 'dark' ? '🌙 Dark' : '☀️ Light'} mode activated`, 'info');
       });
     }
@@ -206,6 +234,21 @@ const AppModule = (() => {
 
     // Scroll progress bar
     if (typeof ScrollProgressModule !== 'undefined') ScrollProgressModule.init();
+
+    // Intersection observer card animations
+    if (typeof IntersectionAnimatorModule !== 'undefined') IntersectionAnimatorModule.init();
+
+    // Pull-to-refresh on mobile
+    if (typeof PullToRefreshModule !== 'undefined') PullToRefreshModule.init();
+
+    // Bottom navigation for mobile
+    if (typeof BottomNavModule !== 'undefined') BottomNavModule.init();
+
+    // Smart tooltips
+    if (typeof TooltipsModule !== 'undefined') TooltipsModule.init();
+
+    // Mini stats dashboard
+    if (typeof MiniStatsModule !== 'undefined') MiniStatsModule.init();
 
     // Sound effects toggle
     const soundsToggle = document.getElementById('sounds-toggle');
