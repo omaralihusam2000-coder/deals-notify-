@@ -7,6 +7,14 @@ const ProfileModule = (() => {
   const FIRST_VISIT_KEY = 'gdn_first_visit';
   const BADGES_KEY = 'gdn_profile_badges';
 
+  const STORE_NAMES = {
+    1: 'Steam', 2: 'GamersGate', 3: 'GreenManGaming', 7: 'GOG',
+    8: 'Origin', 11: 'Humble', 13: 'Uplay', 14: 'IndieGala',
+    15: 'Fanatical', 21: 'WinGameStore', 23: 'GameBillet', 25: 'Voidu',
+    27: 'Epic', 29: 'GamesPlanet', 31: 'HumbleStore', 38: 'SilaGames',
+    101: 'itch.io',
+  };
+
   function recordFirstVisit() {
     if (!storageGet(FIRST_VISIT_KEY)) {
       storageSet(FIRST_VISIT_KEY, new Date().toISOString());
@@ -86,8 +94,6 @@ const ProfileModule = (() => {
     const memberSince = firstVisit ? new Date(firstVisit).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Today';
     const maxHeat = Math.max(...heatmapCells.map(c => c.count), 1);
 
-    const storeNames = { 1: 'Steam', 2: 'GamersGate', 3: 'GreenManGaming', 7: 'GOG', 8: 'Origin', 11: 'Humble', 13: 'Uplay', 14: 'IndieGala', 15: 'Fanatical', 21: 'WinGameStore', 23: 'GameBillet', 25: 'Voidu', 27: 'Epic', 28: 'WinGameStore', 29: 'GamesPlanet', 31: 'HumbleStore', 35: 'IndieGala', 37: 'Fanatical', 38: 'SilaGames', 101: 'itch.io' };
-
     container.innerHTML = `
       <div class="profile-stats-grid">
         <div class="profile-stat-card">
@@ -114,7 +120,7 @@ const ProfileModule = (() => {
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
             ${topStores.map(([storeID, count]) => `
               <div class="profile-stat-card" style="min-width:120px;">
-                <div class="profile-stat-value" style="font-size:1.2rem;">${storeNames[storeID] || 'Store ' + storeID}</div>
+                <div class="profile-stat-value" style="font-size:1.2rem;">${STORE_NAMES[storeID] || 'Store ' + storeID}</div>
                 <div class="profile-stat-label">${count} deals</div>
               </div>
             `).join('')}

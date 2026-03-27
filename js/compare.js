@@ -73,10 +73,10 @@ const CompareModule = (() => {
     const rows = [
       { label: 'Game', key: d => escapeHtml(d.title || 'N/A') },
       { label: 'Store', key: d => escapeHtml(d.storeID || 'N/A') },
-      { label: 'Sale Price', key: d => `$${parseFloat(d.salePrice || 0).toFixed(2)}`, best: (vals) => vals.indexOf(Math.min(...vals.map(v => parseFloat(v.replace('$', ''))))) },
+      { label: 'Sale Price', key: d => `$${parseFloat(d.salePrice || 0).toFixed(2)}`, numKey: d => parseFloat(d.salePrice || 0), best: (vals, deals) => { const nums = deals.map(d => parseFloat(d.salePrice || 0)); return nums.indexOf(Math.min(...nums)); } },
       { label: 'Normal Price', key: d => `$${parseFloat(d.normalPrice || 0).toFixed(2)}` },
-      { label: 'Savings', key: d => `${Math.round(parseFloat(d.savings || 0))}%`, best: (vals) => vals.indexOf(Math.max(...vals.map(v => parseFloat(v)))) },
-      { label: 'Rating', key: d => parseFloat(d.dealRating || 0).toFixed(1), best: (vals) => vals.indexOf(Math.max(...vals.map(v => parseFloat(v)))) },
+      { label: 'Savings', key: d => `${Math.round(parseFloat(d.savings || 0))}%`, best: (vals, deals) => { const nums = deals.map(d => parseFloat(d.savings || 0)); return nums.indexOf(Math.max(...nums)); } },
+      { label: 'Rating', key: d => parseFloat(d.dealRating || 0).toFixed(1), best: (vals, deals) => { const nums = deals.map(d => parseFloat(d.dealRating || 0)); return nums.indexOf(Math.max(...nums)); } },
     ];
 
     modal.innerHTML = `
@@ -96,7 +96,7 @@ const CompareModule = (() => {
             <tbody>
               ${rows.map(row => {
                 const vals = deals.map(d => row.key(d));
-                const bestIdx = row.best ? row.best(vals) : -1;
+                const bestIdx = row.best ? row.best(vals, deals) : -1;
                 return `<tr>
                   <td><strong>${row.label}</strong></td>
                   ${vals.map((v, i) => `<td class="${i === bestIdx ? 'compare-best' : ''}">${v}</td>`).join('')}
