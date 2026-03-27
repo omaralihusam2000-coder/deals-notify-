@@ -19,20 +19,26 @@ const AppModule = (() => {
     });
 
     activeTab = tabName;
+    storageSet('last_tab', tabName);
+    if (typeof SoundsModule !== 'undefined') SoundsModule.tabSwitch();
 
     // Lazy-load tab content on first visit
     if (tabName === 'giveaways' && !document.getElementById('giveaways-grid').dataset.loaded) {
       document.getElementById('giveaways-grid').dataset.loaded = '1';
+      if (typeof SkeletonsModule !== 'undefined') SkeletonsModule.showInGrid('giveaways-grid', 6);
       GiveawaysModule.init();
     }
     if (tabName === 'bundles' && typeof BundlesModule !== 'undefined') {
+      if (typeof SkeletonsModule !== 'undefined') SkeletonsModule.showInGrid('bundles-grid', 6);
       BundlesModule.init();
       if (typeof GamificationModule !== 'undefined') GamificationModule.recordEvent('view');
     }
     if (tabName === 'console' && typeof ConsoleDealsModule !== 'undefined') {
+      if (typeof SkeletonsModule !== 'undefined') SkeletonsModule.showInGrid('console-deals-grid', 6);
       ConsoleDealsModule.init();
     }
     if (tabName === 'news' && typeof NewsModule !== 'undefined') {
+      if (typeof SkeletonsModule !== 'undefined') SkeletonsModule.showInGrid('news-grid', 6, 'news');
       NewsModule.init();
       if (typeof GamificationModule !== 'undefined') GamificationModule.recordEvent('news_visit');
     }
@@ -157,6 +163,12 @@ const AppModule = (() => {
     initBackToTop();
     initNewsletterSignup();
 
+    // Restore last active tab
+    const lastTab = storageGet('last_tab', 'deals');
+    if (lastTab && lastTab !== 'deals') {
+      switchTab(lastTab);
+    }
+
     // Core modules
     WishlistModule.init();
     NotificationsModule.init();
@@ -187,6 +199,23 @@ const AppModule = (() => {
     // Floating action button
     if (typeof FABModule !== 'undefined') {
       FABModule.init();
+    }
+
+    // Keyboard shortcuts
+    if (typeof KeyboardModule !== 'undefined') KeyboardModule.init();
+
+    // Scroll progress bar
+    if (typeof ScrollProgressModule !== 'undefined') ScrollProgressModule.init();
+
+    // Sound effects toggle
+    const soundsToggle = document.getElementById('sounds-toggle');
+    if (soundsToggle && typeof SoundsModule !== 'undefined') {
+      soundsToggle.checked = SoundsModule.isEnabled();
+      soundsToggle.addEventListener('change', () => {
+        const nowEnabled = SoundsModule.toggle();
+        soundsToggle.checked = nowEnabled;
+        showToast(nowEnabled ? '🔊 Sounds enabled' : '🔇 Sounds muted', 'info');
+      });
     }
   }
 

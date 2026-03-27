@@ -3,10 +3,11 @@
  * Provides offline caching for the Gaming Deals Notifier app.
  */
 
-const CACHE_NAME = 'gaming-deals-v2';
+const CACHE_NAME = 'gaming-deals-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/css/styles.css',
   '/js/utils.js',
   '/js/i18n.js',
@@ -32,6 +33,13 @@ const STATIC_ASSETS = [
   '/js/collections.js',
   '/js/newsletter.js',
   '/js/discord.js',
+  '/js/welcome.js',
+  '/js/live-stats.js',
+  '/js/fab.js',
+  '/js/skeletons.js',
+  '/js/sounds.js',
+  '/js/keyboard.js',
+  '/js/scroll-progress.js',
   '/js/app.js',
   '/manifest.json',
 ];
@@ -107,7 +115,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // Offline fallback for navigation requests
         if (event.request.destination === 'document') {
-          return caches.match('/index.html');
+          return caches.match('/offline.html') || caches.match('/index.html');
         }
       })
   );
