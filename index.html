@@ -73,6 +73,7 @@
         <span class="logo-text">Gaming Deals Notifier</span>
       </a>
       <div class="header-actions">
+        <button id="lucky-spin-btn" class="btn btn-ghost btn-sm" aria-label="Lucky Deal Spin" title="Daily Lucky Spin" data-tooltip="Spin for a lucky deal!">🎰</button>
         <button id="notif-status-badge" class="notif-badge-btn" style="display:none;" aria-label="Enable notifications" data-tooltip="Click to enable deal alerts">
           🔔 Enable Alerts
         </button>
@@ -94,6 +95,7 @@
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="news"         aria-controls="tab-news">📰 News</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="calendar"     aria-controls="tab-calendar">📅 Calendar</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="quiz"         aria-controls="tab-quiz">🎮 Quiz</button>
+      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="dashboard"    aria-controls="tab-dashboard">📊 Dashboard</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="collections"  aria-controls="tab-collections">📚 Collections</button>
       <button class="nav-tab"        role="tab" aria-selected="false" data-tab="wishlist"     aria-controls="tab-wishlist">
         ⭐ Wishlist
@@ -123,6 +125,9 @@
       <div id="live-stats-bar" role="status" aria-label="Live deal statistics"></div>
 
       <div id="mini-stats-bar" class="mini-stats-bar" role="status" aria-label="Your statistics" style="display:none;"></div>
+
+      <!-- Price Drop Timeline -->
+      <div id="price-timeline-container" class="price-timeline-container" style="display:none;"></div>
 
       <!-- Recommended For You -->
       <div id="recommendations-section" class="recommendations-section" style="display:none;">
@@ -180,6 +185,12 @@
           </div>
         </form>
       </div>
+
+      <!-- Genre Filter Chips -->
+      <div id="genre-filters-container" class="genre-filters-container"></div>
+
+      <!-- Top Rated Deals -->
+      <div id="top-rated-deals-section" class="top-rated-section" style="display:none;"></div>
 
       <div id="deals-grid" class="cards-grid" role="list" aria-label="Game deals"></div>
 
@@ -303,6 +314,14 @@
       </div>
     </section>
 
+    <!-- ===== DASHBOARD TAB ===== -->
+    <section id="tab-dashboard" class="tab-panel" role="tabpanel" aria-labelledby="dashboard-tab">
+      <div class="section-header">
+        <h2 class="section-title">📊 Personal Dashboard</h2>
+      </div>
+      <div id="dashboard-content" class="dashboard-page"></div>
+    </section>
+
     <!-- ===== COLLECTIONS TAB ===== -->
     <section id="tab-collections" class="tab-panel" role="tabpanel" aria-labelledby="collections-tab">
       <div class="section-header">
@@ -391,6 +410,26 @@
             </div>
             <div class="accent-picker" id="accent-picker-container"></div>
           </div>
+          <div class="settings-row" id="ambient-mode-settings-row">
+            <div class="settings-label">
+              <strong>🌙 Ambient Mode</strong>
+              Animated background effects (particles &amp; aurora). Auto-disables on low-end devices.
+            </div>
+            <label class="toggle-switch" aria-label="Enable ambient mode">
+              <input type="checkbox" id="ambient-mode-toggle">
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              <strong>🎵 Ambient Music</strong>
+              Soft background lo-fi drone (requires Ambient Mode).
+            </div>
+            <label class="toggle-switch" aria-label="Enable ambient music">
+              <input type="checkbox" id="ambient-music-toggle">
+              <span class="toggle-track"></span>
+            </label>
+          </div>
         </div>
 
         <!-- Steam Import Card -->
@@ -473,6 +512,9 @@
         <!-- Smart Alerts Card -->
         <div id="smart-alerts-container"></div>
 
+        <!-- Price Scheduler Alerts -->
+        <div id="price-alerts-settings" style="margin-top:1rem;"></div>
+
         <!-- Advanced Notification Scheduling (rendered by NotificationsModule) -->
         <div id="notif-schedule-section" style="margin-top:1rem;"></div>
 
@@ -516,6 +558,48 @@
       — All data provided by third-party sources.
     </p>
   </footer>
+
+  <!-- ── Chatbot Widget ──────────────────────────────────────────── -->
+  <div id="cb-widget" class="cb-widget" aria-live="polite">
+    <div id="cb-chat-window" class="cb-chat-window" role="dialog" aria-label="Deal Assistant Chat" aria-hidden="true">
+      <div class="cb-chat-header">
+        <span>🤖 Deal Assistant</span>
+        <button id="cb-close" class="cb-chat-close" aria-label="Close chat">✕</button>
+      </div>
+      <div id="cb-messages" class="cb-messages" role="log" aria-live="polite"></div>
+      <div class="cb-quick-chips">
+        <button class="cb-quick-chip" data-query="show free games">🆓 Free</button>
+        <button class="cb-quick-chip" data-query="best deal right now">🔥 Best</button>
+        <button class="cb-quick-chip" data-query="under $5">💰 Under $5</button>
+        <button class="cb-quick-chip" data-query="find RPG games">⚔️ RPG</button>
+      </div>
+      <div class="cb-input-row">
+        <input type="text" id="cb-input" class="cb-input"
+               placeholder="Ask me anything about deals…" aria-label="Chat message" autocomplete="off">
+        <button id="cb-send-btn" class="btn btn-primary btn-sm" aria-label="Send">➤</button>
+      </div>
+    </div>
+    <button id="cb-bubble" class="cb-bubble" aria-label="Open deal assistant" aria-expanded="false" data-tooltip="AI Deal Assistant">
+      <span class="cb-bubble-icon">🤖</span>
+      <span class="cb-bubble-notif" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!-- ── Bundle Builder Panel ─────────────────────────────────────── -->
+  <div id="bundle-panel-overlay" class="bb-panel-overlay" aria-hidden="true"></div>
+  <div id="bundle-panel" class="bb-panel" aria-hidden="true" role="dialog" aria-label="Bundle Builder">
+    <div class="bb-panel-header">
+      <h3>🛒 Bundle Builder</h3>
+      <button id="bundle-panel-close" class="bb-panel-close-btn" aria-label="Close bundle panel">✕</button>
+    </div>
+    <div id="bb-items-list" class="bb-items-list">
+      <p class="bb-empty">Add deals from the main feed to build your bundle.</p>
+    </div>
+    <div id="bb-summary" class="bb-summary" style="display:none;"></div>
+  </div>
+  <button id="bundle-fab" class="bundle-fab" aria-label="Open bundle builder" data-tooltip="Bundle Builder">
+    🎯 <span class="bb-fab-count" style="display:none;"></span>
+  </button>
 
   <!-- ── Toast Container ─────────────────────────────────────────── -->
   <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
@@ -575,6 +659,20 @@
   <script src="js/social-proof.js"></script>
   <script src="js/daily-streak.js"></script>
   <script src="js/image-zoom.js"></script>
+  <script src="js/smart-search.js"></script>
+  <script src="js/price-history.js"></script>
+  <script src="js/genre-filters.js"></script>
+  <script src="js/social-share.js"></script>
+  <script src="js/daily-spin.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/price-timeline.js"></script>
+  <script src="js/reviews.js"></script>
+  <script src="js/bundle-builder.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/voice-search.js"></script>
+  <script src="js/price-scheduler.js"></script>
+  <script src="js/store-trust.js"></script>
+  <script src="js/ambient-mode.js"></script>
   <script src="js/app.js"></script>
 
 </body>

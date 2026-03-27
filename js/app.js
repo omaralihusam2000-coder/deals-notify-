@@ -3,7 +3,7 @@
  */
 
 const AppModule = (() => {
-  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'collections', 'wishlist', 'achievements', 'profile', 'settings'];
+  const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'dashboard', 'collections', 'wishlist', 'achievements', 'profile', 'settings'];
   let activeTab = 'deals';
 
   function switchTab(tabName) {
@@ -51,6 +51,9 @@ const AppModule = (() => {
     if (tabName === 'collections' && typeof CollectionsModule !== 'undefined') {
       CollectionsModule.init();
     }
+    if (tabName === 'dashboard' && typeof DashboardModule !== 'undefined') {
+      DashboardModule.render();
+    }
     if (tabName === 'wishlist') {
       WishlistModule.renderWishlist();
     }
@@ -75,6 +78,7 @@ const AppModule = (() => {
       }
       if (typeof SmartAlertsModule !== 'undefined') SmartAlertsModule.renderSettings();
       if (typeof SocialProofModule !== 'undefined') SocialProofModule.renderToggle();
+      if (typeof PriceSchedulerModule !== 'undefined') PriceSchedulerModule.renderAlertsInSettings?.();
     }
   }
 

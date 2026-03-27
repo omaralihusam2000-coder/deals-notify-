@@ -179,7 +179,7 @@ const DealsModule = (() => {
         <div class="dotd-info">
           <h2 class="dotd-title">${escapeHtml(best.title)}</h2>
           <div class="dotd-store">
-            ${storeIcon ? `<img class="store-icon" src="${escapeHtml(storeIcon)}" alt="${escapeHtml(storeName)}" onerror="this.style.display='none'">` : ''}
+            ${storeIcon ? `<img class="store-icon" src="${escapeHtml(storeIcon)}" loading="lazy" alt="${escapeHtml(storeName)}" onerror="this.style.display='none'">` : ''}
             <span>${escapeHtml(storeName)}</span>
           </div>
           <div class="dotd-prices">
@@ -332,7 +332,7 @@ const DealsModule = (() => {
         </div>
         <h3 class="card-title" title="${escapeHtml(deal.title)}">${escapeHtml(truncate(deal.title, 50))}</h3>
         <div class="card-store">
-          ${storeIcon ? `<img class="store-icon" src="${escapeHtml(storeIcon)}" alt="${escapeHtml(storeName)}" onerror="this.style.display='none'">` : ''}
+          ${storeIcon ? `<img class="store-icon" src="${escapeHtml(storeIcon)}" loading="lazy" alt="${escapeHtml(storeName)}" onerror="this.style.display='none'">` : ''}
           <span class="store-name">${escapeHtml(storeName)}</span>
         </div>
         <div class="card-prices">
@@ -365,8 +365,12 @@ const DealsModule = (() => {
           <button class="btn btn-ghost btn-xs btn-compare" data-gameid="${escapeHtml(deal.gameID)}" data-title="${escapeHtml(deal.title)}">🆚 Compare</button>
           <button class="btn btn-ghost btn-xs btn-community" data-dealid="${escapeHtml(deal.dealID)}" data-title="${escapeHtml(deal.title)}">💬 Community</button>
           <button class="btn btn-ghost btn-xs btn-share-deal">📤 Share</button>
+          <button class="btn btn-ghost btn-xs btn-price-history-new">📊 Price History</button>
+          <button class="btn btn-ghost btn-xs btn-price-alert-new">🔔 Alert</button>
+          <button class="btn btn-ghost btn-xs btn-bundle-add">🛒 Bundle</button>
         </div>
         ${typeof PriceAdvisorModule !== 'undefined' ? PriceAdvisorModule.createPlaceholderHTML() : ''}
+        <div class="card-reviews-row"></div>
       </div>
     `;
 
@@ -428,6 +432,39 @@ const DealsModule = (() => {
       e.stopPropagation();
       if (typeof ShareModule !== 'undefined') ShareModule.shareDeal(deal);
     });
+
+    // New: Price History (phase 2 module)
+    card.querySelector('.btn-price-history-new').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof PriceHistoryModule !== 'undefined') {
+        PriceHistoryModule.showModal(deal.dealID, deal.title, deal.thumb);
+      } else if (typeof ChartsModule !== 'undefined') {
+        ChartsModule.showPriceHistory(deal.gameID, deal.title);
+      }
+    });
+
+    // New: Price Alert
+    card.querySelector('.btn-price-alert-new').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof PriceSchedulerModule !== 'undefined') PriceSchedulerModule.showAlertForm(deal);
+    });
+
+    // New: Bundle add
+    card.querySelector('.btn-bundle-add').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof BundleBuilderModule !== 'undefined') BundleBuilderModule.addItem(deal);
+    });
+
+    // New: Reviews row
+    if (typeof ReviewsModule !== 'undefined') {
+      const reviewRow = card.querySelector('.card-reviews-row');
+      if (reviewRow) reviewRow.appendChild(ReviewsModule.createReviewButtons(deal));
+    }
+
+    // New: Store Trust Badges (applied to .card-store elements)
+    if (typeof StoreTrustModule !== 'undefined') {
+      requestAnimationFrame(() => StoreTrustModule.applyBadges());
+    }
 
     // Open Game Detail Modal on card click
     card.addEventListener('click', () => {
