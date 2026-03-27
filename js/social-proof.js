@@ -3,6 +3,8 @@
  */
 const SocialProofModule = (() => {
   const STORAGE_KEY = 'gdn_social_proof_enabled';
+  const MIN_DELAY_MS = 30000;
+  const DELAY_VARIANCE_MS = 15000;
   let timer = null;
   let isVisible = false;
 
@@ -65,7 +67,7 @@ const SocialProofModule = (() => {
 
   function startTimer() {
     if (timer) clearTimeout(timer);
-    const delay = 30000 + Math.random() * 15000;
+    const delay = MIN_DELAY_MS + Math.random() * DELAY_VARIANCE_MS;
     timer = setTimeout(() => {
       showPopup();
       startTimer();

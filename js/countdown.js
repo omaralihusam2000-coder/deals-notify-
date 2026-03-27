@@ -3,9 +3,12 @@
  */
 const CountdownModule = (() => {
   let intervalId = null;
+  const DEFAULT_SEED = 99999;
+  const MIN_HOURS = 24;
+  const HOUR_RANGE = 48;
 
   function seededRandom(seed) {
-    let s = parseInt(seed.toString().replace(/\D/g, '').slice(0, 8) || '99999');
+    let s = parseInt(seed.toString().replace(/\D/g, '').slice(0, 8) || DEFAULT_SEED);
     s = (s * 9301 + 49297) % 233280;
     return s / 233280;
   }
@@ -14,7 +17,7 @@ const CountdownModule = (() => {
     const lastChange = parseInt(deal.lastChange || deal.releaseDate || 0) * 1000;
     const base = lastChange || Date.now() - (24 * 60 * 60 * 1000);
     const rand = seededRandom(deal.dealID || '1');
-    const hours = 24 + Math.floor(rand * 48); // 24–72 hours from lastChange
+    const hours = MIN_HOURS + Math.floor(rand * HOUR_RANGE); // 24–72 hours from lastChange
     return base + hours * 60 * 60 * 1000;
   }
 

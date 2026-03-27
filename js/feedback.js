@@ -4,6 +4,7 @@
 const FeedbackModule = (() => {
   const STORAGE_KEY = 'gdn_feedback';
   const COOLDOWN_DAYS = 7;
+  const PULSE_INTERVAL_MS = 30000;
   let isOpen = false;
   let selectedEmoji = null;
   let pulseTimer = null;
@@ -88,7 +89,7 @@ const FeedbackModule = (() => {
         fab.classList.add('feedback-pulse');
         setTimeout(() => fab.classList.remove('feedback-pulse'), 1000);
       }
-    }, 30000);
+    }, PULSE_INTERVAL_MS);
   }
 
   function init() {
