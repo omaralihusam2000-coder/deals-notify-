@@ -4,8 +4,8 @@
   "description": "Track the best gaming deals from top stores. Get notified about flash sales, free games, and more.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0f",
-  "theme_color": "#00d4ff",
+  "background_color": "#0a0a0a",
+  "theme_color": "#ff1a1a",
   "orientation": "any",
   "categories": ["games", "shopping", "entertainment"],
   "icons": [
