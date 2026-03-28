@@ -277,6 +277,9 @@ const AppModule = (() => {
     if (typeof TopDealsModule !== 'undefined') TopDealsModule.init();
     if (typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
 
+    // AI Deal Assistant Chatbot
+    if (typeof ChatbotModule !== 'undefined') ChatbotModule.init();
+
     // Hero section CTA buttons
     const heroBrowseBtn = document.getElementById('hero-browse-btn');
     if (heroBrowseBtn) {
