@@ -62,7 +62,9 @@ const TopDealsModule = (() => {
 
     // Sort by savings descending, then by rating
     deals.sort((a, b) => b.savings - a.savings || b.rating - a.rating);
-    return deals.slice(0, TOP_COUNT);
+
+    const limit = window.innerWidth <= 768 ? 3 : TOP_COUNT;
+    return deals.slice(0, limit);
   }
 
   function render(deals) {
