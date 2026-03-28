@@ -2866,7 +2866,7 @@ body.light-mode .notif-history-item { background: rgba(0,0,0,0.03); }
 .bb-empty { color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1rem 0; }
 
 /* ── Chatbot Widget ───────────────────────────────────────────────── */
-.cb-widget { position: fixed; bottom: 1.5rem; right: 1.25rem; z-index: 800; }
+.cb-widget { position: fixed; bottom: 5rem; right: 1.25rem; z-index: 900; }
 .cb-bubble {
   width: 54px; height: 54px; border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
@@ -3012,6 +3012,7 @@ img[loading="lazy"] { background: var(--bg-input); }
   .price-timeline-container { padding: 0.4rem 0.75rem; }
   .ss-panel-btns { grid-template-columns: repeat(3, 1fr); }
   .cb-widget { bottom: 5.5rem; }
+  .cb-chat-window { width: calc(100vw - 2.5rem); right: 0; }
   .bundle-fab { bottom: 8rem; }
   .dash-stats-row { grid-template-columns: repeat(2, 1fr); }
 }
