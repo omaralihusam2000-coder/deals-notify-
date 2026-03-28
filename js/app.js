@@ -98,6 +98,12 @@ const AppModule = (() => {
       });
     });
 
+    document.querySelectorAll('.rail-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.tab) switchTab(btn.dataset.tab);
+      });
+    });
+
     const moreToggle = document.querySelector('.nav-more-toggle');
     const moreMenu = document.querySelector('.nav-more-menu');
     if (moreToggle && moreMenu) {

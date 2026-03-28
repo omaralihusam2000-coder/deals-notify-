@@ -109,6 +109,13 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <aside class="side-rail" aria-label="Quick navigation">
+    <button class="rail-btn" data-tab="deals" title="Deals">🔥</button>
+    <button class="rail-btn" data-tab="giveaways" title="Free Games">🎁</button>
+    <button class="rail-btn" data-tab="wishlist" title="Wishlist">⭐</button>
+    <button class="rail-btn" data-tab="news" title="News">📰</button>
+    <button class="rail-btn" data-tab="settings" title="Settings">⚙️</button>
+  </aside>
 
   <!-- ── PWA Install Banner (slide-up from bottom) ───────────────── -->
   <div id="pwa-install-banner" class="pwa-banner" style="display:none;" role="banner" aria-label="Install Gaming Deals app">
@@ -184,34 +191,42 @@
     <section id="tab-deals" class="tab-panel active" role="tabpanel" aria-labelledby="deals-tab">
 
       <!-- ── Hero Section ─────────────────────────────────────────── -->
-      <div class="hero-section" aria-label="Welcome to Gaming Deals Notifier">
+      <div class="hero-section hero-cinema" aria-label="Featured gaming deal">
         <div class="hero-inner">
-          <h1 class="hero-title">Find Your Lowest Game Price</h1>
-          <p class="hero-subtitle">Live tracker across Steam, Epic, GOG and console stores — refreshed every 15 minutes.</p>
-          <p class="hero-meta">Price alerts, wishlist sync, and deal history without sign‑ups.</p>
-          <div class="hero-cta-row">
-            <button id="hero-browse-btn" class="btn btn-primary hero-cta-btn" aria-label="Browse top deals">
-              🔥 See Live Deals
-            </button>
-            <button id="hero-alert-btn" class="btn btn-outline hero-cta-secondary" aria-label="Set a price alert">
-              🔔 Create Price Alert
-            </button>
+          <div class="hero-copy">
+            <p class="hero-kicker">Top pick of the day</p>
+            <h1 class="hero-title">Find Your Lowest Game Price</h1>
+            <p class="hero-subtitle">Live tracker across Steam, Epic, GOG and console stores — refreshed every 15 minutes. Price alerts, wishlist sync, and deal history without sign‑ups.</p>
+            <div class="hero-chips">
+              <span class="chip">★ 4.8 user score</span>
+              <span class="chip">20+ stores</span>
+              <span class="chip">Real‑time updates</span>
+            </div>
+            <div class="hero-cta-row">
+              <button id="hero-browse-btn" class="btn btn-primary hero-cta-btn" aria-label="Browse top deals">🔥 Watch Deals</button>
+              <button id="hero-alert-btn" class="btn btn-outline hero-cta-secondary" aria-label="Set a price alert">🔔 Create Alert</button>
+            </div>
+            <div class="hero-stats-row" aria-label="Platform statistics">
+              <div class="hero-stat">
+                <span class="hero-stat-num">10,000+</span>
+                <span class="hero-stat-label">Deals Tracked</span>
+              </div>
+              <div class="hero-stat-divider" aria-hidden="true"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-num">500+</span>
+                <span class="hero-stat-label">Free Games Found</span>
+              </div>
+              <div class="hero-stat-divider" aria-hidden="true"></div>
+              <div class="hero-stat">
+                <span class="hero-stat-num">20+</span>
+                <span class="hero-stat-label">Stores Monitored</span>
+              </div>
+            </div>
           </div>
-          <div class="hero-stats-row" aria-label="Platform statistics">
-            <div class="hero-stat">
-              <span class="hero-stat-num">10,000+</span>
-              <span class="hero-stat-label">Deals Tracked</span>
-            </div>
-            <div class="hero-stat-divider" aria-hidden="true"></div>
-            <div class="hero-stat">
-              <span class="hero-stat-num">500+</span>
-              <span class="hero-stat-label">Free Games Found</span>
-            </div>
-            <div class="hero-stat-divider" aria-hidden="true"></div>
-            <div class="hero-stat">
-              <span class="hero-stat-num">20+</span>
-              <span class="hero-stat-label">Stores Monitored</span>
-            </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-circle"></div>
+            <div class="hero-circle hero-circle-sm"></div>
+            <div class="hero-art">🎮</div>
           </div>
         </div>
       </div>
