@@ -30,7 +30,7 @@
   <!-- Enhanced SEO Meta Tags -->
   <meta name="application-name" content="Gaming Deals Notifier">
   <meta name="apple-mobile-web-app-title" content="Gaming Deals">
-  <meta name="msapplication-TileColor" content="#0a0a0a">
+  <meta name="msapplication-TileColor" content="#0b1411">
   <meta name="msapplication-config" content="none">
   <meta name="rating" content="general">
   <meta name="revisit-after" content="1 day">
@@ -91,7 +91,7 @@
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff1a1a">
+  <meta name="theme-color" content="#0b1411">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -99,7 +99,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Chart.js CDN with SRI -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"
@@ -108,8 +108,8 @@
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-  <aside class="side-rail" aria-label="Quick navigation">
+<body class="platform-rebuilt">
+  <aside class="side-rail" aria-label="Quick navigation" hidden>
     <button class="rail-btn" data-tab="deals" title="Deals">🔥</button>
     <button class="rail-btn" data-tab="giveaways" title="Free Games">🎁</button>
     <button class="rail-btn" data-tab="wishlist" title="Wishlist">⭐</button>
@@ -257,7 +257,6 @@
                 </div>
               </div>
             </article>
-            <div class="hero-art">🎮</div>
           </div>
         </div>
       </div>
@@ -388,7 +387,7 @@
       </div>
 
       <!-- Newsletter signup -->
-      <div class="newsletter-section">
+      <div class="newsletter-section" hidden>
         <div class="newsletter-inner">
           <div class="newsletter-copy">
             <h3 class="newsletter-title">📧 Get Deal Alerts by Email</h3>
@@ -402,7 +401,7 @@
         </div>
       </div>
 
-      <div class="trust-focus-section" aria-labelledby="trust-focus-title">
+      <div class="trust-focus-section" aria-labelledby="trust-focus-title" hidden>
         <div class="trust-focus-head">
           <p class="trust-focus-kicker">Focus on what matters</p>
           <h2 id="trust-focus-title" class="section-title">Better deals, better filters, more trust</h2>
@@ -433,7 +432,7 @@
       </div>
 
       <!-- ── How It Works ─────────────────────────────────────────── -->
-      <div class="how-it-works-section" aria-labelledby="how-it-works-title">
+      <div class="how-it-works-section" aria-labelledby="how-it-works-title" hidden>
         <h2 id="how-it-works-title" class="section-title how-it-works-title">⚙️ How It Works</h2>
         <div class="hiw-steps">
           <div class="hiw-step">
@@ -457,7 +456,7 @@
       </div>
 
       <!-- ── Why Choose Us ────────────────────────────────────────── -->
-      <div class="why-us-section" aria-labelledby="why-us-title">
+      <div class="why-us-section" aria-labelledby="why-us-title" hidden>
         <h2 id="why-us-title" class="section-title why-us-title">🏆 Why Choose Us</h2>
         <div class="why-us-grid">
           <div class="why-us-card">
@@ -846,7 +845,7 @@
         <div class="footer-link-group">
           <span class="footer-link-title">Explore</span>
           <button class="footer-link-btn" type="button" data-site-action="open-wishlist">Saved Deals</button>
-          <button class="footer-link-btn" type="button" data-site-action="scroll-newsletter">Email Subscribe</button>
+          <button class="footer-link-btn" type="button" data-site-action="open-settings">Newsletter Settings</button>
           <a class="footer-link-btn footer-link-anchor" href="https://github.com/omaralihusam2000-coder/deals-notify-/issues" target="_blank" rel="noopener noreferrer">Report Issue</a>
         </div>
       </div>

@@ -6531,3 +6531,934 @@ body {
     padding: 1rem 0 0;
   }
 }
+
+/* Unified storefront rebuild */
+body.platform-rebuilt {
+  --platform-bg: #07090d;
+  --platform-panel: rgba(10, 13, 17, 0.92);
+  --platform-panel-soft: rgba(14, 18, 24, 0.86);
+  --platform-border: rgba(136, 255, 194, 0.11);
+  --platform-border-strong: rgba(136, 255, 194, 0.26);
+  --platform-text: #f4f7fb;
+  --platform-text-soft: rgba(226, 234, 244, 0.72);
+  --platform-accent: #52f2aa;
+  --platform-accent-strong: #86ffc7;
+  --platform-accent-glow: rgba(82, 242, 170, 0.22);
+  --platform-hot: #ff5d84;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(82, 242, 170, 0.2), transparent 22%),
+    linear-gradient(180deg, #14211c 0%, #0b0f13 16%, #07090d 44%, #07090d 100%);
+  color: var(--platform-text);
+  font-family: 'Outfit', 'Noto Kufi Arabic', sans-serif;
+}
+
+body.platform-rebuilt::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%),
+    radial-gradient(circle at 12% 18%, rgba(82, 242, 170, 0.08), transparent 18%),
+    radial-gradient(circle at 88% 18%, rgba(82, 242, 170, 0.06), transparent 18%);
+  z-index: 0;
+}
+
+body.platform-rebuilt > * {
+  position: relative;
+  z-index: 1;
+}
+
+body.platform-rebuilt .side-rail,
+body.platform-rebuilt .newsletter-section,
+body.platform-rebuilt .trust-focus-section,
+body.platform-rebuilt .how-it-works-section,
+body.platform-rebuilt .why-us-section,
+body.platform-rebuilt .hero-art {
+  display: none !important;
+}
+
+body.platform-rebuilt .site-header,
+body.platform-rebuilt .site-nav,
+body.platform-rebuilt .site-main,
+body.platform-rebuilt .site-footer {
+  width: min(1180px, calc(100% - 2rem));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.platform-rebuilt .site-header {
+  position: sticky;
+  top: 0.9rem;
+  z-index: 120;
+  padding: 0;
+  background: rgba(8, 10, 13, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.28);
+}
+
+body.platform-rebuilt .header-inner {
+  min-height: auto;
+  padding: 1rem 1.2rem;
+}
+
+body.platform-rebuilt .site-logo {
+  gap: 0.8rem;
+  color: var(--platform-text);
+  text-decoration: none;
+}
+
+body.platform-rebuilt .logo-icon,
+body.platform-rebuilt .footer-logo-icon {
+  width: 2.7rem;
+  height: 2.7rem;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(82, 242, 170, 0.2), rgba(82, 242, 170, 0.06));
+  box-shadow: inset 0 0 0 1px rgba(136, 255, 194, 0.14);
+}
+
+body.platform-rebuilt .logo-text,
+body.platform-rebuilt .footer-brand-title,
+body.platform-rebuilt .hero-title,
+body.platform-rebuilt .section-title {
+  font-family: 'Space Grotesk', 'Outfit', 'Noto Kufi Arabic', sans-serif;
+}
+
+body.platform-rebuilt .logo-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+body.platform-rebuilt .header-actions {
+  gap: 0.6rem;
+}
+
+body.platform-rebuilt .btn,
+body.platform-rebuilt button,
+body.platform-rebuilt select,
+body.platform-rebuilt input,
+body.platform-rebuilt textarea {
+  font-family: inherit;
+}
+
+body.platform-rebuilt .btn {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+body.platform-rebuilt .btn:hover {
+  transform: translateY(-1px);
+}
+
+body.platform-rebuilt .btn-primary,
+body.platform-rebuilt .btn-success {
+  color: #05100b;
+  background: linear-gradient(135deg, var(--platform-accent), var(--platform-accent-strong));
+  border-color: rgba(136, 255, 194, 0.36);
+  box-shadow: 0 10px 26px rgba(82, 242, 170, 0.18);
+}
+
+body.platform-rebuilt .btn-outline,
+body.platform-rebuilt .btn-ghost {
+  color: var(--platform-text);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.platform-rebuilt .site-nav {
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  background: rgba(10, 13, 17, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 22px;
+  backdrop-filter: blur(16px);
+}
+
+body.platform-rebuilt .nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+body.platform-rebuilt .nav-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+body.platform-rebuilt .nav-tab {
+  min-height: 42px;
+  padding: 0.72rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--platform-text-soft);
+  background: transparent;
+  font-weight: 600;
+}
+
+body.platform-rebuilt .nav-tab:hover,
+body.platform-rebuilt .nav-tab[aria-selected="true"],
+body.platform-rebuilt .nav-more-toggle[aria-expanded="true"] {
+  color: var(--platform-text);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--platform-border);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+body.platform-rebuilt .nav-count,
+body.platform-rebuilt .top-deals-badge,
+body.platform-rebuilt .dashboard-panel-tag,
+body.platform-rebuilt .hero-feature-badge,
+body.platform-rebuilt .card-badge,
+body.platform-rebuilt .discount-badge,
+body.platform-rebuilt .bundle-category-badge,
+body.platform-rebuilt .bundle-expiry-badge {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--platform-text);
+  box-shadow: none;
+}
+
+body.platform-rebuilt .nav-more-menu {
+  top: calc(100% + 0.8rem);
+  right: 0;
+  min-width: 240px;
+  padding: 0.75rem;
+  background: rgba(10, 13, 17, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.4);
+}
+
+body.platform-rebuilt .nav-more-menu .nav-tab {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+body.platform-rebuilt .site-main {
+  margin-top: 1.1rem;
+  margin-bottom: 2rem;
+  display: grid;
+}
+
+body.platform-rebuilt .tab-panel {
+  display: none;
+  gap: 1.2rem;
+  position: relative;
+  padding: 1.3rem;
+  background: linear-gradient(180deg, rgba(11, 15, 20, 0.96), rgba(8, 11, 15, 0.94));
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+  overflow: hidden;
+}
+
+body.platform-rebuilt .tab-panel.active {
+  display: grid;
+}
+
+body.platform-rebuilt .tab-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 20%);
+}
+
+body.platform-rebuilt #tab-deals {
+  background: linear-gradient(180deg, rgba(10, 14, 18, 0.98), rgba(7, 10, 13, 0.98));
+}
+
+body.platform-rebuilt #tab-deals::after {
+  content: '';
+  position: absolute;
+  top: 64px;
+  right: -90px;
+  width: 240px;
+  height: 240px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(82, 242, 170, 0.16), transparent 66%);
+  pointer-events: none;
+}
+
+body.platform-rebuilt .section-header,
+body.platform-rebuilt .dashboard-panel-head,
+body.platform-rebuilt .top-deals-header,
+body.platform-rebuilt .dashboard-panel-head-inline {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+}
+
+body.platform-rebuilt .section-header {
+  padding-bottom: 0.4rem;
+}
+
+body.platform-rebuilt .section-kicker,
+body.platform-rebuilt .hero-kicker,
+body.platform-rebuilt .trust-focus-kicker {
+  margin: 0 0 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(185, 255, 216, 0.72);
+}
+
+body.platform-rebuilt .section-title {
+  margin: 0;
+  font-size: clamp(1.45rem, 2vw, 2.3rem);
+  letter-spacing: -0.03em;
+}
+
+body.platform-rebuilt .section-lead,
+body.platform-rebuilt .section-subtitle,
+body.platform-rebuilt .section-subtitle-text,
+body.platform-rebuilt .hero-subtitle,
+body.platform-rebuilt .footer-brand-copy,
+body.platform-rebuilt .footer-source-copy,
+body.platform-rebuilt .news-last-updated {
+  color: var(--platform-text-soft);
+}
+
+body.platform-rebuilt .hero-section {
+  margin: -1.3rem -1.3rem 0;
+  min-height: 540px;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background:
+    linear-gradient(90deg, rgba(8, 12, 14, 0.94) 0%, rgba(8, 12, 14, 0.66) 42%, rgba(8, 12, 14, 0.18) 100%),
+    var(--hero-feature-bg) center/cover no-repeat;
+  box-shadow: inset 0 -80px 120px rgba(0, 0, 0, 0.32);
+}
+
+body.platform-rebuilt .hero-platform-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem 0;
+  color: rgba(233, 245, 239, 0.88);
+}
+
+body.platform-rebuilt .hero-platform-brand,
+body.platform-rebuilt .hero-platform-links,
+body.platform-rebuilt .hero-platform-search {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+}
+
+body.platform-rebuilt .hero-platform-links {
+  justify-self: center;
+  gap: 1rem;
+  color: rgba(233, 245, 239, 0.68);
+}
+
+body.platform-rebuilt .hero-platform-search {
+  justify-self: end;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.platform-rebuilt .hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
+  align-items: stretch;
+  min-height: 470px;
+}
+
+body.platform-rebuilt .hero-copy {
+  max-width: 560px;
+  padding: 2.2rem 1.3rem 1.6rem;
+}
+
+body.platform-rebuilt .hero-title {
+  max-width: 10ch;
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+body.platform-rebuilt .hero-subtitle {
+  max-width: 44ch;
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+body.platform-rebuilt .hero-chips,
+body.platform-rebuilt .filter-chips,
+body.platform-rebuilt .platform-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+body.platform-rebuilt .chip,
+body.platform-rebuilt .filter-chip,
+body.platform-rebuilt .platform-tag,
+body.platform-rebuilt .trust-pill,
+body.platform-rebuilt .footer-pill,
+body.platform-rebuilt .cb-chip {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--platform-text);
+}
+
+body.platform-rebuilt .hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.35rem;
+}
+
+body.platform-rebuilt .hero-stats-row {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+body.platform-rebuilt .hero-stat {
+  min-width: 120px;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.platform-rebuilt .hero-stat-divider {
+  display: none;
+}
+
+body.platform-rebuilt .hero-stat-num {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 1.45rem;
+}
+
+body.platform-rebuilt .hero-stat-label {
+  color: var(--platform-text-soft);
+}
+
+body.platform-rebuilt .hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 4.2rem 1.2rem 1.2rem 0;
+}
+
+body.platform-rebuilt .hero-feature-card {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: min(100%, 320px);
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(8, 11, 14, 0.78) !important;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+}
+
+body.platform-rebuilt .hero-feature-media,
+body.platform-rebuilt .hero-feature-image {
+  min-height: 210px;
+}
+
+body.platform-rebuilt .hero-feature-body,
+body.platform-rebuilt .card-body,
+body.platform-rebuilt .news-body,
+body.platform-rebuilt .settings-card {
+  position: relative;
+  z-index: 1;
+}
+
+body.platform-rebuilt .hero-feature-title,
+body.platform-rebuilt .card-title,
+body.platform-rebuilt .news-title,
+body.platform-rebuilt .dotd-title,
+body.platform-rebuilt .spotlight-deal-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+body.platform-rebuilt .featured-stack,
+body.platform-rebuilt .dashboard-highlight-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 1rem;
+}
+
+body.platform-rebuilt .top-deals-section,
+body.platform-rebuilt .dotd-section,
+body.platform-rebuilt .dashboard-panel,
+body.platform-rebuilt .search-filter-bar,
+body.platform-rebuilt .recommendations-section,
+body.platform-rebuilt .top-rated-section,
+body.platform-rebuilt .price-timeline-container,
+body.platform-rebuilt #live-stats-bar,
+body.platform-rebuilt #trust-bar,
+body.platform-rebuilt .settings-card,
+body.platform-rebuilt .calendar-container,
+body.platform-rebuilt .quiz-container,
+body.platform-rebuilt .dashboard-page,
+body.platform-rebuilt .profile-page,
+body.platform-rebuilt .achievements-page,
+body.platform-rebuilt #collections-container,
+body.platform-rebuilt #dashboard-content {
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(15, 18, 24, 0.94), rgba(11, 14, 19, 0.9));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+body.platform-rebuilt .top-deals-section,
+body.platform-rebuilt .dashboard-panel,
+body.platform-rebuilt .search-filter-bar,
+body.platform-rebuilt .recommendations-section,
+body.platform-rebuilt .top-rated-section,
+body.platform-rebuilt .price-timeline-container {
+  padding: 1.1rem;
+}
+
+body.platform-rebuilt .dotd-section {
+  padding: 0 !important;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(8, 12, 14, 0.94) 0%, rgba(8, 12, 14, 0.64) 44%, rgba(8, 12, 14, 0.2) 100%),
+    var(--dotd-bg) center/cover no-repeat !important;
+}
+
+body.platform-rebuilt .dotd-inner {
+  min-height: 100%;
+}
+
+body.platform-rebuilt .dotd-info {
+  max-width: 430px;
+  padding: 1.5rem !important;
+}
+
+body.platform-rebuilt .top-deals-carousel {
+  display: flex;
+  gap: 0.9rem;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+  scrollbar-width: thin;
+}
+
+body.platform-rebuilt .top-deal-card,
+body.platform-rebuilt .spotlight-deal-card,
+body.platform-rebuilt .card,
+body.platform-rebuilt .news-card-link,
+body.platform-rebuilt .footer-link-group,
+body.platform-rebuilt .empty-state,
+body.platform-rebuilt .error-state {
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(18, 22, 28, 0.94), rgba(12, 15, 20, 0.94));
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+}
+
+body.platform-rebuilt .top-deal-card,
+body.platform-rebuilt .spotlight-deal-card,
+body.platform-rebuilt .card,
+body.platform-rebuilt .news-card-link {
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+body.platform-rebuilt .top-deal-card:hover,
+body.platform-rebuilt .spotlight-deal-card:hover,
+body.platform-rebuilt .card:hover,
+body.platform-rebuilt .news-card-link:hover {
+  transform: translateY(-4px);
+  border-color: var(--platform-border-strong);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.3);
+}
+
+body.platform-rebuilt .cards-grid,
+body.platform-rebuilt .news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+  gap: 1rem;
+}
+
+body.platform-rebuilt .reco-grid,
+body.platform-rebuilt .spotlight-deals-grid,
+body.platform-rebuilt .ending-soon-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+body.platform-rebuilt .card,
+body.platform-rebuilt .spotlight-deal-card,
+body.platform-rebuilt .news-card-link {
+  overflow: hidden;
+}
+
+body.platform-rebuilt .card-img,
+body.platform-rebuilt .spotlight-deal-image,
+body.platform-rebuilt .news-img,
+body.platform-rebuilt .dotd-image,
+body.platform-rebuilt .top-deal-card .deal-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+body.platform-rebuilt .card-body,
+body.platform-rebuilt .news-body {
+  padding: 1rem;
+}
+
+body.platform-rebuilt .card-title,
+body.platform-rebuilt .news-title,
+body.platform-rebuilt .spotlight-deal-title {
+  margin: 0.2rem 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+body.platform-rebuilt .card-description,
+body.platform-rebuilt .news-summary,
+body.platform-rebuilt .bundle-description {
+  color: var(--platform-text-soft);
+  line-height: 1.65;
+}
+
+body.platform-rebuilt .card-store,
+body.platform-rebuilt .giveaway-meta,
+body.platform-rebuilt .bundle-meta,
+body.platform-rebuilt .news-meta,
+body.platform-rebuilt .spotlight-deal-meta,
+body.platform-rebuilt .hero-feature-topline {
+  color: var(--platform-text-soft);
+}
+
+body.platform-rebuilt .card-prices,
+body.platform-rebuilt .hero-feature-prices,
+body.platform-rebuilt .spotlight-deal-prices,
+body.platform-rebuilt .dotd-prices {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+body.platform-rebuilt .price-sale,
+body.platform-rebuilt .hero-feature-sale,
+body.platform-rebuilt .spotlight-deal-sale {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--platform-text);
+}
+
+body.platform-rebuilt .price-original,
+body.platform-rebuilt .hero-feature-original,
+body.platform-rebuilt .spotlight-deal-original {
+  color: rgba(226, 234, 244, 0.44);
+}
+
+body.platform-rebuilt .card-footer,
+body.platform-rebuilt .card-cta-row,
+body.platform-rebuilt .card-utility-row,
+body.platform-rebuilt .spotlight-deal-actions,
+body.platform-rebuilt .dotd-actions,
+body.platform-rebuilt .bundle-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+body.platform-rebuilt .card-cta-row,
+body.platform-rebuilt .dotd-actions,
+body.platform-rebuilt .hero-feature-actions {
+  margin-top: 1rem;
+}
+
+body.platform-rebuilt .card-utility-row {
+  margin-top: 0.85rem;
+}
+
+body.platform-rebuilt .deal-buy-btn,
+body.platform-rebuilt .hero-feature-buy,
+body.platform-rebuilt .spotlight-buy-btn {
+  min-width: 118px;
+  justify-content: center;
+}
+
+body.platform-rebuilt .search-filter-bar {
+  display: grid;
+  gap: 1rem;
+}
+
+body.platform-rebuilt .search-row,
+body.platform-rebuilt .filters-row {
+  display: grid;
+  gap: 0.9rem;
+}
+
+body.platform-rebuilt .filters-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+body.platform-rebuilt .search-input-wrapper,
+body.platform-rebuilt .filter-select,
+body.platform-rebuilt .filter-input,
+body.platform-rebuilt .settings-input,
+body.platform-rebuilt .newsletter-input {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--platform-text);
+}
+
+body.platform-rebuilt .search-input,
+body.platform-rebuilt .filter-select,
+body.platform-rebuilt .filter-input,
+body.platform-rebuilt .settings-input {
+  color: var(--platform-text);
+}
+
+body.platform-rebuilt .search-input::placeholder,
+body.platform-rebuilt .filter-input::placeholder,
+body.platform-rebuilt .settings-input::placeholder {
+  color: rgba(226, 234, 244, 0.48);
+}
+
+body.platform-rebuilt .filter-label,
+body.platform-rebuilt .settings-label {
+  color: var(--platform-text-soft);
+}
+
+body.platform-rebuilt .settings-page {
+  display: grid;
+  gap: 1rem;
+}
+
+body.platform-rebuilt .settings-card {
+  padding: 1.15rem;
+}
+
+body.platform-rebuilt .settings-row {
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+body.platform-rebuilt .settings-row:last-child {
+  border-bottom: 0;
+}
+
+body.platform-rebuilt .empty-state,
+body.platform-rebuilt .error-state {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  padding: 2rem 1.2rem;
+  text-align: center;
+  color: var(--platform-text-soft);
+}
+
+body.platform-rebuilt .site-footer {
+  margin-top: 1.2rem;
+  margin-bottom: 2rem;
+  padding: 1.3rem;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(180deg, rgba(10, 13, 17, 0.95), rgba(8, 10, 13, 0.95));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+body.platform-rebuilt .footer-shell {
+  display: grid;
+  gap: 1.2rem;
+}
+
+body.platform-rebuilt .footer-link-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+body.platform-rebuilt .footer-link-group {
+  padding: 1rem;
+}
+
+body.platform-rebuilt .footer-link-btn,
+body.platform-rebuilt .footer-link-anchor {
+  color: var(--platform-text-soft);
+}
+
+body.platform-rebuilt .footer-link-btn:hover,
+body.platform-rebuilt .footer-link-anchor:hover {
+  color: var(--platform-text);
+}
+
+body.platform-rebuilt .footer-trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+body.platform-rebuilt #cb-widget .cb-chat-window,
+body.platform-rebuilt #cb-widget .cb-fab {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(14, 17, 22, 0.98), rgba(9, 11, 15, 0.98));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
+}
+
+body.platform-rebuilt #cb-widget .cb-status-pill,
+body.platform-rebuilt #cb-widget .cb-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.platform-rebuilt .pwa-banner {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(13, 17, 22, 0.96), rgba(8, 10, 14, 0.96));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1024px) {
+  body.platform-rebuilt .hero-inner,
+  body.platform-rebuilt .featured-stack,
+  body.platform-rebuilt .dashboard-highlight-grid,
+  body.platform-rebuilt .footer-link-groups {
+    grid-template-columns: 1fr;
+  }
+
+  body.platform-rebuilt .hero-visual {
+    padding: 1.1rem 1.2rem 1.2rem;
+  }
+
+  body.platform-rebuilt .hero-feature-card {
+    width: 100%;
+    max-width: none;
+  }
+
+  body.platform-rebuilt .filters-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  body.platform-rebuilt .site-header,
+  body.platform-rebuilt .site-nav,
+  body.platform-rebuilt .site-main,
+  body.platform-rebuilt .site-footer {
+    width: min(100% - 1rem, 100%);
+  }
+
+  body.platform-rebuilt .site-header {
+    top: 0.5rem;
+  }
+
+  body.platform-rebuilt .header-inner,
+  body.platform-rebuilt .site-nav,
+  body.platform-rebuilt .tab-panel,
+  body.platform-rebuilt .site-footer {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+
+  body.platform-rebuilt .header-inner {
+    gap: 0.75rem;
+  }
+
+  body.platform-rebuilt .hero-section {
+    margin-left: -0.9rem;
+    margin-right: -0.9rem;
+    min-height: 0;
+  }
+
+  body.platform-rebuilt .hero-platform-bar {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  body.platform-rebuilt .hero-inner {
+    min-height: 0;
+  }
+
+  body.platform-rebuilt .hero-copy {
+    padding: 1.4rem 0.95rem 0.7rem;
+  }
+
+  body.platform-rebuilt .hero-title {
+    font-size: clamp(2.2rem, 12vw, 3.3rem);
+    max-width: 11ch;
+  }
+
+  body.platform-rebuilt .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  body.platform-rebuilt .hero-cta-row,
+  body.platform-rebuilt .card-cta-row,
+  body.platform-rebuilt .card-utility-row,
+  body.platform-rebuilt .dotd-actions,
+  body.platform-rebuilt .spotlight-deal-actions,
+  body.platform-rebuilt .bundle-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.platform-rebuilt .cards-grid,
+  body.platform-rebuilt .news-grid,
+  body.platform-rebuilt .reco-grid,
+  body.platform-rebuilt .spotlight-deals-grid,
+  body.platform-rebuilt .ending-soon-list,
+  body.platform-rebuilt .filters-row {
+    grid-template-columns: 1fr;
+  }
+
+  body.platform-rebuilt .top-deals-carousel {
+    gap: 0.75rem;
+  }
+
+  body.platform-rebuilt .top-deal-card {
+    flex: 0 0 82vw;
+    max-width: 82vw;
+  }
+
+  body.platform-rebuilt .nav-main {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.2rem;
+  }
+
+  body.platform-rebuilt .nav-main::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.platform-rebuilt .nav-inner {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  body.platform-rebuilt .nav-more {
+    width: 100%;
+  }
+
+  body.platform-rebuilt .nav-more-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+}

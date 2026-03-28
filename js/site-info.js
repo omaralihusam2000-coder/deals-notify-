@@ -109,8 +109,11 @@ const SiteInfoModule = (() => {
   }
 
   function scrollToNewsletter() {
-    const section = document.querySelector('.newsletter-section');
-    if (!section) return;
+    const section = document.querySelector('.newsletter-section:not([hidden])') || document.getElementById('newsletter-manage-section');
+    if (!section) {
+      if (typeof AppModule !== 'undefined') AppModule.switchTab('settings');
+      return;
+    }
     section.scrollIntoView({ behavior: 'smooth', block: 'center' });
     const input = document.getElementById('newsletter-email');
     if (input) setTimeout(() => input.focus(), 300);
