@@ -68,6 +68,26 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://omaralihusam2000-coder.github.io/deals-notify-/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Game Deals",
+        "item": "https://omaralihusam2000-coder.github.io/deals-notify-/#deals"
+      }
+    ]
+  }
+  </script>
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -90,21 +110,21 @@
 </head>
 <body>
 
-  <!-- ── PWA Install Banner ───────────────────────────────────────── -->
-  <div id="pwa-install-banner" class="pwa-banner" style="display:none;" role="banner" aria-label="Install app">
+  <!-- ── PWA Install Banner (slide-up from bottom) ───────────────── -->
+  <div id="pwa-install-banner" class="pwa-banner" style="display:none;" role="banner" aria-label="Install Gaming Deals app">
     <div class="pwa-banner-content">
       <div class="pwa-banner-icon-wrap">
         <span class="pwa-banner-icon">📲</span>
         <span class="pwa-banner-pulse"></span>
       </div>
       <div class="pwa-banner-text-wrap">
-        <strong class="pwa-banner-title">Install Gaming Deals</strong>
-        <span class="pwa-banner-subtitle">Get instant notifications &amp; offline access — works like a real app!</span>
+        <strong class="pwa-banner-title">⚡ Get instant deal alerts!</strong>
+        <span class="pwa-banner-subtitle">Install now for faster access, offline support &amp; push notifications.</span>
       </div>
     </div>
     <div class="pwa-banner-actions">
-      <button id="pwa-install-btn" class="btn btn-primary btn-sm pwa-install-glow" data-tooltip="Install as a native app">⚡ Install Now</button>
-      <button id="pwa-dismiss-btn" class="btn btn-ghost btn-sm" aria-label="Dismiss">Not now</button>
+      <button id="pwa-install-btn" class="btn btn-primary btn-sm pwa-install-glow" aria-label="Install Gaming Deals as an app" data-tooltip="Install as a native app">⚡ Install Now</button>
+      <button id="pwa-dismiss-btn" class="btn btn-ghost btn-sm" aria-label="Dismiss install prompt">Maybe Later</button>
     </div>
   </div>
 
@@ -156,6 +176,38 @@
     <!-- ===== DEALS TAB ===== -->
     <section id="tab-deals" class="tab-panel active" role="tabpanel" aria-labelledby="deals-tab">
 
+      <!-- ── Hero Section ─────────────────────────────────────────── -->
+      <div class="hero-section" aria-label="Welcome to Gaming Deals Notifier">
+        <div class="hero-inner">
+          <h1 class="hero-title">🎮 Find the Best Gaming Deals</h1>
+          <p class="hero-subtitle">Track prices across 20+ stores. Never miss a sale again.</p>
+          <div class="hero-cta-row">
+            <button id="hero-browse-btn" class="btn btn-primary hero-cta-btn" aria-label="Browse top deals">
+              🔥 Browse Top Deals
+            </button>
+            <button id="hero-alert-btn" class="btn btn-outline hero-cta-secondary" aria-label="Set a price alert">
+              🔔 Set Price Alert
+            </button>
+          </div>
+          <div class="hero-stats-row" aria-label="Platform statistics">
+            <div class="hero-stat">
+              <span class="hero-stat-num">10,000+</span>
+              <span class="hero-stat-label">Deals Tracked</span>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat">
+              <span class="hero-stat-num">500+</span>
+              <span class="hero-stat-label">Free Games Found</span>
+            </div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat">
+              <span class="hero-stat-num">20+</span>
+              <span class="hero-stat-label">Stores Monitored</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Deal of the Day Hero -->
       <div id="deal-of-day-section" class="dotd-section" style="display:none;">
         <div id="deal-of-day-content"></div>
@@ -171,7 +223,7 @@
       </div>
 
       <div class="section-header">
-        <h1 class="section-title">🔥 Live Deals Feed</h1>
+        <h2 class="section-title">🔥 Live Deals Feed</h2>
       </div>
 
       <div id="live-stats-bar" role="status" aria-label="Live deal statistics"></div>
@@ -262,6 +314,57 @@
                    placeholder="your@email.com" aria-label="Email address" required>
             <button type="submit" class="btn btn-primary">Subscribe</button>
           </form>
+        </div>
+      </div>
+
+      <!-- ── How It Works ─────────────────────────────────────────── -->
+      <div class="how-it-works-section" aria-labelledby="how-it-works-title">
+        <h2 id="how-it-works-title" class="section-title how-it-works-title">⚙️ How It Works</h2>
+        <div class="hiw-steps">
+          <div class="hiw-step">
+            <div class="hiw-step-icon" aria-hidden="true">🔍</div>
+            <h3 class="hiw-step-title">1. Browse &amp; Discover</h3>
+            <p class="hiw-step-desc">We aggregate deals from Steam, Epic, GOG &amp; 20+ more stores in real time — all in one place.</p>
+          </div>
+          <div class="hiw-step-arrow" aria-hidden="true">→</div>
+          <div class="hiw-step">
+            <div class="hiw-step-icon" aria-hidden="true">🔔</div>
+            <h3 class="hiw-step-title">2. Set Price Alerts</h3>
+            <p class="hiw-step-desc">Add games to your wishlist and get notified instantly when prices drop to your target amount.</p>
+          </div>
+          <div class="hiw-step-arrow" aria-hidden="true">→</div>
+          <div class="hiw-step">
+            <div class="hiw-step-icon" aria-hidden="true">💰</div>
+            <h3 class="hiw-step-title">3. Save Big</h3>
+            <p class="hiw-step-desc">Click through to the verified store, buy at the best price, and track how much you've saved.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Why Choose Us ────────────────────────────────────────── -->
+      <div class="why-us-section" aria-labelledby="why-us-title">
+        <h2 id="why-us-title" class="section-title why-us-title">🏆 Why Choose Us</h2>
+        <div class="why-us-grid">
+          <div class="why-us-card">
+            <span class="why-us-icon" aria-hidden="true">🛡️</span>
+            <h3 class="why-us-card-title">Verified Stores</h3>
+            <p class="why-us-card-desc">Every store link is trust-rated. We flag grey-market sellers so you always buy safely.</p>
+          </div>
+          <div class="why-us-card">
+            <span class="why-us-icon" aria-hidden="true">⚡</span>
+            <h3 class="why-us-card-title">Real-Time Prices</h3>
+            <p class="why-us-card-desc">Prices refresh continuously. Flash sales and limited-time offers surface immediately.</p>
+          </div>
+          <div class="why-us-card">
+            <span class="why-us-icon" aria-hidden="true">📱</span>
+            <h3 class="why-us-card-title">Works Offline (PWA)</h3>
+            <p class="why-us-card-desc">Install as an app on any device. Browse your wishlist and recent deals even without internet.</p>
+          </div>
+          <div class="why-us-card">
+            <span class="why-us-icon" aria-hidden="true">🆓</span>
+            <h3 class="why-us-card-title">Completely Free</h3>
+            <p class="why-us-card-desc">No subscription, no hidden fees. All features including price alerts are 100% free forever.</p>
+          </div>
         </div>
       </div>
 
