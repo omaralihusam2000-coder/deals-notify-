@@ -15,6 +15,7 @@ const DealsModule = (() => {
   let allLoadedDeals = [];
   const countdownTimers = new Map();
   const trackedGameIDs = new Set();
+  let lastUpdated = null;
 
   // Flash sale constants
   const FLASH_SALE_HOURS_RANGE = 20;
@@ -135,6 +136,9 @@ const DealsModule = (() => {
       if (reset && filtered.length > 0) {
         renderDealOfTheDay(filtered);
       }
+
+      lastUpdated = new Date();
+      updateTrustBar(allLoadedDeals.length, lastUpdated);
 
       hasMore = deals.length === 12;
       if (loadMoreBtn) loadMoreBtn.style.display = hasMore ? 'block' : 'none';
@@ -267,6 +271,19 @@ const DealsModule = (() => {
     update();
     const timer = setInterval(update, 1000);
     countdownTimers.set(dealID, timer);
+  }
+
+  function updateTrustBar(count, updatedAt) {
+    const bar = document.getElementById('trust-bar');
+    if (!bar) return;
+    const timeStr = updatedAt
+      ? updatedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : '...';
+    bar.innerHTML = `
+      <div class="trust-pill accent">⏱️ Updated <span class="pill-label">${timeStr}</span></div>
+      <div class="trust-pill">📊 Live deals <span class="pill-label">${count}</span></div>
+      <div class="trust-pill soft">🔗 Sources <span class="pill-label">CheapShark · GamerPower</span></div>
+    `;
   }
 
   function createDealCard(deal) {
