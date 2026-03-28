@@ -3,7 +3,7 @@
  * Provides offline caching for the Gaming Deals Notifier app.
  */
 
-const CACHE_NAME = 'gaming-deals-v8';
+const CACHE_NAME = 'gaming-deals-v9';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
