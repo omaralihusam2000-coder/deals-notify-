@@ -37,11 +37,15 @@ const TopDealsModule = (() => {
    */
   function extractDealsFromCards(cards) {
     const deals = [];
+    const seenTitles = new Set();
     cards.forEach(card => {
       const dealId = card.dataset.dealId;
       if (!dealId) return;
 
       const title = card.querySelector('.card-title')?.textContent?.trim() || 'Unknown Game';
+      const titleKey = title.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+      if (seenTitles.has(titleKey)) return;
+
       const thumb = card.querySelector('.card-img')?.src || '';
       const salePriceEl = card.querySelector('.price-sale');
       const origPriceEl = card.querySelector('.price-original');
@@ -56,6 +60,7 @@ const TopDealsModule = (() => {
       const rating = parseFloat(ratingEl?.textContent) || 0;
 
       if (salePrice) {
+        seenTitles.add(titleKey);
         deals.push({ dealId, title, thumb, salePrice, normalPrice, savings: Math.abs(savings), store, rating });
       }
     });

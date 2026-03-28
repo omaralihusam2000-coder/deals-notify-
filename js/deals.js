@@ -26,6 +26,9 @@ const DealsModule = (() => {
     'Fanatical': '#e63946', 'Green Man Gaming': '#00b300',
     'GamersGate': '#ff6a00', 'WinGameStore': '#2196f3', 'IndieGala Store': '#ff9800',
   };
+  const WEAK_DEAL_MIN_SAVINGS = 15;
+  const WEAK_DEAL_MIN_RATING = 6.5;
+  const WEAK_DEAL_MIN_DROP = 1.25;
 
   async function fetchStores() {
     try {
@@ -61,6 +64,59 @@ const DealsModule = (() => {
       return `https://www.cheapshark.com${store.images.icon}`;
     }
     return '';
+  }
+
+  function normalizeDealTitle(title) {
+    return String(title || '')
+      .toLowerCase()
+      .replace(/\b(game of the year|goty|standard edition|definitive edition|complete edition|digital deluxe edition)\b/g, '')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+  }
+
+  function getDealPriority(deal) {
+    const savings = parseFloat(deal.savings) || 0;
+    const rating = parseFloat(deal.dealRating) || 0;
+    const steam = parseInt(deal.steamRatingPercent, 10) || 0;
+    const meta = parseInt(deal.metacriticScore, 10) || 0;
+    const priceDrop = Math.max(0, (parseFloat(deal.normalPrice) || 0) - (parseFloat(deal.salePrice) || 0));
+    return (savings * 2.6) + (rating * 8) + (steam * 0.18) + (meta * 0.12) + priceDrop;
+  }
+
+  function isWeakDeal(deal) {
+    const savings = parseFloat(deal.savings) || 0;
+    const rating = parseFloat(deal.dealRating) || 0;
+    const salePrice = parseFloat(deal.salePrice) || 0;
+    const normalPrice = parseFloat(deal.normalPrice) || 0;
+    const priceDrop = normalPrice - salePrice;
+    const reviewSignal = Math.max(
+      parseInt(deal.steamRatingPercent, 10) || 0,
+      parseInt(deal.metacriticScore, 10) || 0
+    );
+
+    if (!deal || !deal.dealID || !deal.title || !deal.thumb) return true;
+    if (salePrice <= 0 || normalPrice <= 0 || normalPrice <= salePrice) return true;
+    if (priceDrop < WEAK_DEAL_MIN_DROP && savings < WEAK_DEAL_MIN_SAVINGS) return true;
+    if (savings < WEAK_DEAL_MIN_SAVINGS && rating < WEAK_DEAL_MIN_RATING) return true;
+    if (reviewSignal < 50 && rating < 5.5 && savings < 25) return true;
+
+    return false;
+  }
+
+  function curateDeals(deals) {
+    const uniqueDeals = new Map();
+
+    deals.forEach(deal => {
+      if (isWeakDeal(deal)) return;
+
+      const key = normalizeDealTitle(deal.title) || String(deal.dealID);
+      const existing = uniqueDeals.get(key);
+      if (!existing || getDealPriority(deal) > getDealPriority(existing)) {
+        uniqueDeals.set(key, deal);
+      }
+    });
+
+    return Array.from(uniqueDeals.values());
   }
 
   async function fetchDeals(reset = true) {
@@ -101,9 +157,10 @@ const DealsModule = (() => {
       if (loadingMore) loadingMore.remove();
 
       const minSaving = parseFloat(currentFilters.minSaving) || 0;
+      const curatedDeals = curateDeals(deals);
       const filtered = minSaving > 0
-        ? deals.filter(d => parseFloat(d.savings) >= minSaving)
-        : deals;
+        ? curatedDeals.filter(d => parseFloat(d.savings) >= minSaving)
+        : curatedDeals;
 
       if (reset) container.innerHTML = '';
 

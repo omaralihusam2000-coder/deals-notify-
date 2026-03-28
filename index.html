@@ -343,6 +343,36 @@
         </div>
       </div>
 
+      <div class="trust-focus-section" aria-labelledby="trust-focus-title">
+        <div class="trust-focus-head">
+          <p class="trust-focus-kicker">Focus on what matters</p>
+          <h2 id="trust-focus-title" class="section-title">Better deals, better filters, more trust</h2>
+          <p class="section-subtitle">The page now leans harder into strong daily deals, easier filtering, and clear project information.</p>
+        </div>
+        <div class="trust-focus-grid">
+          <article class="trust-focus-card">
+            <span class="trust-focus-icon" aria-hidden="true">🧹</span>
+            <h3>Cleaner Deals Feed</h3>
+            <p>Duplicate titles and low-value offers are reduced before they reach the main list, so users spend less time filtering noise.</p>
+          </article>
+          <article class="trust-focus-card">
+            <span class="trust-focus-icon" aria-hidden="true">🎯</span>
+            <h3>Useful Filters</h3>
+            <p>Store, discount, price, sort, and genre controls stay near the top to help users reach the right deals faster.</p>
+          </article>
+          <article class="trust-focus-card">
+            <span class="trust-focus-icon" aria-hidden="true">🛡️</span>
+            <h3>Trust &amp; Transparency</h3>
+            <p>About, contact, privacy, and terms are now linked directly in the interface alongside source and update messaging.</p>
+          </article>
+        </div>
+        <div class="trust-actions-row">
+          <button class="btn btn-outline trust-action-btn" type="button" data-site-action="open-settings">Enable Alerts</button>
+          <button class="btn btn-outline trust-action-btn" type="button" data-site-action="open-wishlist">Open Wishlist</button>
+          <button class="btn btn-primary trust-action-btn" type="button" data-site-action="scroll-newsletter">Subscribe by Email</button>
+        </div>
+      </div>
+
       <!-- ── How It Works ─────────────────────────────────────────── -->
       <div class="how-it-works-section" aria-labelledby="how-it-works-title">
         <h2 id="how-it-works-title" class="section-title how-it-works-title">⚙️ How It Works</h2>
@@ -731,13 +761,49 @@
   <footer class="site-footer" role="contentinfo">
     <!-- Discord Widget -->
     <div id="discord-floating-widget" class="discord-footer-widget"></div>
-    <p>
-      Powered by
-      <a href="https://apidocs.cheapshark.com/" target="_blank" rel="noopener noreferrer">CheapShark API</a>
-      &amp;
-      <a href="https://www.gamerpower.com/api-read" target="_blank" rel="noopener noreferrer">GamerPower API</a>
-      — All data provided by third-party sources.
-    </p>
+    <div class="footer-shell">
+      <div class="footer-brand">
+        <div class="footer-brand-mark">
+          <span class="footer-logo-icon" aria-hidden="true">🎮</span>
+        </div>
+        <div>
+          <h2 class="footer-brand-title">Gaming Deals Notifier</h2>
+          <p class="footer-brand-copy">Find stronger game deals, save favorites, review offers, and compare prices across multiple stores from one place.</p>
+        </div>
+      </div>
+      <div class="footer-link-groups">
+        <div class="footer-link-group">
+          <span class="footer-link-title">Project</span>
+          <button class="footer-link-btn" type="button" data-site-info="about">About Us</button>
+          <button class="footer-link-btn" type="button" data-site-info="contact">Contact</button>
+          <a class="footer-link-btn footer-link-anchor" href="https://github.com/omaralihusam2000-coder/deals-notify-" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+        </div>
+        <div class="footer-link-group">
+          <span class="footer-link-title">Trust</span>
+          <button class="footer-link-btn" type="button" data-site-info="privacy">Privacy Policy</button>
+          <button class="footer-link-btn" type="button" data-site-info="terms">Terms</button>
+          <button class="footer-link-btn" type="button" data-site-action="open-settings">Alerts &amp; Notifications</button>
+        </div>
+        <div class="footer-link-group">
+          <span class="footer-link-title">Explore</span>
+          <button class="footer-link-btn" type="button" data-site-action="open-wishlist">Saved Deals</button>
+          <button class="footer-link-btn" type="button" data-site-action="scroll-newsletter">Email Subscribe</button>
+          <a class="footer-link-btn footer-link-anchor" href="https://github.com/omaralihusam2000-coder/deals-notify-/issues" target="_blank" rel="noopener noreferrer">Report Issue</a>
+        </div>
+      </div>
+      <div class="footer-trust-strip">
+        <span class="footer-pill">Daily deal updates</span>
+        <span class="footer-pill">20+ stores tracked</span>
+        <span class="footer-pill">Wishlist + reviews + alerts</span>
+      </div>
+      <p class="footer-source-copy">
+        Powered by
+        <a href="https://apidocs.cheapshark.com/" target="_blank" rel="noopener noreferrer">CheapShark API</a>
+        &amp;
+        <a href="https://www.gamerpower.com/api-read" target="_blank" rel="noopener noreferrer">GamerPower API</a>.
+        Final prices and availability always depend on the destination store page.
+      </p>
+    </div>
   </footer>
 
   <!-- ── Chatbot Widget ──────────────────────────────────────────── -->
@@ -871,6 +937,7 @@
   <script src="js/ambient-mode.js"></script>
   <script src="js/top-deals.js"></script>
   <script src="js/deal-badges.js"></script>
+  <script src="js/site-info.js"></script>
   <script src="js/app.js"></script>
 
 </body>

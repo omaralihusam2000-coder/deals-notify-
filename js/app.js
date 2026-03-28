@@ -309,6 +309,7 @@ const AppModule = (() => {
     // UX/SEO improvements
     if (typeof TopDealsModule !== 'undefined') TopDealsModule.init();
     if (typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
+    if (typeof SiteInfoModule !== 'undefined') SiteInfoModule.init();
 
     // AI Deal Assistant Chatbot
     if (typeof ChatbotModule !== 'undefined') ChatbotModule.init();
