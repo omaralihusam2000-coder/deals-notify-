@@ -355,6 +355,12 @@ button { cursor: pointer; font-family: inherit; }
   background: rgba(255,255,255,0.05);
 }
 
+.featured-stack {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.25rem 0 1.75rem;
+}
+
 /* ── Search & Filter Bar ──────────────────────────────────────── */
 .search-filter-bar {
   background: var(--bg-card);
