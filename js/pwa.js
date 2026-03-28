@@ -5,6 +5,7 @@
  */
 
 const PWAModule = (() => {
+  const APP_VERSION = '20260329d';
   let deferredPrompt = null;
   let autoDismissTimer = null;
   const DISMISS_KEY = 'pwa_install_dismissed';
@@ -13,8 +14,19 @@ const PWAModule = (() => {
 
   function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(reg => console.log('[PWA] Service worker registered:', reg.scope))
+    let refreshing = false;
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
+
+    navigator.serviceWorker.register(`./service-worker.js?v=${APP_VERSION}`)
+      .then(reg => {
+        console.log('[PWA] Service worker registered:', reg.scope);
+        reg.update();
+      })
       .catch(err => console.warn('[PWA] Service worker registration failed:', err));
   }
 

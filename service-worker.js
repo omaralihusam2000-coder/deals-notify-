@@ -3,7 +3,7 @@
  * Provides offline caching for the Gaming Deals Notifier app.
  */
 
-const CACHE_NAME = 'gaming-deals-v16';
+const CACHE_NAME = 'gaming-deals-v17';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -90,8 +90,40 @@ self.addEventListener('fetch', (event) => {
 
   // Network-first strategy for API calls — use array includes for maintainability
   const isAPI = API_HOSTNAMES.includes(url.hostname);
+  const isDocument = event.request.mode === 'navigate' || event.request.destination === 'document';
+  const isCriticalAsset = ['script', 'style', 'manifest'].includes(event.request.destination);
+
+  if (isDocument) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request).then(cached => cached || caches.match('/offline.html') || caches.match('/index.html')))
+    );
+    return;
+  }
 
   if (isAPI) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  if (isCriticalAsset) {
     event.respondWith(
       fetch(event.request)
         .then(response => {

@@ -90,7 +90,7 @@
   </script>
 
   <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json?v=20260329d">
   <meta name="theme-color" content="#0b1411">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -106,7 +106,7 @@
           integrity="sha256-oFMFWBTngLHSEQL+fzZNUHGMGDi+quRBbLwUGh9RU+k="
           crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20260329d">
 </head>
 <body class="platform-rebuilt">
   <aside class="side-rail" aria-label="Quick navigation" hidden>
@@ -267,16 +267,16 @@
 
       <div class="section-header section-header-split">
         <div>
-          <p class="section-kicker">Control center</p>
-          <h2 class="section-title">Live Deals Dashboard</h2>
+          <p class="section-kicker">Today on the board</p>
+          <h2 class="section-title">Live deals, organized fast.</h2>
         </div>
-        <p class="section-lead">See the strongest offers first, then jump into trending, best value, and ending-soon picks without scrolling through clutter.</p>
+        <p class="section-lead">Start with the strongest offers, then filter the full feed without extra sections getting in your way.</p>
       </div>
 
       <div id="live-stats-bar" role="status" aria-label="Live deal statistics"></div>
       <div id="trust-bar" class="trust-bar" role="status" aria-label="Data freshness and sources"></div>
 
-      <div id="mini-stats-bar" class="mini-stats-bar" role="status" aria-label="Your statistics" style="display:none;"></div>
+      <div id="mini-stats-bar" class="mini-stats-bar" role="status" aria-label="Your statistics" style="display:none;" hidden></div>
 
       <div class="dashboard-highlight-grid">
         <section id="trending-deals-section" class="dashboard-panel" style="display:none;">
@@ -303,13 +303,13 @@
       </div>
 
       <!-- Recommended For You -->
-      <div id="recommendations-section" class="recommendations-section" style="display:none;">
+      <div id="recommendations-section" class="recommendations-section" style="display:none;" hidden>
         <h2 class="section-subtitle">🎯 Recommended Deals</h2>
         <div class="reco-grid"></div>
       </div>
 
       <!-- Recently Viewed -->
-      <div id="recently-viewed-section" class="recently-viewed-section" style="display:none;"></div>
+      <div id="recently-viewed-section" class="recently-viewed-section" style="display:none;" hidden></div>
 
       <!-- Search & Filter -->
       <div class="search-filter-bar" role="search">
@@ -363,12 +363,12 @@
       <div id="genre-filters-container" class="genre-filters-container"></div>
 
       <!-- Top Rated Deals -->
-      <div id="top-rated-deals-section" class="top-rated-section" style="display:none;"></div>
+      <div id="top-rated-deals-section" class="top-rated-section" style="display:none;" hidden></div>
 
       <div id="deals-grid" class="cards-grid" role="list" aria-label="Game deals"></div>
 
       <!-- Price Drop Timeline -->
-      <div id="price-timeline-container" class="price-timeline-container" style="display:none;"></div>
+      <div id="price-timeline-container" class="price-timeline-container" style="display:none;" hidden></div>
 
       <div class="load-more-wrap">
         <button id="load-more-btn" class="btn btn-outline">Load More Deals</button>
@@ -918,7 +918,7 @@
   </button>
 
   <!-- ── Scripts ─────────────────────────────────────────────────── -->
-  <script src="js/utils.js"></script>
+  <script src="js/utils.js?v=20260329d"></script>
   <script src="js/confetti.js"></script>
   <script src="js/tooltips.js"></script>
   <script src="js/sounds.js"></script>
@@ -935,7 +935,7 @@
   <script src="js/share.js"></script>
   <script src="js/price-advisor.js"></script>
   <script src="js/game-detail.js"></script>
-  <script src="js/deals.js"></script>
+  <script src="js/deals.js?v=20260329d"></script>
   <script src="js/giveaways.js"></script>
   <script src="js/bundles.js"></script>
   <script src="js/news.js"></script>
@@ -954,7 +954,7 @@
   <script src="js/intersection-animator.js"></script>
   <script src="js/pull-to-refresh.js"></script>
   <script src="js/bottom-nav.js"></script>
-  <script src="js/pwa.js"></script>
+  <script src="js/pwa.js?v=20260329d"></script>
   <script src="js/spotlight.js"></script>
   <script src="js/theme-picker.js"></script>
   <script src="js/smart-alerts.js"></script>
@@ -975,16 +975,16 @@
   <script src="js/dashboard.js"></script>
   <script src="js/price-timeline.js"></script>
   <script src="js/reviews.js"></script>
-  <script src="js/bundle-builder.js"></script>
-  <script src="js/chatbot.js"></script>
+  <script src="js/bundle-builder.js?v=20260329d"></script>
+  <script src="js/chatbot.js?v=20260329d"></script>
   <script src="js/voice-search.js"></script>
   <script src="js/price-scheduler.js"></script>
   <script src="js/store-trust.js"></script>
   <script src="js/ambient-mode.js"></script>
-  <script src="js/top-deals.js"></script>
+  <script src="js/top-deals.js?v=20260329d"></script>
   <script src="js/deal-badges.js"></script>
-  <script src="js/site-info.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/site-info.js?v=20260329d"></script>
+  <script src="js/app.js?v=20260329d"></script>
 
 </body>
 </html>
