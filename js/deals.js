@@ -252,6 +252,8 @@ const DealsModule = (() => {
     const storeName = getStoreName(best.storeID);
     const storeIcon = getStoreIcon(best.storeID);
 
+    section.style.setProperty('--dotd-bg', `url("${best.thumb}")`);
+
     content.innerHTML = `
       <div class="dashboard-panel-head dashboard-panel-head-inline">
         <div>
@@ -395,6 +397,7 @@ const DealsModule = (() => {
     const featured = deals.slice().sort((a, b) => getDealPriority(b) - getDealPriority(a))[0];
     if (!featured) return;
 
+    const heroSection = document.querySelector('.hero-section');
     const kicker = document.getElementById('hero-kicker');
     const title = document.getElementById('hero-title');
     const subtitle = document.querySelector('.hero-subtitle');
@@ -413,6 +416,9 @@ const DealsModule = (() => {
     const storeName = getStoreName(featured.storeID);
     const rating = parseFloat(featured.dealRating) || 0;
 
+    if (heroSection) {
+      heroSection.style.setProperty('--hero-feature-bg', `url("${featured.thumb}")`);
+    }
     if (kicker) kicker.textContent = 'Featured deal';
     if (title) title.textContent = featured.title;
     if (subtitle) {
