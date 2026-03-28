@@ -415,20 +415,21 @@ const DealsModule = (() => {
     const savings = Math.round(parseFloat(featured.savings) || 0);
     const storeName = getStoreName(featured.storeID);
     const rating = parseFloat(featured.dealRating) || 0;
+    const conciseTitle = truncate(featured.title, 48);
 
     if (heroSection) {
       heroSection.style.setProperty('--hero-feature-bg', `url("${featured.thumb}")`);
     }
-    if (kicker) kicker.textContent = 'Featured deal';
-    if (title) title.textContent = featured.title;
+    if (kicker) kicker.textContent = `${storeName} spotlight`;
+    if (title) title.textContent = 'Track the strongest game deals live.';
     if (subtitle) {
-      subtitle.textContent = `${storeName} is leading the board right now with one of the strongest discounts in the live feed. Open the details, compare pricing, or go straight to the offer.`;
+      subtitle.textContent = `${conciseTitle} is leading the board right now at ${storeName}. Open details, compare pricing, or jump straight to the live offer.`;
     }
     if (chipList) {
       chipList.innerHTML = `
-        <span class="chip chip-hot">-${savings}% off</span>
+        <span class="chip chip-hot">${conciseTitle}</span>
         <span class="chip">${escapeHtml(storeName)}</span>
-        <span class="chip">Deal score ${rating.toFixed(1)}</span>
+        <span class="chip">-${savings}% off</span>
       `;
     }
     if (image) {
@@ -438,7 +439,7 @@ const DealsModule = (() => {
     if (badge) badge.textContent = savings > 0 ? `-${savings}%` : 'HOT';
     if (store) store.textContent = storeName;
     if (score) score.textContent = `Deal score ${rating.toFixed(1)}`;
-    if (featureTitle) featureTitle.textContent = featured.title;
+    if (featureTitle) featureTitle.textContent = conciseTitle;
     if (sale) sale.textContent = formatDisplayPrice(featured.salePrice);
     if (original) original.textContent = parseFloat(featured.normalPrice) > 0 ? formatDisplayPrice(featured.normalPrice) : '';
     if (buy) buy.href = `${CHEAPSHARK_REDIRECT}${encodeURIComponent(featured.dealID)}`;

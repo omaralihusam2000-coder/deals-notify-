@@ -7462,3 +7462,459 @@ body.platform-rebuilt .pwa-banner {
     justify-content: center;
   }
 }
+
+/* Storefront fix pass */
+body.platform-rebuilt {
+  --platform-shell-width: min(1180px, calc(100% - 2rem));
+}
+
+body.platform-rebuilt .site-header,
+body.platform-rebuilt .site-nav,
+body.platform-rebuilt .site-main,
+body.platform-rebuilt .site-footer {
+  width: var(--platform-shell-width) !important;
+}
+
+body.platform-rebuilt .site-main {
+  gap: 1.15rem;
+}
+
+body.platform-rebuilt .tab-panel,
+body.platform-rebuilt .tab-panel.active {
+  display: grid !important;
+  align-content: start;
+  gap: 1.15rem;
+}
+
+body.platform-rebuilt .tab-panel:not(.active) {
+  display: none !important;
+}
+
+body.platform-rebuilt .hero-platform-bar {
+  display: none !important;
+}
+
+body.platform-rebuilt .hero-section {
+  position: relative;
+  margin: -1.3rem -1.3rem 0 !important;
+  padding: 0 !important;
+  min-height: 480px !important;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(7, 11, 14, 0.94) 0%, rgba(7, 11, 14, 0.82) 34%, rgba(7, 11, 14, 0.46) 62%, rgba(7, 11, 14, 0.24) 100%),
+    linear-gradient(180deg, rgba(82, 242, 170, 0.08), transparent 25%),
+    var(--hero-feature-bg) center/cover no-repeat !important;
+}
+
+body.platform-rebuilt .hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%),
+    linear-gradient(0deg, rgba(8, 11, 14, 0.58), rgba(8, 11, 14, 0.06));
+  pointer-events: none;
+}
+
+body.platform-rebuilt .hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 340px) !important;
+  gap: 1.35rem;
+  align-items: end !important;
+  min-height: 480px !important;
+  padding: 1.5rem !important;
+}
+
+body.platform-rebuilt .hero-copy {
+  display: grid;
+  gap: 0.95rem;
+  align-content: end;
+  max-width: 520px !important;
+  padding: 0 !important;
+}
+
+body.platform-rebuilt .hero-kicker {
+  margin: 0;
+}
+
+body.platform-rebuilt .hero-title {
+  max-width: 11ch !important;
+  margin: 0 !important;
+  font-size: clamp(2.5rem, 4.6vw, 4rem) !important;
+  line-height: 0.96 !important;
+  letter-spacing: -0.05em !important;
+  color: #f8fbff !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  text-wrap: balance;
+}
+
+body.platform-rebuilt .hero-subtitle {
+  max-width: 44ch !important;
+  margin: 0 !important;
+  font-size: 1rem !important;
+  line-height: 1.72 !important;
+  color: rgba(231, 238, 245, 0.78) !important;
+}
+
+body.platform-rebuilt .hero-chips {
+  gap: 0.55rem !important;
+  margin: 0 !important;
+}
+
+body.platform-rebuilt .chip {
+  max-width: 100%;
+  padding: 0.55rem 0.8rem !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.platform-rebuilt .hero-cta-row {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.75rem !important;
+  margin-top: 0.1rem !important;
+}
+
+body.platform-rebuilt .hero-stats-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem !important;
+  margin-top: 0.2rem !important;
+}
+
+body.platform-rebuilt .hero-stat {
+  min-width: 0 !important;
+  padding: 0.9rem 0.95rem !important;
+  border-radius: 18px !important;
+}
+
+body.platform-rebuilt .hero-stat-num {
+  display: block;
+  margin-bottom: 0.22rem;
+  font-size: 1.25rem !important;
+}
+
+body.platform-rebuilt .hero-stat-label {
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+body.platform-rebuilt .hero-visual {
+  position: relative !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  padding: 0 !important;
+}
+
+body.platform-rebuilt .hero-feature-card {
+  width: min(100%, 340px) !important;
+  margin-left: auto;
+  overflow: hidden;
+  border-radius: 24px !important;
+  background: rgba(8, 11, 14, 0.78) !important;
+}
+
+body.platform-rebuilt .hero-feature-media,
+body.platform-rebuilt .hero-feature-image {
+  min-height: 205px !important;
+}
+
+body.platform-rebuilt .hero-feature-body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem !important;
+}
+
+body.platform-rebuilt .hero-feature-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+}
+
+body.platform-rebuilt .hero-feature-title {
+  margin: 0 !important;
+  font-size: 1.18rem !important;
+  line-height: 1.25 !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.platform-rebuilt .hero-feature-prices {
+  align-items: baseline !important;
+}
+
+body.platform-rebuilt .hero-feature-sale {
+  font-size: 1.45rem !important;
+}
+
+body.platform-rebuilt .hero-feature-actions {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem !important;
+}
+
+body.platform-rebuilt .featured-stack {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr) !important;
+  gap: 1rem !important;
+  align-items: stretch;
+}
+
+body.platform-rebuilt #top-deals-section,
+body.platform-rebuilt #deal-of-day-section {
+  display: block;
+  min-height: 100%;
+}
+
+body.platform-rebuilt .top-deals-section {
+  padding: 1rem !important;
+}
+
+body.platform-rebuilt .top-deals-header {
+  margin-bottom: 0.9rem;
+}
+
+body.platform-rebuilt .top-deals-carousel {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem !important;
+  overflow: visible !important;
+  padding-bottom: 0 !important;
+}
+
+body.platform-rebuilt .top-deal-card {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  flex: none !important;
+  border-radius: 20px !important;
+}
+
+body.platform-rebuilt .top-deal-card .deal-title {
+  white-space: normal !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.platform-rebuilt .dotd-section {
+  min-height: 100%;
+}
+
+body.platform-rebuilt .dotd-inner {
+  min-height: 100%;
+}
+
+body.platform-rebuilt .dotd-info {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 430px !important;
+  padding: 1.2rem !important;
+}
+
+body.platform-rebuilt .dotd-title {
+  margin: 0 !important;
+  font-size: 1.8rem !important;
+  line-height: 1.08 !important;
+}
+
+body.platform-rebuilt .section-header.section-header-split {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
+  gap: 1rem;
+  align-items: end !important;
+}
+
+body.platform-rebuilt #live-stats-bar,
+body.platform-rebuilt #trust-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+}
+
+body.platform-rebuilt .trust-pill {
+  min-width: 0;
+  padding: 0.8rem 0.9rem !important;
+}
+
+body.platform-rebuilt .dashboard-highlight-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+body.platform-rebuilt .dashboard-panel {
+  display: grid;
+  gap: 0.95rem;
+  align-content: start;
+  padding: 1rem !important;
+}
+
+body.platform-rebuilt .spotlight-deals-grid,
+body.platform-rebuilt .ending-soon-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem !important;
+}
+
+body.platform-rebuilt .spotlight-deal-card,
+body.platform-rebuilt .deal-card,
+body.platform-rebuilt .card {
+  height: 100%;
+}
+
+body.platform-rebuilt .spotlight-deal-body,
+body.platform-rebuilt .deal-card .card-body {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+body.platform-rebuilt .recommendations-section {
+  padding: 1rem !important;
+}
+
+body.platform-rebuilt .reco-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.9rem !important;
+}
+
+body.platform-rebuilt .search-filter-bar {
+  gap: 0.9rem !important;
+  padding: 1rem !important;
+}
+
+body.platform-rebuilt .filters-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+
+body.platform-rebuilt .cards-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+body.platform-rebuilt .card-title {
+  min-height: auto !important;
+  margin: 0 !important;
+}
+
+body.platform-rebuilt .card-cta-row {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem !important;
+}
+
+body.platform-rebuilt .card-utility-row {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.5rem !important;
+}
+
+body.platform-rebuilt .section-lead {
+  margin: 0;
+}
+
+body.platform-rebuilt .site-footer {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1100px) {
+  body.platform-rebuilt .featured-stack,
+  body.platform-rebuilt .dashboard-highlight-grid,
+  body.platform-rebuilt .section-header.section-header-split,
+  body.platform-rebuilt .reco-grid,
+  body.platform-rebuilt .cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.platform-rebuilt .hero-inner {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+  }
+
+  body.platform-rebuilt .hero-feature-card {
+    max-width: 360px;
+  }
+
+  body.platform-rebuilt .top-deals-carousel,
+  body.platform-rebuilt .spotlight-deals-grid,
+  body.platform-rebuilt .ending-soon-list,
+  body.platform-rebuilt .filters-row,
+  body.platform-rebuilt #live-stats-bar,
+  body.platform-rebuilt #trust-bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body.platform-rebuilt {
+    --platform-shell-width: calc(100% - 1rem);
+  }
+
+  body.platform-rebuilt .site-header {
+    top: 0.45rem;
+  }
+
+  body.platform-rebuilt .hero-section {
+    margin-left: -0.9rem !important;
+    margin-right: -0.9rem !important;
+    min-height: 0 !important;
+  }
+
+  body.platform-rebuilt .hero-inner {
+    padding: 1rem !important;
+  }
+
+  body.platform-rebuilt .hero-title {
+    max-width: 9ch !important;
+    font-size: clamp(2rem, 10vw, 2.8rem) !important;
+  }
+
+  body.platform-rebuilt .hero-subtitle {
+    font-size: 0.94rem !important;
+  }
+
+  body.platform-rebuilt .hero-stats-row,
+  body.platform-rebuilt .top-deals-carousel,
+  body.platform-rebuilt .spotlight-deals-grid,
+  body.platform-rebuilt .ending-soon-list,
+  body.platform-rebuilt .filters-row,
+  body.platform-rebuilt #live-stats-bar,
+  body.platform-rebuilt #trust-bar,
+  body.platform-rebuilt .card-cta-row,
+  body.platform-rebuilt .hero-feature-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.platform-rebuilt .hero-cta-row,
+  body.platform-rebuilt .card-utility-row,
+  body.platform-rebuilt .dotd-actions {
+    flex-direction: column !important;
+  }
+
+  body.platform-rebuilt .hero-feature-card {
+    width: 100% !important;
+    max-width: none;
+  }
+
+  body.platform-rebuilt .top-deal-card {
+    max-width: 100% !important;
+  }
+
+  body.platform-rebuilt .hero-stat {
+    padding: 0.8rem !important;
+  }
+}
