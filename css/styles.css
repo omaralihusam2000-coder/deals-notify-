@@ -155,11 +155,23 @@ button { cursor: pointer; font-family: inherit; }
   margin: 0 auto;
   padding: 0 1.5rem;
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-main {
+  display: flex;
   gap: 0.25rem;
   overflow-x: auto;
   scrollbar-width: none;
+  flex: 1;
 }
-.nav-inner::-webkit-scrollbar { display: none; }
+.nav-main::-webkit-scrollbar { display: none; }
+
+.nav-more {
+  position: relative;
+  flex-shrink: 0;
+}
 
 .nav-tab {
   background: none;
@@ -174,6 +186,37 @@ button { cursor: pointer; font-family: inherit; }
   display: flex;
   align-items: center;
   gap: 0.4rem;
+}
+
+.nav-more-toggle {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+}
+.nav-more-toggle[aria-expanded="true"] { color: var(--text-primary); }
+
+.nav-more-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.35rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  display: none;
+  flex-direction: column;
+  min-width: 190px;
+  padding: 0.25rem;
+}
+
+.nav-more-menu.open { display: flex; }
+
+.nav-more-menu .nav-tab {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
 }
 
 .nav-tab:hover { color: #ff3333; }
@@ -3470,7 +3513,13 @@ img[loading="lazy"] { background: var(--bg-input); }
 .hero-subtitle {
   font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   color: var(--text-secondary);
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.hero-meta {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
 }
 
 .hero-cta-row {

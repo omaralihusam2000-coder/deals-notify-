@@ -6,6 +6,13 @@ const AppModule = (() => {
   const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'dashboard', 'collections', 'wishlist', 'achievements', 'profile', 'settings'];
   let activeTab = 'deals';
 
+  function closeMoreMenu() {
+    const menu = document.querySelector('.nav-more-menu');
+    const toggle = document.querySelector('.nav-more-toggle');
+    if (menu) menu.classList.remove('open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+
   function switchTab(tabName) {
     if (!TABS.includes(tabName)) return;
 
@@ -84,8 +91,28 @@ const AppModule = (() => {
 
   function bindNavEvents() {
     document.querySelectorAll('.nav-tab').forEach(btn => {
-      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      if (!btn.dataset.tab) return;
+      btn.addEventListener('click', () => {
+        switchTab(btn.dataset.tab);
+        closeMoreMenu();
+      });
     });
+
+    const moreToggle = document.querySelector('.nav-more-toggle');
+    const moreMenu = document.querySelector('.nav-more-menu');
+    if (moreToggle && moreMenu) {
+      moreToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = !moreMenu.classList.contains('open');
+        moreMenu.classList.toggle('open', open);
+        moreToggle.setAttribute('aria-expanded', open);
+      });
+      document.addEventListener('click', (e) => {
+        if (!moreMenu.contains(e.target) && e.target !== moreToggle) {
+          closeMoreMenu();
+        }
+      });
+    }
   }
 
   function updateThemeToggleIcon() {

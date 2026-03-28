@@ -151,22 +151,29 @@
   <!-- ── Tab Navigation ──────────────────────────────────────────── -->
   <nav class="site-nav" role="navigation" aria-label="Main sections">
     <div class="nav-inner" role="tablist">
-      <button class="nav-tab active" role="tab" aria-selected="true"  data-tab="deals"        aria-controls="tab-deals">🔥 Deals</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="giveaways"    aria-controls="tab-giveaways">🆓 Free Games</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="bundles"      aria-controls="tab-bundles">🎁 Bundles</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="console"      aria-controls="tab-console">🎮 Console</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="news"         aria-controls="tab-news">📰 News</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="calendar"     aria-controls="tab-calendar">📅 Calendar</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="quiz"         aria-controls="tab-quiz">🎮 Quiz</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="dashboard"    aria-controls="tab-dashboard">📊 Dashboard</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="collections"  aria-controls="tab-collections">📚 Collections</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="wishlist"     aria-controls="tab-wishlist">
-        ⭐ Wishlist
-        <span class="nav-count" id="wishlist-count" style="display:none;">0</span>
-      </button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="achievements" aria-controls="tab-achievements">🏅 Achievements</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="profile"      aria-controls="tab-profile">👤 Profile</button>
-      <button class="nav-tab"        role="tab" aria-selected="false" data-tab="settings"     aria-controls="tab-settings">⚙️ Settings</button>
+      <div class="nav-main">
+        <button class="nav-tab active" role="tab" aria-selected="true"  data-tab="deals"        aria-controls="tab-deals">🔥 Deals</button>
+        <button class="nav-tab"        role="tab" aria-selected="false" data-tab="giveaways"    aria-controls="tab-giveaways">🆓 Free Games</button>
+        <button class="nav-tab"        role="tab" aria-selected="false" data-tab="bundles"      aria-controls="tab-bundles">🎁 Bundles</button>
+        <button class="nav-tab"        role="tab" aria-selected="false" data-tab="wishlist"     aria-controls="tab-wishlist">
+          ⭐ Wishlist
+          <span class="nav-count" id="wishlist-count" style="display:none;">0</span>
+        </button>
+        <button class="nav-tab"        role="tab" aria-selected="false" data-tab="news"         aria-controls="tab-news">📰 News</button>
+      </div>
+      <div class="nav-more">
+        <button class="nav-tab nav-more-toggle" type="button" aria-expanded="false" aria-haspopup="true">More ▾</button>
+        <div class="nav-more-menu" role="menu">
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="console"      aria-controls="tab-console">🎮 Console</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="calendar"     aria-controls="tab-calendar">📅 Calendar</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="quiz"         aria-controls="tab-quiz">🎮 Quiz</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="dashboard"    aria-controls="tab-dashboard">📊 Dashboard</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="collections"  aria-controls="tab-collections">📚 Collections</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="achievements" aria-controls="tab-achievements">🏅 Achievements</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="profile"      aria-controls="tab-profile">👤 Profile</button>
+          <button class="nav-tab" role="tab" aria-selected="false" data-tab="settings"     aria-controls="tab-settings">⚙️ Settings</button>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -179,14 +186,15 @@
       <!-- ── Hero Section ─────────────────────────────────────────── -->
       <div class="hero-section" aria-label="Welcome to Gaming Deals Notifier">
         <div class="hero-inner">
-          <h1 class="hero-title">🎮 Find the Best Gaming Deals</h1>
-          <p class="hero-subtitle">Track prices across 20+ stores. Never miss a sale again.</p>
+          <h1 class="hero-title">Find Your Lowest Game Price</h1>
+          <p class="hero-subtitle">Live tracker across Steam, Epic, GOG and console stores — refreshed every 15 minutes.</p>
+          <p class="hero-meta">Price alerts, wishlist sync, and deal history without sign‑ups.</p>
           <div class="hero-cta-row">
             <button id="hero-browse-btn" class="btn btn-primary hero-cta-btn" aria-label="Browse top deals">
-              🔥 Browse Top Deals
+              🔥 See Live Deals
             </button>
             <button id="hero-alert-btn" class="btn btn-outline hero-cta-secondary" aria-label="Set a price alert">
-              🔔 Set Price Alert
+              🔔 Create Price Alert
             </button>
           </div>
           <div class="hero-stats-row" aria-label="Platform statistics">
@@ -385,7 +393,7 @@
       <div id="giveaways-grid" class="cards-grid" role="list" aria-label="Free game giveaways">
         <div class="empty-state">
           <div class="empty-icon">🆓</div>
-          <p>Click the "Free Games" tab to load giveaways.</p>
+          <p>Fresh giveaways appear here as soon as we pull them — no clicks needed.</p>
         </div>
       </div>
     </section>
@@ -399,7 +407,7 @@
       <div id="bundles-grid" class="cards-grid" role="list" aria-label="Game bundles and loot">
         <div class="empty-state">
           <div class="empty-icon">🎁</div>
-          <p>Click the "Bundles" tab to load bundle deals.</p>
+          <p>Bundles and loot packs update automatically once new drops land.</p>
         </div>
       </div>
     </section>
@@ -421,7 +429,7 @@
       <div id="news-grid" class="news-grid" role="list" aria-label="Gaming news articles">
         <div class="empty-state">
           <div class="empty-icon">📰</div>
-          <p>Click the "News" tab to load latest gaming news.</p>
+          <p>Latest headlines queue up here while we fetch them.</p>
         </div>
       </div>
       <div id="news-load-more-wrap" class="load-more-wrap" style="display:none;">
@@ -438,7 +446,7 @@
       <div id="console-deals-grid" class="cards-grid" role="list" aria-label="Console game deals">
         <div class="empty-state">
           <div class="empty-icon">🎮</div>
-          <p>Click the "Console" tab to load deals.</p>
+          <p>Console deals stream in automatically when available.</p>
         </div>
       </div>
     </section>
@@ -451,7 +459,7 @@
       <div id="calendar-container" class="calendar-container">
         <div class="empty-state">
           <div class="empty-icon">📅</div>
-          <p>Click the "Calendar" tab to view sale events.</p>
+          <p>Sale events drop here once the calendar sync finishes.</p>
         </div>
       </div>
     </section>
@@ -464,7 +472,7 @@
       <div id="quiz-container" class="quiz-container">
         <div class="empty-state">
           <div class="empty-icon">🎮</div>
-          <p>Click the "Quiz" tab to start the quiz.</p>
+          <p>Quiz loads instantly — press start when you’re ready.</p>
         </div>
       </div>
     </section>
@@ -485,7 +493,7 @@
       <div id="collections-container">
         <div class="empty-state">
           <div class="empty-icon">📚</div>
-          <p>Click the "Collections" tab to browse curated game collections.</p>
+          <p>Curated collections appear here the moment they’re fetched.</p>
         </div>
       </div>
     </section>
