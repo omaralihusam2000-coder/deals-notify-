@@ -4990,3 +4990,266 @@ img[loading="lazy"] { background: var(--bg-input); }
     right: -0.1rem !important;
   }
 }
+
+/* Mobile app shell refinement */
+@media (max-width: 768px) {
+  .site-header {
+    border-bottom-width: 1px;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(16px);
+  }
+
+  .site-logo {
+    gap: 0.45rem;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 0.35rem;
+  }
+
+  .header-actions > * {
+    flex-shrink: 0;
+  }
+
+  .lang-switcher-wrap .lang-btn,
+  .theme-toggle-btn,
+  #lucky-spin-btn {
+    min-height: 38px;
+    border-radius: 12px;
+  }
+
+  .site-main > .tab-panel.active {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+  }
+
+  .hero-section,
+  .featured-stack,
+  .trust-bar,
+  .search-filter-bar,
+  .newsletter-section,
+  .how-it-works-section,
+  .why-us-section,
+  .recommendations-section,
+  .top-rated-section,
+  .price-timeline-container,
+  .top-deals-section,
+  .dotd-section {
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .hero-section {
+    background:
+      radial-gradient(circle at top center, rgba(255, 37, 82, 0.18), transparent 55%),
+      linear-gradient(180deg, rgba(20, 7, 10, 0.98), rgba(13, 13, 13, 0.98));
+  }
+
+  .hero-kicker {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-chips .chip:last-child {
+    display: none;
+  }
+
+  .hero-cta-row {
+    margin-bottom: 1rem;
+  }
+
+  .hero-cta-btn,
+  .hero-cta-secondary {
+    min-height: 48px;
+  }
+
+  .featured-stack {
+    gap: 0.85rem;
+  }
+
+  #top-deals-section {
+    order: 1;
+  }
+
+  #deal-of-day-section {
+    order: 2;
+  }
+
+  .top-deals-header {
+    margin-bottom: 0.85rem;
+  }
+
+  .top-deals-badge {
+    font-size: 0.62rem;
+    padding: 0.2rem 0.45rem;
+  }
+
+  .section-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title,
+  .section-subtitle {
+    line-height: 1.2;
+  }
+
+  #live-stats-bar {
+    padding: 0.75rem !important;
+    gap: 0.65rem;
+  }
+
+  .stat-item {
+    min-width: 0 !important;
+    padding: 0.25rem 0;
+  }
+
+  .search-input {
+    min-height: 46px;
+  }
+
+  .filter-select,
+  .filter-input,
+  #clear-filters-btn {
+    min-height: 44px;
+  }
+
+  .top-rated-section,
+  .price-timeline-container {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .card {
+    border-radius: 16px;
+  }
+
+  .card-img {
+    height: 170px;
+  }
+
+  .card-title {
+    font-size: 0.92rem;
+  }
+
+  .price-sale {
+    font-size: 1.2rem;
+  }
+
+  .card-actions {
+    margin-top: 0.65rem;
+  }
+
+  .btn-xs {
+    min-height: 38px;
+  }
+
+  .load-more-wrap {
+    margin-top: 0.25rem;
+  }
+
+  #load-more-btn {
+    width: 100%;
+    padding: 0.95rem 1rem;
+    font-size: 1rem;
+  }
+
+  .newsletter-section,
+  .how-it-works-section,
+  .why-us-section {
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .newsletter-section {
+    padding: 1rem;
+  }
+
+  .how-it-works-section,
+  .why-us-section {
+    display: none;
+  }
+
+  .bottom-nav {
+    height: 68px;
+    background: rgba(15, 15, 15, 0.96);
+    backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .bottom-nav-item {
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .bottom-nav-label {
+    font-size: 0.66rem;
+  }
+
+  .bottom-nav-more-menu {
+    right: 0.65rem;
+    bottom: 78px;
+    max-width: calc(100vw - 1.3rem);
+    border-radius: 16px;
+  }
+
+  .bundle-fab {
+    display: none;
+  }
+
+  .cb-widget {
+    bottom: 5.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section,
+  .featured-stack,
+  .trust-bar,
+  .search-filter-bar,
+  .newsletter-section,
+  .recommendations-section,
+  .top-rated-section,
+  .price-timeline-container,
+  .top-deals-section,
+  .dotd-section {
+    border-radius: 16px;
+  }
+
+  .hero-visual {
+    max-width: 190px;
+  }
+
+  .hero-stat {
+    padding: 0.68rem !important;
+  }
+
+  .trust-bar {
+    gap: 0.45rem !important;
+  }
+
+  .top-deal-card {
+    flex: 0 0 86vw !important;
+    max-width: 86vw !important;
+  }
+
+  .card-img {
+    height: 155px;
+  }
+
+  .newsletter-section {
+    padding: 0.9rem;
+  }
+
+  .bottom-nav {
+    height: 66px;
+  }
+
+  .cb-widget {
+    right: 0.55rem;
+  }
+}
