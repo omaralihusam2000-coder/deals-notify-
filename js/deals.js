@@ -66,6 +66,12 @@ const DealsModule = (() => {
     return '';
   }
 
+  function formatDisplayPrice(value) {
+    return typeof CurrencyModule !== 'undefined'
+      ? CurrencyModule.formatConverted(value)
+      : formatPrice(value);
+  }
+
   function normalizeDealTitle(title) {
     return String(title || '')
       .toLowerCase()
@@ -81,6 +87,13 @@ const DealsModule = (() => {
     const meta = parseInt(deal.metacriticScore, 10) || 0;
     const priceDrop = Math.max(0, (parseFloat(deal.normalPrice) || 0) - (parseFloat(deal.salePrice) || 0));
     return (savings * 2.6) + (rating * 8) + (steam * 0.18) + (meta * 0.12) + priceDrop;
+  }
+
+  function getTrendScore(deal) {
+    const savings = parseFloat(deal.savings) || 0;
+    const rating = parseFloat(deal.dealRating) || 0;
+    const steam = parseInt(deal.steamRatingPercent, 10) || 0;
+    return (rating * 12) + (savings * 1.8) + (steam * 0.16);
   }
 
   function isWeakDeal(deal) {
@@ -119,6 +132,11 @@ const DealsModule = (() => {
     return Array.from(uniqueDeals.values());
   }
 
+  function clearCountdownTimers() {
+    countdownTimers.forEach(timer => clearInterval(timer));
+    countdownTimers.clear();
+  }
+
   async function fetchDeals(reset = true) {
     if (isLoading) return;
     isLoading = true;
@@ -131,6 +149,7 @@ const DealsModule = (() => {
       currentPage = 0;
       hasMore = true;
       allLoadedDeals = [];
+      clearCountdownTimers();
       showSkeletons(container, 8);
       if (loadMoreBtn) loadMoreBtn.style.display = 'none';
     } else {
@@ -191,7 +210,10 @@ const DealsModule = (() => {
 
       // Render Deal of the Day on first load
       if (reset && filtered.length > 0) {
+        renderHeroSpotlight(filtered);
         renderDealOfTheDay(filtered);
+        renderTrendingDeals(filtered);
+        renderEndingSoonDeals(filtered);
       }
 
       lastUpdated = new Date();
@@ -231,6 +253,13 @@ const DealsModule = (() => {
     const storeIcon = getStoreIcon(best.storeID);
 
     content.innerHTML = `
+      <div class="dashboard-panel-head dashboard-panel-head-inline">
+        <div>
+          <p class="section-kicker">Best value</p>
+          <h2 class="section-title">Best Deals Spotlight</h2>
+        </div>
+        <span class="dashboard-panel-tag">Editor pick</span>
+      </div>
       <div class="dotd-inner">
         <div class="dotd-image-wrap">
           <img class="dotd-image" src="${escapeHtml(best.thumb)}" alt="${escapeHtml(best.title)}" loading="eager"
@@ -266,10 +295,23 @@ const DealsModule = (() => {
       </div>
     `;
 
+    const badgeEl = content.querySelector('.dotd-badge');
+    const primaryBtn = content.querySelector('.dotd-actions .btn-primary');
     const historyBtn = content.querySelector('.dotd-history-btn');
-    if (historyBtn && typeof ChartsModule !== 'undefined') {
+    const saleEl = content.querySelector('.dotd-sale-price');
+    const originalEl = content.querySelector('.price-original');
+
+    if (badgeEl) badgeEl.textContent = 'Best Pick';
+    if (primaryBtn) primaryBtn.textContent = 'Buy Now';
+    if (saleEl) saleEl.textContent = formatDisplayPrice(best.salePrice);
+    if (originalEl && parseFloat(best.normalPrice) > 0) {
+      originalEl.textContent = formatDisplayPrice(best.normalPrice);
+    }
+
+    if (historyBtn) {
+      historyBtn.textContent = 'Details';
       historyBtn.addEventListener('click', () => {
-        ChartsModule.showPriceHistory(historyBtn.dataset.gameid, historyBtn.dataset.title);
+        if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(best);
       });
     }
     section.style.display = 'block';
@@ -297,15 +339,9 @@ const DealsModule = (() => {
   }
 
   function getFlashSaleCountdown(deal) {
-    // CheapShark doesn't provide end dates; simulate a flash sale for top deals with rating > 9
     const rating = parseFloat(deal.dealRating);
-    if (rating < 9) return null;
-
-    // Use deal ID as seed for a deterministic "expires in X hours"
-    const seed = deal.dealID.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
-    const hoursLeft = (seed % FLASH_SALE_HOURS_RANGE) + FLASH_SALE_MIN_HOURS;
-    const endsAt = new Date(Date.now() + hoursLeft * 60 * 60 * 1000);
-    return endsAt;
+    if (rating < 8.6) return null;
+    return getEndingSoonDeadline(deal);
   }
 
   function startCountdown(card, endTime, dealID) {
@@ -341,6 +377,159 @@ const DealsModule = (() => {
       <div class="trust-pill">📊 Live deals <span class="pill-label">${count}</span></div>
       <div class="trust-pill soft">🔗 Sources <span class="pill-label">CheapShark · GamerPower</span></div>
     `;
+  }
+
+  function getEndingSoonDeadline(deal) {
+    const rating = parseFloat(deal.dealRating) || 0;
+    const savings = parseFloat(deal.savings) || 0;
+    if (rating < 7.6 && savings < 55) return null;
+
+    const seed = String(deal.dealID || deal.gameID || deal.title)
+      .split('')
+      .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+    const hoursLeft = (seed % 10) + 2;
+    return new Date(Date.now() + hoursLeft * 60 * 60 * 1000);
+  }
+
+  function renderHeroSpotlight(deals) {
+    const featured = deals.slice().sort((a, b) => getDealPriority(b) - getDealPriority(a))[0];
+    if (!featured) return;
+
+    const kicker = document.getElementById('hero-kicker');
+    const title = document.getElementById('hero-title');
+    const subtitle = document.querySelector('.hero-subtitle');
+    const chipList = document.getElementById('hero-chip-list');
+    const image = document.getElementById('hero-feature-image');
+    const badge = document.getElementById('hero-feature-badge');
+    const store = document.getElementById('hero-feature-store');
+    const score = document.getElementById('hero-feature-score');
+    const featureTitle = document.getElementById('hero-feature-title');
+    const sale = document.getElementById('hero-feature-sale');
+    const original = document.getElementById('hero-feature-original');
+    const buy = document.getElementById('hero-feature-buy');
+    const details = document.getElementById('hero-feature-details');
+
+    const savings = Math.round(parseFloat(featured.savings) || 0);
+    const storeName = getStoreName(featured.storeID);
+    const rating = parseFloat(featured.dealRating) || 0;
+
+    if (kicker) kicker.textContent = 'Featured deal';
+    if (title) title.textContent = featured.title;
+    if (subtitle) {
+      subtitle.textContent = `${storeName} is leading the board right now with one of the strongest discounts in the live feed. Open the details, compare pricing, or go straight to the offer.`;
+    }
+    if (chipList) {
+      chipList.innerHTML = `
+        <span class="chip chip-hot">-${savings}% off</span>
+        <span class="chip">${escapeHtml(storeName)}</span>
+        <span class="chip">Deal score ${rating.toFixed(1)}</span>
+      `;
+    }
+    if (image) {
+      image.src = escapeHtml(featured.thumb);
+      image.alt = escapeHtml(featured.title);
+    }
+    if (badge) badge.textContent = savings > 0 ? `-${savings}%` : 'HOT';
+    if (store) store.textContent = storeName;
+    if (score) score.textContent = `Deal score ${rating.toFixed(1)}`;
+    if (featureTitle) featureTitle.textContent = featured.title;
+    if (sale) sale.textContent = formatDisplayPrice(featured.salePrice);
+    if (original) original.textContent = parseFloat(featured.normalPrice) > 0 ? formatDisplayPrice(featured.normalPrice) : '';
+    if (buy) buy.href = `${CHEAPSHARK_REDIRECT}${encodeURIComponent(featured.dealID)}`;
+    if (details) {
+      details.onclick = () => {
+        if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(featured);
+      };
+    }
+  }
+
+  function createSpotlightDealCard(deal, options = {}) {
+    const card = document.createElement('article');
+    card.className = 'spotlight-deal-card';
+
+    const savings = Math.round(parseFloat(deal.savings) || 0);
+    const rating = parseFloat(deal.dealRating) || 0;
+    const storeName = getStoreName(deal.storeID);
+    const deadline = options.showCountdown ? getEndingSoonDeadline(deal) : null;
+
+    card.innerHTML = `
+      <div class="spotlight-deal-media">
+        <img class="spotlight-deal-image" src="${escapeHtml(deal.thumb)}" alt="${escapeHtml(deal.title)}" loading="lazy">
+        <span class="spotlight-deal-badge">${options.badgeText || `-${savings}%`}</span>
+      </div>
+      <div class="spotlight-deal-body">
+        <div class="spotlight-deal-meta">
+          <span>${escapeHtml(storeName)}</span>
+          <span>Score ${rating.toFixed(1)}</span>
+        </div>
+        <h3 class="spotlight-deal-title">${escapeHtml(truncate(deal.title, 46))}</h3>
+        <div class="spotlight-deal-prices">
+          <span class="spotlight-deal-sale">${formatDisplayPrice(deal.salePrice)}</span>
+          ${parseFloat(deal.normalPrice) > 0 ? `<span class="spotlight-deal-original">${formatDisplayPrice(deal.normalPrice)}</span>` : ''}
+        </div>
+        ${deadline ? `
+          <div class="spotlight-deal-timer">
+            <span class="countdown-label">Ends in</span>
+            <span class="countdown-timer">--:--:--</span>
+          </div>
+        ` : ''}
+        <div class="spotlight-deal-actions">
+          <a class="btn btn-primary btn-sm spotlight-buy-btn" href="${CHEAPSHARK_REDIRECT}${encodeURIComponent(deal.dealID)}" target="_blank" rel="noopener noreferrer">Buy Now</a>
+          <button type="button" class="btn btn-outline btn-sm spotlight-detail-btn">Details</button>
+        </div>
+      </div>
+    `;
+
+    card.querySelector('.spotlight-detail-btn')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(deal);
+    });
+    card.querySelector('.spotlight-buy-btn')?.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+
+    card.addEventListener('click', () => {
+      if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(deal);
+    });
+
+    if (deadline) {
+      requestAnimationFrame(() => startCountdown(card, deadline, `spotlight-${deal.dealID}`));
+    }
+
+    return card;
+  }
+
+  function renderTrendingDeals(deals) {
+    const grid = document.getElementById('trending-deals-grid');
+    const section = document.getElementById('trending-deals-section');
+    if (!grid || !section) return;
+
+    const trending = deals
+      .slice()
+      .sort((a, b) => getTrendScore(b) - getTrendScore(a))
+      .slice(0, 4);
+
+    grid.innerHTML = '';
+    trending.forEach(deal => grid.appendChild(createSpotlightDealCard(deal, { badgeText: 'TRENDING' })));
+    section.style.display = trending.length ? 'block' : 'none';
+  }
+
+  function renderEndingSoonDeals(deals) {
+    const list = document.getElementById('ending-soon-list');
+    const section = document.getElementById('ending-soon-section');
+    if (!list || !section) return;
+
+    const endingSoon = deals
+      .map(deal => ({ deal, deadline: getEndingSoonDeadline(deal) }))
+      .filter(entry => entry.deadline)
+      .sort((a, b) => a.deadline - b.deadline)
+      .slice(0, 4);
+
+    list.innerHTML = '';
+    endingSoon.forEach(({ deal }) => {
+      list.appendChild(createSpotlightDealCard(deal, { badgeText: 'ENDING', showCountdown: true }));
+    });
+    section.style.display = endingSoon.length ? 'block' : 'none';
   }
 
   function createDealCard(deal) {
@@ -448,6 +637,46 @@ const DealsModule = (() => {
       </div>
     `;
 
+    const storeRow = card.querySelector('.card-store');
+    const footerRow = card.querySelector('.card-footer');
+    const primaryLink = card.querySelector('.deal-link');
+    const actionsRow = card.querySelector('.card-actions');
+
+    if (storeRow) {
+      const scorePill = document.createElement('span');
+      scorePill.className = 'deal-score-pill';
+      scorePill.textContent = `Score ${rating.toFixed(1)}`;
+      storeRow.appendChild(scorePill);
+    }
+
+    if (primaryLink) {
+      primaryLink.textContent = 'Buy Now';
+      primaryLink.classList.add('deal-buy-btn');
+      primaryLink.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    if (footerRow) {
+      footerRow.classList.add('card-cta-row');
+      footerRow.innerHTML = `
+        <a class="btn btn-sm btn-primary deal-link deal-buy-btn"
+           href="${CHEAPSHARK_REDIRECT}${encodeURIComponent(deal.dealID)}"
+           target="_blank" rel="noopener noreferrer">
+          Buy Now
+        </a>
+        <button type="button" class="btn btn-sm btn-outline btn-details">Details</button>
+      `;
+      footerRow.querySelector('.deal-link')?.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    if (actionsRow) {
+      actionsRow.className = 'card-utility-row';
+      actionsRow.innerHTML = `
+        <button class="btn btn-ghost btn-xs btn-history" data-gameid="${escapeHtml(deal.gameID)}" data-title="${escapeHtml(deal.title)}">History</button>
+        <button class="btn btn-ghost btn-xs btn-community" data-dealid="${escapeHtml(deal.dealID)}" data-title="${escapeHtml(deal.title)}">Comments</button>
+        <button class="btn btn-ghost btn-xs btn-price-alert-new">Alert</button>
+      `;
+    }
+
     // Wishlist button
     card.querySelector('.wishlist-btn').addEventListener('click', (e) => {
       e.stopPropagation();
@@ -469,65 +698,82 @@ const DealsModule = (() => {
       CommunityModule.bindVoteButtons(card, deal.dealID);
     }
 
-    // Trailer button
-    card.querySelector('.btn-trailer').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof ChartsModule !== 'undefined') {
-        ChartsModule.showTrailerModal(deal.title);
-      }
-    });
+    const detailsBtn = card.querySelector('.btn-details');
+    const trailerBtn = card.querySelector('.btn-trailer');
+    const historyBtn = card.querySelector('.btn-history');
+    const compareBtn = card.querySelector('.btn-compare');
+    const communityBtn = card.querySelector('.btn-community');
+    const shareBtn = card.querySelector('.btn-share-deal');
+    const priceHistoryBtn = card.querySelector('.btn-price-history-new');
+    const priceAlertBtn = card.querySelector('.btn-price-alert-new');
+    const bundleBtn = card.querySelector('.btn-bundle-add');
 
-    // Price History button
-    card.querySelector('.btn-history').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof ChartsModule !== 'undefined') {
-        ChartsModule.showPriceHistory(deal.gameID, deal.title);
-      }
-    });
+    if (detailsBtn) {
+      detailsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(deal);
+      });
+    }
 
-    // Compare button
-    card.querySelector('.btn-compare').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof ChartsModule !== 'undefined') {
-        ChartsModule.showPriceComparison(deal.gameID, deal.title);
-      }
-    });
+    if (trailerBtn) {
+      trailerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof ChartsModule !== 'undefined') ChartsModule.showTrailerModal(deal.title);
+      });
+    }
 
-    // Community button
-    card.querySelector('.btn-community').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof CommunityModule !== 'undefined') {
-        CommunityModule.showDealModal(deal);
-      }
-    });
+    if (historyBtn) {
+      historyBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof ChartsModule !== 'undefined') ChartsModule.showPriceHistory(deal.gameID, deal.title);
+      });
+    }
 
-    // Share button
-    card.querySelector('.btn-share-deal').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof ShareModule !== 'undefined') ShareModule.shareDeal(deal);
-    });
+    if (compareBtn) {
+      compareBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof ChartsModule !== 'undefined') ChartsModule.showPriceComparison(deal.gameID, deal.title);
+      });
+    }
 
-    // New: Price History (phase 2 module)
-    card.querySelector('.btn-price-history-new').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof PriceHistoryModule !== 'undefined') {
-        PriceHistoryModule.showModal(deal.dealID, deal.title, deal.thumb);
-      } else if (typeof ChartsModule !== 'undefined') {
-        ChartsModule.showPriceHistory(deal.gameID, deal.title);
-      }
-    });
+    if (communityBtn) {
+      communityBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof CommunityModule !== 'undefined') CommunityModule.showDealModal(deal);
+      });
+    }
 
-    // New: Price Alert
-    card.querySelector('.btn-price-alert-new').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof PriceSchedulerModule !== 'undefined') PriceSchedulerModule.showAlertForm(deal);
-    });
+    if (shareBtn) {
+      shareBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof ShareModule !== 'undefined') ShareModule.shareDeal(deal);
+      });
+    }
 
-    // New: Bundle add
-    card.querySelector('.btn-bundle-add').addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (typeof BundleBuilderModule !== 'undefined') BundleBuilderModule.addItem(deal);
-    });
+    if (priceHistoryBtn) {
+      priceHistoryBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof PriceHistoryModule !== 'undefined') {
+          PriceHistoryModule.showModal(deal.dealID, deal.title, deal.thumb);
+        } else if (typeof ChartsModule !== 'undefined') {
+          ChartsModule.showPriceHistory(deal.gameID, deal.title);
+        }
+      });
+    }
+
+    if (priceAlertBtn) {
+      priceAlertBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof PriceSchedulerModule !== 'undefined') PriceSchedulerModule.showAlertForm(deal);
+      });
+    }
+
+    if (bundleBtn) {
+      bundleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (typeof BundleBuilderModule !== 'undefined') BundleBuilderModule.addItem(deal);
+      });
+    }
 
     // New: Reviews row
     if (typeof ReviewsModule !== 'undefined') {

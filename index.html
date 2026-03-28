@@ -194,10 +194,10 @@
       <div class="hero-section hero-cinema" aria-label="Featured gaming deal">
         <div class="hero-inner">
           <div class="hero-copy">
-            <p class="hero-kicker">Top pick of the day</p>
-            <h1 class="hero-title">Find Your Lowest Game Price</h1>
+            <p id="hero-kicker" class="hero-kicker">Featured deal</p>
+            <h1 id="hero-title" class="hero-title">Find Your Next Big Save</h1>
             <p class="hero-subtitle">Live tracker across Steam, Epic, GOG and console stores — refreshed every 15 minutes. Price alerts, wishlist sync, and deal history without sign‑ups.</p>
-            <div class="hero-chips">
+            <div id="hero-chip-list" class="hero-chips">
               <span class="chip">★ 4.8 user score</span>
               <span class="chip">20+ stores</span>
               <span class="chip">Real‑time updates</span>
@@ -223,9 +223,28 @@
               </div>
             </div>
           </div>
-          <div class="hero-visual" aria-hidden="true">
-            <div class="hero-circle"></div>
-            <div class="hero-circle hero-circle-sm"></div>
+          <div class="hero-visual">
+            <article id="hero-feature-card" class="hero-feature-card">
+              <div class="hero-feature-media">
+                <img id="hero-feature-image" class="hero-feature-image" src="icons/icon-512.png" alt="Featured deal image" loading="eager">
+                <span id="hero-feature-badge" class="hero-feature-badge">Featured</span>
+              </div>
+              <div class="hero-feature-body">
+                <div class="hero-feature-topline">
+                  <span id="hero-feature-store" class="hero-feature-store">Top Store</span>
+                  <span id="hero-feature-score" class="hero-feature-score">Deal score 9.0</span>
+                </div>
+                <h3 id="hero-feature-title" class="hero-feature-title">Today&apos;s headline deal</h3>
+                <div class="hero-feature-prices">
+                  <span id="hero-feature-sale" class="hero-feature-sale">$0.00</span>
+                  <span id="hero-feature-original" class="hero-feature-original"></span>
+                </div>
+                <div class="hero-feature-actions">
+                  <a id="hero-feature-buy" class="btn btn-primary hero-feature-buy" href="#" target="_blank" rel="noopener noreferrer">Buy Now</a>
+                  <button id="hero-feature-details" class="btn btn-outline hero-feature-details" type="button">Details</button>
+                </div>
+              </div>
+            </article>
             <div class="hero-art">🎮</div>
           </div>
         </div>
@@ -240,15 +259,19 @@
         <!-- Top Deals Hero Carousel -->
         <div id="top-deals-section" class="top-deals-section" style="display:none;">
           <div class="top-deals-header">
-            <h2 class="top-deals-title">🔥 Top Deals Right Now</h2>
+            <h2 class="top-deals-title">🔥 Hot Deals</h2>
             <span class="top-deals-badge">HOT</span>
           </div>
           <div id="top-deals-carousel" class="top-deals-carousel"></div>
         </div>
       </div>
 
-      <div class="section-header">
-        <h2 class="section-title">🔥 Live Deals Feed</h2>
+      <div class="section-header section-header-split">
+        <div>
+          <p class="section-kicker">Control center</p>
+          <h2 class="section-title">Live Deals Dashboard</h2>
+        </div>
+        <p class="section-lead">See the strongest offers first, then jump into trending, best value, and ending-soon picks without scrolling through clutter.</p>
       </div>
 
       <div id="live-stats-bar" role="status" aria-label="Live deal statistics"></div>
@@ -256,9 +279,33 @@
 
       <div id="mini-stats-bar" class="mini-stats-bar" role="status" aria-label="Your statistics" style="display:none;"></div>
 
+      <div class="dashboard-highlight-grid">
+        <section id="trending-deals-section" class="dashboard-panel" style="display:none;">
+          <div class="dashboard-panel-head">
+            <div>
+              <p class="section-kicker">Momentum</p>
+              <h2 class="section-title">Trending Deals</h2>
+            </div>
+            <span class="dashboard-panel-tag">Fresh picks</span>
+          </div>
+          <div id="trending-deals-grid" class="spotlight-deals-grid"></div>
+        </section>
+
+        <section id="ending-soon-section" class="dashboard-panel" style="display:none;">
+          <div class="dashboard-panel-head">
+            <div>
+              <p class="section-kicker">Countdown</p>
+              <h2 class="section-title">Ending Soon</h2>
+            </div>
+            <span class="dashboard-panel-tag">Limited time</span>
+          </div>
+          <div id="ending-soon-list" class="ending-soon-list"></div>
+        </section>
+      </div>
+
       <!-- Recommended For You -->
       <div id="recommendations-section" class="recommendations-section" style="display:none;">
-        <h2 class="section-subtitle">🎯 Recommended For You</h2>
+        <h2 class="section-subtitle">🎯 Recommended Deals</h2>
         <div class="reco-grid"></div>
       </div>
 
