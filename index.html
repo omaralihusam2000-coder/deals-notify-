@@ -744,23 +744,38 @@
   <div id="cb-widget" class="cb-widget" aria-live="polite">
     <div id="cb-chat-window" class="cb-chat-window" role="dialog" aria-label="Deal Assistant Chat" aria-hidden="true">
       <div class="cb-chat-header">
-        <span>🤖 Deal Assistant</span>
+        <div class="cb-header-copy">
+          <div class="cb-header-title-row">
+            <span class="cb-header-icon">🤖</span>
+            <div>
+              <div class="cb-header-title">Deal Assistant</div>
+              <div class="cb-header-subtitle">Fast suggestions from the live deals already on this page.</div>
+            </div>
+          </div>
+          <span class="cb-status-pill"><span class="cb-status-dot"></span> Live deals ready</span>
+        </div>
         <button id="cb-close" class="cb-chat-close" aria-label="Close chat">✕</button>
       </div>
       <div id="cb-messages" class="cb-messages" role="log" aria-live="polite"></div>
-      <div class="cb-quick-chips">
-        <button class="cb-quick-chip" data-query="show free games">🆓 Free</button>
-        <button class="cb-quick-chip" data-query="best deal right now">🔥 Best</button>
-        <button class="cb-quick-chip" data-query="under $5">💰 Under $5</button>
-        <button class="cb-quick-chip" data-query="find RPG games">⚔️ RPG</button>
+      <div class="cb-assist-bar">
+        <div class="cb-assist-label">Try one of these</div>
+        <div class="cb-quick-chips">
+          <button class="cb-quick-chip" data-query="show free games">🆓 Free</button>
+          <button class="cb-quick-chip" data-query="best deal right now">🔥 Best</button>
+          <button class="cb-quick-chip" data-query="under $5">💰 Under $5</button>
+          <button class="cb-quick-chip" data-query="find RPG games">⚔️ RPG</button>
+        </div>
       </div>
-      <div class="cb-input-row">
-        <input type="text" id="cb-input" class="cb-input"
-               placeholder="Ask me anything about deals…" aria-label="Chat message" autocomplete="off">
-        <button id="cb-send-btn" class="btn btn-primary btn-sm" aria-label="Send">➤</button>
+      <div class="cb-input-shell">
+        <div class="cb-input-row">
+          <input type="text" id="cb-input" class="cb-input"
+                 placeholder="Ask about cheap, best, free, genre, or store deals..." aria-label="Chat message" autocomplete="off">
+          <button id="cb-send-btn" class="cb-send-btn" aria-label="Send">➤</button>
+        </div>
+        <div class="cb-input-hint">Examples: "cheapest game today", "steam deals", "under $10"</div>
       </div>
     </div>
-    <button id="cb-bubble" class="cb-bubble" aria-label="Open deal assistant" aria-expanded="false" data-tooltip="AI Deal Assistant">
+    <button id="cb-bubble" class="cb-launcher" aria-label="Open deal assistant" aria-expanded="false" data-tooltip="AI Deal Assistant">
       <span class="cb-bubble-icon">🤖</span>
       <span class="cb-bubble-notif" aria-hidden="true"></span>
     </button>
