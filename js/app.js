@@ -87,6 +87,9 @@ const AppModule = (() => {
       if (typeof SocialProofModule !== 'undefined') SocialProofModule.renderToggle();
       if (typeof PriceSchedulerModule !== 'undefined') PriceSchedulerModule.renderAlertsInSettings?.();
     }
+    if (tabName === 'deals' && typeof StorefrontHomeModule !== 'undefined') {
+      StorefrontHomeModule.refresh();
+    }
   }
 
   function bindNavEvents() {
@@ -253,6 +256,7 @@ const AppModule = (() => {
 
     // Deals tab is default — initialise immediately
     await DealsModule.init();
+    if (typeof StorefrontHomeModule !== 'undefined') StorefrontHomeModule.init();
 
     updateNotifBadge();
 
@@ -344,6 +348,8 @@ const AppModule = (() => {
 
   return { init, switchTab };
 })();
+
+window.AppModule = AppModule;
 
 document.addEventListener('DOMContentLoaded', () => {
   AppModule.init().catch(err => {

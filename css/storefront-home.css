@@ -1,0 +1,1181 @@
+﻿body.launcher-ui {
+  --sf-bg: #050807;
+  --sf-surface: rgba(13, 18, 19, 0.94);
+  --sf-surface-soft: rgba(16, 22, 23, 0.86);
+  --sf-card: linear-gradient(180deg, rgba(19, 25, 26, 0.98), rgba(10, 14, 15, 0.98));
+  --sf-border: rgba(117, 255, 185, 0.12);
+  --sf-border-strong: rgba(117, 255, 185, 0.28);
+  --sf-accent: #63ffb6;
+  --sf-accent-strong: #32d98e;
+  --sf-accent-soft: rgba(99, 255, 182, 0.18);
+  --sf-text: #f4f8f7;
+  --sf-text-soft: rgba(226, 234, 233, 0.7);
+  --sf-radius-xl: 34px;
+  --sf-radius-lg: 26px;
+  --sf-radius-md: 20px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(99, 255, 182, 0.18), transparent 24%),
+    linear-gradient(180deg, #162d23 0%, #08100d 16%, #050807 52%, #050807 100%);
+}
+
+body.launcher-ui .site-header,
+body.launcher-ui .site-nav,
+body.launcher-ui .site-main,
+body.launcher-ui .site-footer {
+  width: min(1120px, calc(100% - 3rem)) !important;
+}
+
+body.launcher-ui .site-header {
+  background: rgba(8, 12, 12, 0.72) !important;
+  border-color: rgba(117, 255, 185, 0.08) !important;
+}
+
+body.launcher-ui .site-nav {
+  background: rgba(9, 13, 13, 0.78) !important;
+  border-color: rgba(117, 255, 185, 0.08) !important;
+}
+
+body.launcher-ui .nav-tab[aria-selected="true"],
+body.launcher-ui .nav-tab:hover,
+body.launcher-ui .nav-more-toggle[aria-expanded="true"] {
+  border-color: var(--sf-border) !important;
+  background: rgba(117, 255, 185, 0.06) !important;
+  color: var(--sf-text) !important;
+}
+
+body.launcher-ui #tab-deals {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+body.launcher-ui #tab-deals::before,
+body.launcher-ui #tab-deals::after {
+  display: none !important;
+}
+
+body.launcher-ui .launcher-shell {
+  position: relative;
+  display: grid;
+  gap: 1.45rem;
+  padding: 1.15rem;
+  border-radius: var(--sf-radius-xl);
+  background: linear-gradient(180deg, rgba(9, 13, 13, 0.94), rgba(7, 10, 10, 0.98));
+  border: 1px solid rgba(117, 255, 185, 0.08);
+  box-shadow: 0 36px 100px rgba(0, 0, 0, 0.42);
+}
+
+body.launcher-ui .launcher-shell::before,
+body.launcher-ui .launcher-shell::after {
+  content: '';
+  position: absolute;
+  top: 36px;
+  bottom: 36px;
+  width: 120px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(99, 255, 182, 0.28), rgba(99, 255, 182, 0.04));
+  filter: blur(18px);
+  opacity: 0.9;
+  z-index: -1;
+}
+
+body.launcher-ui .launcher-shell::before {
+  left: -64px;
+}
+
+body.launcher-ui .launcher-shell::after {
+  right: -64px;
+}
+
+body.launcher-ui .hero-section {
+  margin: 0 !important;
+  min-height: 560px !important;
+  border-radius: var(--sf-radius-xl) !important;
+  border: 1px solid rgba(117, 255, 185, 0.08) !important;
+  background:
+    linear-gradient(90deg, rgba(8, 12, 12, 0.96) 0%, rgba(8, 12, 12, 0.84) 32%, rgba(8, 12, 12, 0.34) 66%, rgba(8, 12, 12, 0.18) 100%),
+    linear-gradient(180deg, rgba(99, 255, 182, 0.08), transparent 25%),
+    var(--hero-feature-bg) center/cover no-repeat !important;
+  overflow: hidden;
+  box-shadow: inset 0 -120px 100px rgba(0, 0, 0, 0.34);
+}
+
+body.launcher-ui .hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(290px, 0.85fr);
+  gap: 1.3rem;
+  min-height: 560px !important;
+  padding: 1.2rem 1.25rem 1.35rem !important;
+}
+
+body.launcher-ui .launcher-hero-toolbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+body.launcher-ui .launcher-hero-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(233, 243, 239, 0.9);
+}
+
+body.launcher-ui .launcher-hero-brand-mark {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: var(--sf-accent);
+  box-shadow: 0 0 0 6px rgba(99, 255, 182, 0.12);
+}
+
+body.launcher-ui .launcher-hero-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 280px;
+  padding: 0.75rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(7, 11, 11, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+body.launcher-ui .launcher-hero-search input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--sf-text);
+  outline: none;
+}
+
+body.launcher-ui .launcher-hero-search input::placeholder {
+  color: rgba(226, 234, 233, 0.48);
+}
+
+body.launcher-ui .hero-copy {
+  max-width: 520px !important;
+  padding: 0 0 0.35rem !important;
+}
+
+body.launcher-ui .hero-kicker {
+  color: rgba(175, 255, 213, 0.72) !important;
+}
+
+body.launcher-ui .hero-title {
+  max-width: 10ch !important;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif !important;
+  font-size: clamp(2.8rem, 4.7vw, 4.4rem) !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.055em !important;
+  color: #fbfefc !important;
+}
+
+body.launcher-ui .hero-subtitle {
+  max-width: 42ch !important;
+  color: var(--sf-text-soft) !important;
+  font-size: 1rem !important;
+  line-height: 1.74 !important;
+}
+
+body.launcher-ui .hero-chips {
+  gap: 0.6rem !important;
+}
+
+body.launcher-ui .chip {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--sf-text) !important;
+}
+
+body.launcher-ui .hero-cta-row {
+  gap: 0.75rem !important;
+}
+
+body.launcher-ui .hero-stats-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem !important;
+}
+
+body.launcher-ui .hero-stat {
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.launcher-ui .hero-stat-divider {
+  display: none !important;
+}
+
+body.launcher-ui .launcher-hero-dots {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+}
+
+body.launcher-ui .launcher-hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+body.launcher-ui .launcher-hero-dot.active {
+  background: var(--sf-accent);
+  box-shadow: 0 0 0 4px rgba(99, 255, 182, 0.16);
+}
+
+body.launcher-ui .hero-feature-card {
+  width: min(100%, 336px) !important;
+  margin-left: auto;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(8, 11, 11, 0.72) !important;
+  backdrop-filter: blur(16px);
+}
+
+body.launcher-ui .hero-feature-title,
+body.launcher-ui .section-title,
+body.launcher-ui .launcher-story-title {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+}
+
+body.launcher-ui .hero-feature-title {
+  font-size: 1.18rem !important;
+}
+
+body.launcher-ui .featured-stack,
+body.launcher-ui .dashboard-highlight-grid,
+body.launcher-ui .launcher-dual-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+body.launcher-ui .launcher-block,
+body.launcher-ui .top-deals-section,
+body.launcher-ui .dotd-section,
+body.launcher-ui .dashboard-panel,
+body.launcher-ui .search-filter-bar,
+body.launcher-ui #live-stats-bar,
+body.launcher-ui #trust-bar {
+  position: relative;
+  overflow: hidden;
+  padding: 1.1rem;
+  border-radius: var(--sf-radius-lg);
+  border: 1px solid var(--sf-border);
+  background: var(--sf-card);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
+body.launcher-ui .launcher-block::before,
+body.launcher-ui .top-deals-section::before,
+body.launcher-ui .dotd-section::before,
+body.launcher-ui .dashboard-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 24%);
+  pointer-events: none;
+}
+
+body.launcher-ui .launcher-block-head,
+body.launcher-ui .dashboard-panel-head,
+body.launcher-ui .top-deals-header,
+body.launcher-ui .section-header.section-header-split {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+body.launcher-ui .section-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2vw, 2rem) !important;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--sf-text) !important;
+}
+
+body.launcher-ui .section-lead {
+  max-width: 44ch;
+  margin: 0;
+  color: var(--sf-text-soft) !important;
+}
+
+body.launcher-ui .launcher-link-btn {
+  min-height: 38px;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--sf-text);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+body.launcher-ui .launcher-link-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--sf-border-strong);
+  box-shadow: 0 10px 24px rgba(99, 255, 182, 0.08);
+}
+
+body.launcher-ui .launcher-poster-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+body.launcher-ui .launcher-poster-row-compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+body.launcher-ui .launcher-poster-row-wide {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+body.launcher-ui .launcher-poster-card,
+body.launcher-ui .launcher-news-item,
+body.launcher-ui .launcher-story-card,
+body.launcher-ui .launcher-creator-item {
+  display: grid;
+  text-decoration: none;
+  color: var(--sf-text);
+  border-radius: var(--sf-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(17, 23, 24, 0.96), rgba(10, 14, 15, 0.98));
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+body.launcher-ui .launcher-poster-card:hover,
+body.launcher-ui .launcher-news-item:hover,
+body.launcher-ui .launcher-story-card:hover,
+body.launcher-ui .launcher-creator-item:hover,
+body.launcher-ui .deal-card:hover,
+body.launcher-ui .spotlight-deal-card:hover,
+body.launcher-ui .top-deal-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--sf-border-strong) !important;
+  box-shadow: 0 18px 36px rgba(99, 255, 182, 0.08);
+}
+
+body.launcher-ui .launcher-poster-card {
+  gap: 0.8rem;
+  padding: 0.7rem;
+}
+
+body.launcher-ui .launcher-poster-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+body.launcher-ui .launcher-poster-card.compact .launcher-poster-media,
+body.launcher-ui .launcher-poster-row-compact .launcher-poster-media,
+body.launcher-ui .launcher-poster-row-wide .launcher-poster-media {
+  aspect-ratio: 16 / 10;
+}
+
+body.launcher-ui .launcher-poster-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.launcher-ui .launcher-poster-badge {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(6, 10, 10, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+body.launcher-ui .launcher-poster-body {
+  display: grid;
+  gap: 0.45rem;
+}
+
+body.launcher-ui .launcher-poster-title {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.35;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.launcher-ui .launcher-poster-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--sf-text-soft);
+}
+
+body.launcher-ui .launcher-poster-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+
+body.launcher-ui .launcher-poster-sale {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+body.launcher-ui .launcher-poster-original {
+  color: rgba(226, 234, 233, 0.4);
+  text-decoration: line-through;
+}
+
+body.launcher-ui .launcher-news-item {
+  padding: 1rem;
+}
+
+body.launcher-ui .launcher-stack-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+body.launcher-ui .launcher-news-source,
+body.launcher-ui .launcher-news-date {
+  font-size: 0.75rem;
+  color: var(--sf-text-soft);
+}
+
+body.launcher-ui .launcher-news-title {
+  margin: 0.28rem 0 0.4rem;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+body.launcher-ui .launcher-feature-story {
+  min-height: 100%;
+}
+
+body.launcher-ui .launcher-story-card {
+  height: 100%;
+  overflow: hidden;
+}
+
+body.launcher-ui .launcher-story-media {
+  min-height: 280px;
+  background:
+    linear-gradient(180deg, rgba(7, 11, 11, 0.1), rgba(7, 11, 11, 0.78)),
+    linear-gradient(120deg, rgba(99, 255, 182, 0.1), transparent 52%),
+    center/cover no-repeat;
+}
+
+body.launcher-ui .launcher-story-overlay {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1.15rem;
+}
+
+body.launcher-ui .launcher-story-kicker {
+  color: rgba(175, 255, 213, 0.78);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+}
+
+body.launcher-ui .launcher-story-title {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+
+body.launcher-ui .launcher-story-meta {
+  margin: 0;
+  color: var(--sf-text-soft);
+}
+
+body.launcher-ui .launcher-channel-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+body.launcher-ui .launcher-creator-item {
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.9rem;
+}
+
+body.launcher-ui .launcher-creator-avatar {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-weight: 700;
+  color: #05110b;
+}
+
+body.launcher-ui .launcher-creator-avatar-1 { background: linear-gradient(135deg, #63ffb6, #3cdb92); }
+body.launcher-ui .launcher-creator-avatar-2 { background: linear-gradient(135deg, #95ffcd, #61ffb5); }
+body.launcher-ui .launcher-creator-avatar-3 { background: linear-gradient(135deg, #57fcae, #33d88d); }
+body.launcher-ui .launcher-creator-avatar-4 { background: linear-gradient(135deg, #abffdb, #79ffbe); }
+body.launcher-ui .launcher-creator-avatar-5 { background: linear-gradient(135deg, #7effc3, #46e89f); }
+
+body.launcher-ui .launcher-creator-copy {
+  display: grid;
+  gap: 0.22rem;
+}
+
+body.launcher-ui .launcher-creator-copy span,
+body.launcher-ui .launcher-creator-copy p {
+  color: var(--sf-text-soft);
+}
+
+body.launcher-ui .launcher-creator-copy p {
+  margin: 0.25rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+body.launcher-ui .launcher-platform-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+body.launcher-ui .launcher-platform-tab {
+  min-height: 40px;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--sf-text-soft);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+body.launcher-ui .launcher-platform-tab.active,
+body.launcher-ui .launcher-platform-tab:hover {
+  color: var(--sf-text);
+  border-color: var(--sf-border-strong);
+  box-shadow: 0 10px 24px rgba(99, 255, 182, 0.08);
+}
+
+body.launcher-ui .launcher-inline-loading,
+body.launcher-ui .launcher-empty-state {
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  padding: 1rem;
+  border-radius: var(--sf-radius-md);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  color: var(--sf-text-soft);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+body.launcher-ui #live-stats-bar,
+body.launcher-ui #trust-bar {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+body.launcher-ui .trust-pill {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+body.launcher-ui .search-filter-bar {
+  padding: 1.15rem !important;
+}
+
+body.launcher-ui .filters-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
+
+body.launcher-ui .cards-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 0.95rem !important;
+}
+
+body.launcher-ui .deal-card,
+body.launcher-ui .card,
+body.launcher-ui .spotlight-deal-card,
+body.launcher-ui .top-deal-card {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+  background: linear-gradient(180deg, rgba(17, 23, 24, 0.96), rgba(10, 14, 15, 0.98)) !important;
+}
+
+body.launcher-ui .deal-buy-btn,
+body.launcher-ui .spotlight-buy-btn,
+body.launcher-ui .hero-feature-buy {
+  box-shadow: 0 12px 28px rgba(99, 255, 182, 0.12) !important;
+}
+
+body.launcher-ui .price-sale,
+body.launcher-ui .hero-feature-sale,
+body.launcher-ui .spotlight-deal-sale,
+body.launcher-ui .deal-price-new {
+  color: var(--sf-text) !important;
+}
+
+body.launcher-ui .price-original,
+body.launcher-ui .hero-feature-original,
+body.launcher-ui .spotlight-deal-original,
+body.launcher-ui .deal-price-old {
+  color: rgba(226, 234, 233, 0.42) !important;
+}
+
+body.launcher-ui .site-footer {
+  background: linear-gradient(180deg, rgba(9, 13, 13, 0.95), rgba(7, 10, 10, 0.98)) !important;
+  border-color: rgba(117, 255, 185, 0.08) !important;
+}
+
+@media (max-width: 1100px) {
+  body.launcher-ui .site-header,
+  body.launcher-ui .site-nav,
+  body.launcher-ui .site-main,
+  body.launcher-ui .site-footer {
+    width: min(100% - 1.5rem, 100%) !important;
+  }
+
+  body.launcher-ui .hero-inner,
+  body.launcher-ui .featured-stack,
+  body.launcher-ui .dashboard-highlight-grid,
+  body.launcher-ui .launcher-dual-grid,
+  body.launcher-ui .launcher-poster-row,
+  body.launcher-ui .launcher-poster-row-compact,
+  body.launcher-ui .launcher-poster-row-wide,
+  body.launcher-ui .cards-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  body.launcher-ui .hero-inner {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+  }
+
+  body.launcher-ui .launcher-hero-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.launcher-ui .launcher-hero-search {
+    min-width: 0;
+  }
+
+  body.launcher-ui .hero-feature-card {
+    width: 100% !important;
+    max-width: none;
+  }
+
+  body.launcher-ui .filters-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body.launcher-ui .site-header,
+  body.launcher-ui .site-nav,
+  body.launcher-ui .site-main,
+  body.launcher-ui .site-footer {
+    width: min(100% - 1rem, 100%) !important;
+  }
+
+  body.launcher-ui .launcher-shell {
+    padding: 0.85rem;
+    gap: 1rem;
+  }
+
+  body.launcher-ui .launcher-shell::before,
+  body.launcher-ui .launcher-shell::after {
+    display: none;
+  }
+
+  body.launcher-ui .hero-section {
+    min-height: 0 !important;
+  }
+
+  body.launcher-ui .hero-inner {
+    padding: 1rem !important;
+  }
+
+  body.launcher-ui .hero-title {
+    font-size: clamp(2.1rem, 10vw, 2.9rem) !important;
+    max-width: 9ch !important;
+  }
+
+  body.launcher-ui .hero-subtitle {
+    font-size: 0.94rem !important;
+  }
+
+  body.launcher-ui .hero-stats-row,
+  body.launcher-ui #live-stats-bar,
+  body.launcher-ui #trust-bar,
+  body.launcher-ui .featured-stack,
+  body.launcher-ui .dashboard-highlight-grid,
+  body.launcher-ui .launcher-dual-grid,
+  body.launcher-ui .launcher-poster-row,
+  body.launcher-ui .launcher-poster-row-compact,
+  body.launcher-ui .launcher-poster-row-wide,
+  body.launcher-ui .cards-grid,
+  body.launcher-ui .filters-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.launcher-ui .launcher-block-head,
+  body.launcher-ui .section-header.section-header-split {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.launcher-ui .hero-cta-row,
+  body.launcher-ui .launcher-platform-tabs {
+    flex-direction: column;
+  }
+
+  body.launcher-ui .hero-feature-actions,
+  body.launcher-ui .card-cta-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+body.launcher-ui {
+  color: var(--sf-text);
+}
+
+body.launcher-ui .side-rail,
+body.launcher-ui #recommendations-section,
+body.launcher-ui #recently-viewed-section,
+body.launcher-ui #top-rated-deals-section,
+body.launcher-ui #price-timeline-container,
+body.launcher-ui .newsletter-section,
+body.launcher-ui .trust-focus-section,
+body.launcher-ui .how-it-works-section,
+body.launcher-ui .why-us-section {
+  display: none !important;
+}
+
+body.launcher-ui .site-header,
+body.launcher-ui .site-nav,
+body.launcher-ui .site-main,
+body.launcher-ui .site-footer {
+  width: min(1120px, calc(100% - 3rem)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+body.launcher-ui .site-header {
+  position: sticky;
+  top: 1rem;
+  z-index: 120;
+  padding: 0;
+  border: 1px solid rgba(117, 255, 185, 0.08) !important;
+  border-radius: 24px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.26);
+}
+
+body.launcher-ui .header-inner {
+  min-height: 76px;
+  padding: 0 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+body.launcher-ui .site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  text-decoration: none;
+  color: var(--sf-text);
+}
+
+body.launcher-ui .logo-icon {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(17, 25, 25, 0.98), rgba(9, 14, 14, 0.98));
+  border: 1px solid rgba(117, 255, 185, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 28px rgba(0, 0, 0, 0.22);
+  font-size: 1.25rem;
+}
+
+body.launcher-ui .logo-text {
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+body.launcher-ui .header-actions {
+  margin-left: auto;
+  gap: 0.6rem;
+}
+
+body.launcher-ui .header-actions .btn,
+body.launcher-ui .notif-badge-btn,
+body.launcher-ui .lang-switch-btn {
+  min-height: 42px;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: var(--sf-text) !important;
+  box-shadow: none !important;
+}
+
+body.launcher-ui #notif-status-badge,
+body.launcher-ui .btn-primary,
+body.launcher-ui .deal-buy-btn,
+body.launcher-ui .spotlight-buy-btn,
+body.launcher-ui .hero-feature-buy,
+body.launcher-ui .dotd-actions .btn-primary,
+body.launcher-ui .top-deal-card .btn-primary {
+  background: linear-gradient(135deg, #8dffce, #44e598 52%, #25c878) !important;
+  color: #06110c !important;
+  border: 0 !important;
+  box-shadow: 0 14px 30px rgba(69, 229, 152, 0.2) !important;
+}
+
+body.launcher-ui .btn-outline,
+body.launcher-ui .btn-ghost,
+body.launcher-ui .hero-feature-details,
+body.launcher-ui .spotlight-detail-btn,
+body.launcher-ui .dotd-history-btn,
+body.launcher-ui #load-more-btn {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: var(--sf-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.launcher-ui .btn-outline:hover,
+body.launcher-ui .btn-ghost:hover,
+body.launcher-ui #load-more-btn:hover,
+body.launcher-ui .footer-link-btn:hover {
+  border-color: var(--sf-border-strong) !important;
+  box-shadow: 0 12px 28px rgba(99, 255, 182, 0.08);
+  transform: translateY(-1px);
+}
+
+body.launcher-ui .site-nav {
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  position: sticky;
+  top: 6.4rem;
+  z-index: 115;
+  border: 1px solid rgba(117, 255, 185, 0.08) !important;
+  border-radius: 22px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+body.launcher-ui .nav-inner,
+body.launcher-ui .nav-main {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+body.launcher-ui .nav-inner {
+  justify-content: space-between;
+  padding: 0;
+}
+
+body.launcher-ui .nav-tab,
+body.launcher-ui .nav-more-toggle {
+  min-height: 42px;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  color: rgba(244, 248, 247, 0.72) !important;
+  font-weight: 600;
+}
+
+body.launcher-ui .nav-tab.active,
+body.launcher-ui .nav-tab[aria-selected="true"],
+body.launcher-ui .nav-tab:hover,
+body.launcher-ui .nav-more-toggle[aria-expanded="true"] {
+  background: rgba(117, 255, 185, 0.08) !important;
+  border-color: rgba(117, 255, 185, 0.18) !important;
+  color: var(--sf-text) !important;
+}
+
+body.launcher-ui .nav-more-menu {
+  margin-top: 0.75rem;
+  padding: 0.55rem;
+  border-radius: 18px;
+  border: 1px solid rgba(117, 255, 185, 0.12);
+  background: rgba(8, 12, 12, 0.96);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.34);
+}
+
+body.launcher-ui .site-main {
+  margin-top: 1.2rem;
+  margin-bottom: 1.5rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+body.launcher-ui .tab-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 1.35rem;
+  border-radius: 28px;
+  border: 1px solid rgba(117, 255, 185, 0.08);
+  background: linear-gradient(180deg, rgba(10, 14, 14, 0.96), rgba(7, 10, 10, 0.98));
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.26);
+}
+
+body.launcher-ui .tab-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 16%);
+}
+
+body.launcher-ui .tab-panel.active {
+  display: grid;
+  gap: 1.2rem;
+  align-content: start;
+}
+
+body.launcher-ui #tab-deals {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.launcher-ui .search-filter-bar,
+body.launcher-ui .dashboard-panel,
+body.launcher-ui .settings-card,
+body.launcher-ui .settings-section,
+body.launcher-ui .wishlist-empty,
+body.launcher-ui .quiz-card,
+body.launcher-ui .news-card,
+body.launcher-ui .calendar-card {
+  border-radius: 24px;
+}
+
+body.launcher-ui .section-kicker {
+  margin: 0 0 0.4rem;
+  color: rgba(175, 255, 213, 0.78);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body.launcher-ui .deal-card,
+body.launcher-ui .card,
+body.launcher-ui .spotlight-deal-card,
+body.launcher-ui .top-deal-card {
+  border-radius: 22px !important;
+  overflow: hidden;
+  height: 100%;
+}
+
+body.launcher-ui .deal-card .card-img,
+body.launcher-ui .spotlight-deal-image,
+body.launcher-ui .deal-thumb {
+  width: 100%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+body.launcher-ui .deal-card .card-body,
+body.launcher-ui .spotlight-deal-body,
+body.launcher-ui .top-deal-card .deal-info {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+body.launcher-ui .deal-card .card-title,
+body.launcher-ui .spotlight-deal-title,
+body.launcher-ui .top-deal-card .deal-title {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+body.launcher-ui .search-input-wrapper,
+body.launcher-ui .filter-group {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 18px;
+}
+
+body.launcher-ui .search-input,
+body.launcher-ui .filter-select,
+body.launcher-ui .filter-input {
+  color: var(--sf-text) !important;
+}
+
+body.launcher-ui .load-more-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+body.launcher-ui .site-footer {
+  margin-top: 0.2rem;
+  padding: 1.4rem;
+  border-radius: 28px;
+  border: 1px solid rgba(117, 255, 185, 0.08) !important;
+  background: linear-gradient(180deg, rgba(9, 13, 13, 0.96), rgba(7, 10, 10, 0.98)) !important;
+  box-shadow: 0 26px 56px rgba(0, 0, 0, 0.22);
+}
+
+body.launcher-ui .footer-shell {
+  display: grid;
+  gap: 1.3rem;
+}
+
+body.launcher-ui .footer-brand,
+body.launcher-ui .footer-link-groups,
+body.launcher-ui .footer-trust-strip {
+  display: grid;
+  gap: 1rem;
+}
+
+body.launcher-ui .footer-link-groups {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.launcher-ui .footer-link-group {
+  display: grid;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+body.launcher-ui .footer-link-title {
+  color: rgba(175, 255, 213, 0.82);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+body.launcher-ui .footer-link-btn,
+body.launcher-ui .footer-link-anchor {
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--sf-text-soft);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+body.launcher-ui .footer-link-btn:hover,
+body.launcher-ui .footer-link-anchor:hover {
+  color: var(--sf-text);
+  box-shadow: none;
+  transform: none;
+}
+
+body.launcher-ui .footer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(117, 255, 185, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--sf-text);
+}
+
+body.launcher-ui .cb-chat-window {
+  background: linear-gradient(180deg, rgba(11, 16, 16, 0.98), rgba(7, 11, 11, 0.98)) !important;
+  border: 1px solid rgba(117, 255, 185, 0.12) !important;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.38) !important;
+  border-radius: 26px !important;
+}
+
+body.launcher-ui .cb-chat-header,
+body.launcher-ui .cb-chat-input-wrap,
+body.launcher-ui .cb-msg-bubble.bot,
+body.launcher-ui .cb-suggestion-chip {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(117, 255, 185, 0.1) !important;
+}
+
+body.launcher-ui .cb-launch-btn,
+body.launcher-ui .cb-send-btn {
+  background: linear-gradient(135deg, #8dffce, #44e598 52%, #25c878) !important;
+  color: #06110c !important;
+  box-shadow: 0 14px 28px rgba(69, 229, 152, 0.2) !important;
+}
+
+body.launcher-ui .modal-box,
+body.launcher-ui .info-modal-box {
+  background: linear-gradient(180deg, rgba(10, 14, 14, 0.98), rgba(7, 10, 10, 0.99)) !important;
+  border: 1px solid rgba(117, 255, 185, 0.1) !important;
+}
+
+@media (max-width: 1100px) {
+  body.launcher-ui .footer-link-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  body.launcher-ui .site-header,
+  body.launcher-ui .site-nav,
+  body.launcher-ui .site-main,
+  body.launcher-ui .site-footer {
+    width: min(100% - 1rem, 100%) !important;
+  }
+
+  body.launcher-ui .site-header {
+    top: 0.5rem;
+  }
+
+  body.launcher-ui .site-nav {
+    top: 0.5rem;
+  }
+
+  body.launcher-ui .header-inner {
+    flex-wrap: wrap;
+    min-height: auto;
+    padding: 0.85rem 1rem;
+  }
+
+  body.launcher-ui .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  body.launcher-ui .tab-panel {
+    padding: 1rem;
+  }
+}
+

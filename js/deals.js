@@ -218,6 +218,12 @@ const DealsModule = (() => {
 
       lastUpdated = new Date();
       updateTrustBar(allLoadedDeals.length, lastUpdated);
+      document.dispatchEvent(new CustomEvent('deals:updated', {
+        detail: {
+          deals: allLoadedDeals.slice(),
+          updatedAt: lastUpdated,
+        },
+      }));
 
       hasMore = deals.length === 12;
       if (loadMoreBtn) loadMoreBtn.style.display = hasMore ? 'block' : 'none';
@@ -866,5 +872,15 @@ const DealsModule = (() => {
     if (loadMoreBtn) loadMoreBtn.addEventListener('click', loadMore);
   }
 
-  return { init, refresh, loadMore, applyFilters, clearFilters, getStoreName, getStoreIcon, storeList: () => storeList };
+  return {
+    init,
+    refresh,
+    loadMore,
+    applyFilters,
+    clearFilters,
+    getStoreName,
+    getStoreIcon,
+    storeList: () => storeList,
+    getLoadedDeals: () => allLoadedDeals.slice(),
+  };
 })();

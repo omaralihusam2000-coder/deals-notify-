@@ -90,7 +90,7 @@
   </script>
 
   <!-- PWA -->
-  <link rel="manifest" href="manifest.json?v=20260329d">
+  <link rel="manifest" href="manifest.json?v=20260329g">
   <meta name="theme-color" content="#0b1411">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -106,9 +106,10 @@
           integrity="sha256-oFMFWBTngLHSEQL+fzZNUHGMGDi+quRBbLwUGh9RU+k="
           crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="css/styles.css?v=20260329d">
+  <link rel="stylesheet" href="css/styles.css?v=20260329g">
+  <link rel="stylesheet" href="css/storefront-home.css?v=20260329g">
 </head>
-<body class="platform-rebuilt">
+<body class="launcher-ui">
   <aside class="side-rail" aria-label="Quick navigation" hidden>
     <button class="rail-btn" data-tab="deals" title="Deals">🔥</button>
     <button class="rail-btn" data-tab="giveaways" title="Free Games">🎁</button>
@@ -189,10 +190,21 @@
 
     <!-- ===== DEALS TAB ===== -->
     <section id="tab-deals" class="tab-panel active" role="tabpanel" aria-labelledby="deals-tab">
+      <div class="launcher-shell">
 
       <!-- ── Hero Section ─────────────────────────────────────────── -->
       <div class="hero-section hero-cinema" aria-label="Featured gaming deal">
         <div class="hero-inner">
+          <div class="launcher-hero-toolbar">
+            <div class="launcher-hero-brand">
+              <span class="launcher-hero-brand-mark"></span>
+              Deal Arena
+            </div>
+            <label class="launcher-hero-search" for="hero-search-proxy">
+              <span class="launcher-hero-search-icon" aria-hidden="true">🔍</span>
+              <input id="hero-search-proxy" type="search" placeholder="Search deals, stores, or platforms">
+            </label>
+          </div>
           <div class="hero-copy">
             <p id="hero-kicker" class="hero-kicker">Live deal tracker</p>
             <h1 id="hero-title" class="hero-title">Track the strongest game deals live.</h1>
@@ -221,6 +233,11 @@
                 <span class="hero-stat-num">20+</span>
                 <span class="hero-stat-label">Stores Monitored</span>
               </div>
+            </div>
+            <div class="launcher-hero-dots" aria-hidden="true">
+              <span class="launcher-hero-dot active"></span>
+              <span class="launcher-hero-dot"></span>
+              <span class="launcher-hero-dot"></span>
             </div>
           </div>
           <div class="hero-visual">
@@ -265,6 +282,17 @@
         </div>
       </div>
 
+      <section class="launcher-block launcher-shelf" id="launcher-recommended">
+        <div class="launcher-block-head">
+          <div>
+            <p class="section-kicker">Recommended picks</p>
+            <h2 class="section-title">Games aligned with your deal history.</h2>
+          </div>
+          <button class="launcher-link-btn" type="button" data-site-action="open-wishlist">Open wishlist</button>
+        </div>
+        <div id="home-recommended-grid" class="launcher-poster-row"></div>
+      </section>
+
       <div class="section-header section-header-split">
         <div>
           <p class="section-kicker">Today on the board</p>
@@ -301,6 +329,64 @@
           <div id="ending-soon-list" class="ending-soon-list"></div>
         </section>
       </div>
+
+      <div class="launcher-dual-grid">
+        <section class="launcher-block launcher-shelf" id="launcher-freebies">
+          <div class="launcher-block-head">
+            <div>
+              <p class="section-kicker">Free this week</p>
+              <h2 class="section-title">Claimable games and loot before they expire.</h2>
+            </div>
+            <button class="launcher-link-btn" type="button" data-launcher-tab="giveaways">Open freebies</button>
+          </div>
+          <div id="home-freebies-grid" class="launcher-poster-row launcher-poster-row-compact"></div>
+        </section>
+
+        <section class="launcher-block launcher-shelf" id="launcher-news">
+          <div class="launcher-block-head">
+            <div>
+              <p class="section-kicker">Highlighted news</p>
+              <h2 class="section-title">Key stories behind the biggest current discounts.</h2>
+            </div>
+            <button class="launcher-link-btn" type="button" data-launcher-tab="news">Open news</button>
+          </div>
+          <div id="home-news-grid" class="launcher-stack-list"></div>
+        </section>
+      </div>
+
+      <div class="launcher-dual-grid launcher-dual-grid-feature">
+        <section class="launcher-block launcher-feature-story" id="launcher-feature-story">
+          <div class="launcher-block-head">
+            <div>
+              <p class="section-kicker">Deal spotlight</p>
+              <h2 class="section-title">One highlighted release with context, savings, and urgency.</h2>
+            </div>
+          </div>
+          <div id="home-feature-story"></div>
+        </section>
+
+        <section class="launcher-block launcher-creators" id="launcher-creators">
+          <div class="launcher-block-head">
+            <div>
+              <p class="section-kicker">Recommended creators</p>
+              <h2 class="section-title">People and channels worth following for smarter buys.</h2>
+            </div>
+          </div>
+          <div id="home-creators-list" class="launcher-channel-list"></div>
+        </section>
+      </div>
+
+      <section class="launcher-block launcher-platforms" id="launcher-platforms">
+        <div class="launcher-block-head">
+          <div>
+            <p class="section-kicker">Platforms</p>
+            <h2 class="section-title">Switch between PC, console, and mobile deal shelves.</h2>
+          </div>
+          <button class="launcher-link-btn" type="button" data-launcher-tab="console">Open console tab</button>
+        </div>
+        <div id="home-platform-tabs" class="launcher-platform-tabs"></div>
+        <div id="home-platform-grid" class="launcher-poster-row launcher-poster-row-wide"></div>
+      </section>
 
       <!-- Recommended For You -->
       <div id="recommendations-section" class="recommendations-section" style="display:none;" hidden>
@@ -470,6 +556,7 @@
         </div>
       </div>
 
+      </div>
     </section>
 
     <!-- ===== GIVEAWAYS TAB ===== -->
@@ -918,7 +1005,7 @@
   </button>
 
   <!-- ── Scripts ─────────────────────────────────────────────────── -->
-  <script src="js/utils.js?v=20260329d"></script>
+  <script src="js/utils.js?v=20260329g"></script>
   <script src="js/confetti.js"></script>
   <script src="js/tooltips.js"></script>
   <script src="js/sounds.js"></script>
@@ -935,7 +1022,7 @@
   <script src="js/share.js"></script>
   <script src="js/price-advisor.js"></script>
   <script src="js/game-detail.js"></script>
-  <script src="js/deals.js?v=20260329d"></script>
+  <script src="js/deals.js?v=20260329g"></script>
   <script src="js/giveaways.js"></script>
   <script src="js/bundles.js"></script>
   <script src="js/news.js"></script>
@@ -954,7 +1041,7 @@
   <script src="js/intersection-animator.js"></script>
   <script src="js/pull-to-refresh.js"></script>
   <script src="js/bottom-nav.js"></script>
-  <script src="js/pwa.js?v=20260329d"></script>
+  <script src="js/pwa.js?v=20260329g"></script>
   <script src="js/spotlight.js"></script>
   <script src="js/theme-picker.js"></script>
   <script src="js/smart-alerts.js"></script>
@@ -975,16 +1062,17 @@
   <script src="js/dashboard.js"></script>
   <script src="js/price-timeline.js"></script>
   <script src="js/reviews.js"></script>
-  <script src="js/bundle-builder.js?v=20260329d"></script>
-  <script src="js/chatbot.js?v=20260329d"></script>
+  <script src="js/bundle-builder.js?v=20260329g"></script>
+  <script src="js/chatbot.js?v=20260329g"></script>
   <script src="js/voice-search.js"></script>
   <script src="js/price-scheduler.js"></script>
   <script src="js/store-trust.js"></script>
   <script src="js/ambient-mode.js"></script>
   <script src="js/top-deals.js?v=20260329d"></script>
   <script src="js/deal-badges.js"></script>
-  <script src="js/site-info.js?v=20260329d"></script>
-  <script src="js/app.js?v=20260329d"></script>
+  <script src="js/site-info.js?v=20260329g"></script>
+  <script src="js/storefront-home.js?v=20260329g"></script>
+  <script src="js/app.js?v=20260329g"></script>
 
 </body>
 </html>
