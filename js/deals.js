@@ -16,6 +16,7 @@ const DealsModule = (() => {
   const countdownTimers = new Map();
   const trackedGameIDs = new Set();
   let lastUpdated = null;
+  const PAGE_SIZE = 10;
 
   // Flash sale constants
   const FLASH_SALE_HOURS_RANGE = 20;
@@ -150,7 +151,7 @@ const DealsModule = (() => {
       hasMore = true;
       allLoadedDeals = [];
       clearCountdownTimers();
-      showSkeletons(container, 8);
+      showSkeletons(container, 6);
       if (loadMoreBtn) loadMoreBtn.style.display = 'none';
     } else {
       const skeletonWrap = document.createElement('div');
@@ -162,7 +163,7 @@ const DealsModule = (() => {
     try {
       const params = new URLSearchParams({
         pageNumber: currentPage,
-        pageSize: 12,
+        pageSize: PAGE_SIZE,
         sortBy: currentFilters.sortBy || 'DealRating',
         desc: 1,
         ...(currentFilters.storeID  ? { storeID: currentFilters.storeID }   : {}),
@@ -187,8 +188,8 @@ const DealsModule = (() => {
         container.innerHTML = `
           <div class="empty-state">
             <div class="empty-icon">🔍</div>
-            <p>No deals found matching your filters.</p>
-            <button class="btn btn-primary" onclick="DealsModule.clearFilters()">Clear Filters</button>
+            <p>No deals match the current filters.</p>
+            <button class="btn btn-primary" onclick="DealsModule.clearFilters()">Reset Filters</button>
           </div>`;
         if (loadMoreBtn) loadMoreBtn.style.display = 'none';
         return;
@@ -218,6 +219,7 @@ const DealsModule = (() => {
 
       lastUpdated = new Date();
       updateTrustBar(allLoadedDeals.length, lastUpdated);
+      syncLeanTrustMessage(allLoadedDeals.length, lastUpdated);
       document.dispatchEvent(new CustomEvent('deals:updated', {
         detail: {
           deals: allLoadedDeals.slice(),
@@ -225,7 +227,7 @@ const DealsModule = (() => {
         },
       }));
 
-      hasMore = deals.length === 12;
+      hasMore = deals.length === PAGE_SIZE;
       if (loadMoreBtn) loadMoreBtn.style.display = hasMore ? 'block' : 'none';
       currentPage++;
 
@@ -235,8 +237,8 @@ const DealsModule = (() => {
       if (reset) {
         container.innerHTML = `<div class="error-state">
           <div class="error-icon">⚠️</div>
-          <p>Failed to load deals. ${escapeHtml(err.message)}</p>
-          <button class="btn btn-primary" onclick="DealsModule.refresh()">Try Again</button>
+          <p>We could not load the deals list right now. ${escapeHtml(err.message)}</p>
+          <button class="btn btn-primary" onclick="DealsModule.refresh()">Retry</button>
         </div>`;
       }
       showToast(`Failed to load deals: ${err.message}`, 'error');
@@ -263,10 +265,10 @@ const DealsModule = (() => {
     content.innerHTML = `
       <div class="dashboard-panel-head dashboard-panel-head-inline">
         <div>
-          <p class="section-kicker">Best value</p>
-          <h2 class="section-title">Best Deals Spotlight</h2>
+          <p class="section-kicker">Featured today</p>
+          <h2 class="section-title">Featured Deal</h2>
         </div>
-        <span class="dashboard-panel-tag">Editor pick</span>
+        <span class="dashboard-panel-tag">Featured</span>
       </div>
       <div class="dotd-inner">
         <div class="dotd-image-wrap">
@@ -309,8 +311,8 @@ const DealsModule = (() => {
     const saleEl = content.querySelector('.dotd-sale-price');
     const originalEl = content.querySelector('.price-original');
 
-    if (badgeEl) badgeEl.textContent = 'Best Pick';
-    if (primaryBtn) primaryBtn.textContent = 'Buy Now';
+    if (badgeEl) badgeEl.textContent = 'Featured';
+    if (primaryBtn) primaryBtn.textContent = 'View Deal';
     if (saleEl) saleEl.textContent = formatDisplayPrice(best.salePrice);
     if (originalEl && parseFloat(best.normalPrice) > 0) {
       originalEl.textContent = formatDisplayPrice(best.normalPrice);
@@ -399,6 +401,22 @@ const DealsModule = (() => {
     return new Date(Date.now() + hoursLeft * 60 * 60 * 1000);
   }
 
+  function syncLeanTrustMessage(count, updatedAt) {
+    if (!document.body.classList.contains('launcher-ui')) return;
+    const bar = document.getElementById('trust-bar');
+    if (!bar) return;
+
+    const timeStr = updatedAt
+      ? updatedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : '...';
+
+    bar.innerHTML = `
+      <div class="trust-pill accent">Updated <span class="pill-label">${timeStr}</span></div>
+      <div class="trust-pill">${count} deals <span class="pill-label">curated</span></div>
+      <div class="trust-pill soft">Redirects <span class="pill-label">official store or offer page</span></div>
+    `;
+  }
+
   function renderHeroSpotlight(deals) {
     const featured = deals.slice().sort((a, b) => getDealPriority(b) - getDealPriority(a))[0];
     if (!featured) return;
@@ -426,16 +444,16 @@ const DealsModule = (() => {
     if (heroSection) {
       heroSection.style.setProperty('--hero-feature-bg', `url("${featured.thumb}")`);
     }
-    if (kicker) kicker.textContent = `${storeName} spotlight`;
-    if (title) title.textContent = 'Track the strongest game deals live.';
+    if (kicker) kicker.textContent = 'Gaming deals made clear';
+    if (title) title.textContent = 'Track the best gaming deals in one place.';
     if (subtitle) {
-      subtitle.textContent = `${conciseTitle} is leading the board right now at ${storeName}. Open details, compare pricing, or jump straight to the live offer.`;
+      subtitle.textContent = 'Compare prices, find free games, and open trusted store pages fast.';
     }
     if (chipList) {
       chipList.innerHTML = `
-        <span class="chip chip-hot">${conciseTitle}</span>
         <span class="chip">${escapeHtml(storeName)}</span>
         <span class="chip">-${savings}% off</span>
+        <span class="chip">Trusted redirects</span>
       `;
     }
     if (image) {
@@ -487,7 +505,7 @@ const DealsModule = (() => {
           </div>
         ` : ''}
         <div class="spotlight-deal-actions">
-          <a class="btn btn-primary btn-sm spotlight-buy-btn" href="${CHEAPSHARK_REDIRECT}${encodeURIComponent(deal.dealID)}" target="_blank" rel="noopener noreferrer">Buy Now</a>
+          <a class="btn btn-primary btn-sm spotlight-buy-btn" href="${CHEAPSHARK_REDIRECT}${encodeURIComponent(deal.dealID)}" target="_blank" rel="noopener noreferrer">View Deal</a>
           <button type="button" class="btn btn-outline btn-sm spotlight-detail-btn">Details</button>
         </div>
       </div>
@@ -663,7 +681,7 @@ const DealsModule = (() => {
     }
 
     if (primaryLink) {
-      primaryLink.textContent = 'Buy Now';
+      primaryLink.textContent = 'View Deal';
       primaryLink.classList.add('deal-buy-btn');
       primaryLink.addEventListener('click', (e) => e.stopPropagation());
     }
@@ -674,7 +692,7 @@ const DealsModule = (() => {
         <a class="btn btn-sm btn-primary deal-link deal-buy-btn"
            href="${CHEAPSHARK_REDIRECT}${encodeURIComponent(deal.dealID)}"
            target="_blank" rel="noopener noreferrer">
-          Buy Now
+          View Deal
         </a>
         <button type="button" class="btn btn-sm btn-outline btn-details">Details</button>
       `;
@@ -788,26 +806,10 @@ const DealsModule = (() => {
       });
     }
 
-    // New: Reviews row
-    if (typeof ReviewsModule !== 'undefined') {
-      const reviewRow = card.querySelector('.card-reviews-row');
-      if (reviewRow) reviewRow.appendChild(ReviewsModule.createReviewButtons(deal));
-    }
-
-    // New: Store Trust Badges (applied to .card-store elements)
-    if (typeof StoreTrustModule !== 'undefined') {
-      requestAnimationFrame(() => StoreTrustModule.applyBadges());
-    }
-
     // Open Game Detail Modal on card click
     card.addEventListener('click', () => {
       if (typeof GameDetailModule !== 'undefined') GameDetailModule.open(deal);
     });
-
-    // Price advisor (async, no blocking)
-    if (typeof PriceAdvisorModule !== 'undefined') {
-      requestAnimationFrame(() => PriceAdvisorModule.applyToCard(card, deal));
-    }
 
     // Start countdown timer if flash sale
     if (isFlashSale) {

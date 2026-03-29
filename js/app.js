@@ -6,6 +6,125 @@ const AppModule = (() => {
   const TABS = ['home', 'deals', 'giveaways', 'bundles', 'console', 'news', 'calendar', 'quiz', 'dashboard', 'collections', 'wishlist', 'achievements', 'profile', 'settings'];
   let activeTab = 'deals';
 
+  function applyLeanHomepageChrome() {
+    if (!document.body.classList.contains('launcher-ui')) return;
+
+    document.getElementById('lucky-spin-btn')?.remove();
+    document.getElementById('cb-widget')?.remove();
+    document.getElementById('bundle-fab')?.remove();
+    document.getElementById('discord-floating-widget')?.remove();
+
+    document.querySelector('.nav-tab[data-tab="news"]')?.remove();
+    document.querySelector('.nav-more')?.remove();
+
+    const navMain = document.querySelector('.nav-main');
+    if (navMain && !navMain.querySelector('.nav-tab[data-tab="settings"]')) {
+      const settingsBtn = document.createElement('button');
+      settingsBtn.className = 'nav-tab';
+      settingsBtn.type = 'button';
+      settingsBtn.setAttribute('role', 'tab');
+      settingsBtn.setAttribute('aria-selected', 'false');
+      settingsBtn.dataset.tab = 'settings';
+      settingsBtn.setAttribute('aria-controls', 'tab-settings');
+      settingsBtn.textContent = 'Settings';
+      navMain.appendChild(settingsBtn);
+    }
+
+    [
+      'launcher-recommended',
+      'launcher-freebies',
+      'launcher-news',
+      'launcher-feature-story',
+      'launcher-creators',
+      'launcher-platforms',
+      'recommendations-section',
+      'recently-viewed-section',
+      'live-stats-bar',
+      'mini-stats-bar',
+      'genre-filters-container',
+      'top-rated-deals-section',
+      'price-timeline-container',
+    ].forEach(id => document.getElementById(id)?.remove());
+
+    document.querySelectorAll('.newsletter-section, .trust-focus-section, .how-it-works-section, .why-us-section').forEach(section => section.remove());
+    document.querySelectorAll('.launcher-dual-grid').forEach(grid => {
+      if (!grid.children.length) grid.remove();
+    });
+
+    const heroBrand = document.querySelector('.launcher-hero-brand');
+    if (heroBrand) {
+      heroBrand.innerHTML = '<span class="launcher-hero-brand-mark"></span> Deal Board';
+    }
+
+    const heroSearch = document.getElementById('hero-search-proxy');
+    if (heroSearch) heroSearch.placeholder = 'Search deals or stores';
+
+    const heroSecondaryBtn = document.getElementById('hero-alert-btn');
+    if (heroSecondaryBtn) {
+      heroSecondaryBtn.id = 'hero-secondary-btn';
+      heroSecondaryBtn.textContent = 'Free Games';
+      heroSecondaryBtn.setAttribute('aria-label', 'Open free games');
+    }
+
+    const heroBrowseBtn = document.getElementById('hero-browse-btn');
+    if (heroBrowseBtn) {
+      heroBrowseBtn.textContent = 'Browse Deals';
+      heroBrowseBtn.setAttribute('aria-label', 'Browse deals');
+    }
+
+    document.querySelector('.hero-stats-row')?.remove();
+    document.querySelector('.launcher-hero-dots')?.remove();
+
+    if (!document.querySelector('.hero-note')) {
+      const note = document.createElement('p');
+      note.className = 'hero-note';
+      note.textContent = 'We help you discover deals, then redirect you to the official store or offer page.';
+      document.querySelector('.hero-cta-row')?.insertAdjacentElement('afterend', note);
+    }
+
+    const feedHeader = document.querySelector('.section-header.section-header-split');
+    if (feedHeader) {
+      feedHeader.classList.add('deals-feed-head');
+      feedHeader.querySelector('.section-kicker')?.replaceChildren(document.createTextNode('Browse deals'));
+      feedHeader.querySelector('.section-title')?.replaceChildren(document.createTextNode('Find the right offer quickly.'));
+      feedHeader.querySelector('.section-lead')?.replaceChildren(document.createTextNode('Filter by store, price, and discount. Final price and availability depend on the destination store page.'));
+    }
+
+    const footerBrandCopy = document.querySelector('.footer-brand-copy');
+    if (footerBrandCopy) {
+      footerBrandCopy.textContent = 'Track game discounts, compare prices, and open trusted store pages without the extra noise.';
+    }
+
+    const footerGroups = document.querySelector('.footer-link-groups');
+    if (footerGroups) {
+      footerGroups.innerHTML = `
+        <div class="footer-link-group">
+          <span class="footer-link-title">Explore</span>
+          <button class="footer-link-btn" type="button" data-launcher-tab="giveaways">Free Games</button>
+          <button class="footer-link-btn" type="button" data-launcher-tab="bundles">Bundles</button>
+          <button class="footer-link-btn" type="button" data-site-action="open-wishlist">Wishlist</button>
+          <button class="footer-link-btn" type="button" data-site-action="open-settings">Settings</button>
+        </div>
+        <div class="footer-link-group">
+          <span class="footer-link-title">Project</span>
+          <button class="footer-link-btn" type="button" data-site-info="about">About Us</button>
+          <button class="footer-link-btn" type="button" data-site-info="contact">Contact</button>
+          <button class="footer-link-btn" type="button" data-site-info="privacy">Privacy Policy</button>
+          <button class="footer-link-btn" type="button" data-site-info="terms">Terms</button>
+        </div>
+      `;
+    }
+
+    const trustStrip = document.querySelector('.footer-trust-strip');
+    if (trustStrip) {
+      trustStrip.innerHTML = `
+        <span class="footer-pill">20+ stores tracked</span>
+        <span class="footer-pill">Official store redirects</span>
+        <span class="footer-pill">Prices depend on the final store page</span>
+      `;
+    }
+  }
+
   function closeMoreMenu() {
     const menu = document.querySelector('.nav-more-menu');
     const toggle = document.querySelector('.nav-more-toggle');
@@ -28,6 +147,9 @@ const AppModule = (() => {
     activeTab = tabName;
     storageSet('last_tab', tabName);
     if (typeof SoundsModule !== 'undefined') SoundsModule.tabSwitch();
+    if (typeof BottomNavModule !== 'undefined' && BottomNavModule.updateActive) {
+      BottomNavModule.updateActive(tabName);
+    }
 
     // Lazy-load tab content on first visit
     if (tabName === 'giveaways' && !document.getElementById('giveaways-grid').dataset.loaded) {
@@ -228,9 +350,12 @@ const AppModule = (() => {
   }
 
   async function init() {
+    const leanMode = document.body.classList.contains('launcher-ui');
+
     // Init i18n first (before any other modules render text)
     if (typeof I18nModule !== 'undefined') I18nModule.init();
 
+    applyLeanHomepageChrome();
     bindNavEvents();
     initDarkMode();
     initBackToTop();
@@ -252,7 +377,7 @@ const AppModule = (() => {
     if (typeof GamificationModule !== 'undefined') GamificationModule.init();
     if (typeof PWAModule !== 'undefined') PWAModule.init();
     if (typeof NewsletterModule !== 'undefined') NewsletterModule.init();
-    if (typeof DiscordModule !== 'undefined') DiscordModule.init();
+    if (!leanMode && typeof DiscordModule !== 'undefined') DiscordModule.init();
 
     // Deals tab is default — initialise immediately
     await DealsModule.init();
@@ -261,17 +386,17 @@ const AppModule = (() => {
     updateNotifBadge();
 
     // Welcome onboarding for first-time visitors
-    if (typeof WelcomeModule !== 'undefined') {
+    if (!leanMode && typeof WelcomeModule !== 'undefined') {
       WelcomeModule.show();
     }
 
     // Live stats bar
-    if (typeof LiveStatsModule !== 'undefined') {
+    if (!leanMode && typeof LiveStatsModule !== 'undefined') {
       LiveStatsModule.init();
     }
 
     // Floating action button
-    if (typeof FABModule !== 'undefined') {
+    if (!leanMode && typeof FABModule !== 'undefined') {
       FABModule.init();
     }
 
@@ -294,43 +419,43 @@ const AppModule = (() => {
     if (typeof TooltipsModule !== 'undefined') TooltipsModule.init();
 
     // Mini stats dashboard
-    if (typeof MiniStatsModule !== 'undefined') MiniStatsModule.init();
+    if (!leanMode && typeof MiniStatsModule !== 'undefined') MiniStatsModule.init();
 
     // Wave 4 modules
-    if (typeof SpotlightModule !== 'undefined') SpotlightModule.init();
-    if (typeof ThemePickerModule !== 'undefined') ThemePickerModule.init();
+    if (!leanMode && typeof SpotlightModule !== 'undefined') SpotlightModule.init();
+    if (!leanMode && typeof ThemePickerModule !== 'undefined') ThemePickerModule.init();
     if (typeof SmartAlertsModule !== 'undefined') SmartAlertsModule.init();
-    if (typeof RecentlyViewedModule !== 'undefined') RecentlyViewedModule.init();
-    if (typeof FeedbackModule !== 'undefined') FeedbackModule.init();
-    if (typeof SparklinesModule !== 'undefined') SparklinesModule.init();
-    if (typeof ProfileModule !== 'undefined') ProfileModule.init();
+    if (!leanMode && typeof RecentlyViewedModule !== 'undefined') RecentlyViewedModule.init();
+    if (!leanMode && typeof FeedbackModule !== 'undefined') FeedbackModule.init();
+    if (!leanMode && typeof SparklinesModule !== 'undefined') SparklinesModule.init();
+    if (!leanMode && typeof ProfileModule !== 'undefined') ProfileModule.init();
     if (typeof CountdownModule !== 'undefined') CountdownModule.init();
-    if (typeof CompareModule !== 'undefined') CompareModule.init();
-    if (typeof SocialProofModule !== 'undefined') SocialProofModule.init();
-    if (typeof DailyStreakModule !== 'undefined') DailyStreakModule.init();
-    if (typeof ImageZoomModule !== 'undefined') ImageZoomModule.init();
+    if (!leanMode && typeof CompareModule !== 'undefined') CompareModule.init();
+    if (!leanMode && typeof SocialProofModule !== 'undefined') SocialProofModule.init();
+    if (!leanMode && typeof DailyStreakModule !== 'undefined') DailyStreakModule.init();
+    if (!leanMode && typeof ImageZoomModule !== 'undefined') ImageZoomModule.init();
 
     // UX/SEO improvements
     if (typeof TopDealsModule !== 'undefined') TopDealsModule.init();
-    if (typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
+    if (!leanMode && typeof DealBadgesModule !== 'undefined') DealBadgesModule.init();
     if (typeof SiteInfoModule !== 'undefined') SiteInfoModule.init();
 
     // AI Deal Assistant Chatbot
-    if (typeof ChatbotModule !== 'undefined') ChatbotModule.init();
+    if (!leanMode && typeof ChatbotModule !== 'undefined') ChatbotModule.init();
 
     // Hero section CTA buttons
     const heroBrowseBtn = document.getElementById('hero-browse-btn');
     if (heroBrowseBtn) {
       heroBrowseBtn.addEventListener('click', () => {
-        const grid = document.getElementById('deals-grid');
-        if (grid) grid.scrollIntoView({ behavior: 'smooth' });
+        const filters = document.querySelector('.search-filter-bar');
+        if (filters) filters.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
-    const heroAlertBtn = document.getElementById('hero-alert-btn');
-    if (heroAlertBtn) {
-      heroAlertBtn.addEventListener('click', () => {
-        const storeFilter = document.getElementById('filter-store');
-        if (storeFilter) storeFilter.focus();
+    const heroSecondaryBtn = document.getElementById('hero-secondary-btn') || document.getElementById('hero-alert-btn');
+    if (heroSecondaryBtn) {
+      heroSecondaryBtn.addEventListener('click', () => {
+        switchTab('giveaways');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
 

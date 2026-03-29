@@ -1179,3 +1179,282 @@ body.launcher-ui .info-modal-box {
   }
 }
 
+body.launcher-ui .nav-more,
+body.launcher-ui .nav-tab[data-tab="news"],
+body.launcher-ui #lucky-spin-btn,
+body.launcher-ui .side-rail,
+body.launcher-ui .newsletter-section,
+body.launcher-ui .trust-focus-section,
+body.launcher-ui .how-it-works-section,
+body.launcher-ui .why-us-section,
+body.launcher-ui #cb-widget,
+body.launcher-ui #bundle-fab,
+body.launcher-ui #discord-floating-widget,
+body.launcher-ui #bundle-panel,
+body.launcher-ui #bundle-panel-overlay,
+body.launcher-ui #live-stats-bar,
+body.launcher-ui #mini-stats-bar,
+body.launcher-ui #genre-filters-container,
+body.launcher-ui #top-rated-deals-section,
+body.launcher-ui #price-timeline-container,
+body.launcher-ui #launcher-recommended,
+body.launcher-ui #launcher-freebies,
+body.launcher-ui #launcher-news,
+body.launcher-ui #launcher-feature-story,
+body.launcher-ui #launcher-creators,
+body.launcher-ui #launcher-platforms,
+body.launcher-ui #recommendations-section,
+body.launcher-ui #recently-viewed-section {
+  display: none !important;
+}
+
+body.launcher-ui .nav-main {
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+body.launcher-ui .launcher-shell {
+  gap: 1.2rem;
+}
+
+body.launcher-ui .hero-section {
+  min-height: 500px !important;
+}
+
+body.launcher-ui .hero-copy {
+  display: grid;
+  gap: 0.95rem;
+}
+
+body.launcher-ui .hero-subtitle {
+  max-width: 34ch !important;
+}
+
+body.launcher-ui .hero-note {
+  max-width: 40ch;
+  margin: 0;
+  color: rgba(226, 234, 233, 0.72);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+body.launcher-ui .hero-stats-row,
+body.launcher-ui .launcher-hero-dots {
+  display: none !important;
+}
+
+body.launcher-ui .featured-stack,
+body.launcher-ui .dashboard-highlight-grid {
+  align-items: stretch;
+}
+
+body.launcher-ui .section-header.section-header-split.deals-feed-head {
+  padding-top: 0.2rem;
+}
+
+body.launcher-ui #trust-bar {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.75rem;
+}
+
+body.launcher-ui .trust-pill {
+  justify-content: space-between;
+  gap: 0.65rem;
+  min-height: 54px;
+}
+
+body.launcher-ui .search-filter-bar {
+  margin-top: 0.15rem;
+}
+
+body.launcher-ui .cards-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+body.launcher-ui .deal-card {
+  border-radius: 22px !important;
+  overflow: hidden;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+body.launcher-ui .deal-card .card-img {
+  aspect-ratio: 16 / 10;
+}
+
+body.launcher-ui .deal-card .card-body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1rem 1.05rem !important;
+  align-content: start;
+}
+
+body.launcher-ui .card-badges-row,
+body.launcher-ui .card-utility-row,
+body.launcher-ui .card-reviews-row,
+body.launcher-ui .deal-voting,
+body.launcher-ui .community-votes,
+body.launcher-ui .rv-buttons,
+body.launcher-ui .price-advisor,
+body.launcher-ui .price-advisor-placeholder {
+  display: none !important;
+}
+
+body.launcher-ui .card-title {
+  margin: 0 !important;
+  min-height: auto !important;
+  font-size: 1rem !important;
+  line-height: 1.35 !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.launcher-ui .card-store {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  flex-wrap: nowrap;
+}
+
+body.launcher-ui .store-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.launcher-ui .deal-score-pill {
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(117, 255, 185, 0.1);
+  color: var(--sf-text-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+body.launcher-ui .card-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+body.launcher-ui .price-sale {
+  font-size: 1.35rem !important;
+  font-weight: 800;
+}
+
+body.launcher-ui .countdown-wrap {
+  padding: 0.55rem 0.7rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.launcher-ui .card-footer.card-cta-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  margin-top: auto;
+}
+
+body.launcher-ui .card-footer .btn {
+  min-height: 44px;
+}
+
+body.launcher-ui .btn-details {
+  min-width: 100px;
+}
+
+body.launcher-ui .load-more-wrap {
+  padding-top: 0.2rem;
+}
+
+body.launcher-ui .empty-state,
+body.launcher-ui .error-state {
+  padding: 2rem 1.25rem;
+  border-radius: 22px;
+  border: 1px solid rgba(117, 255, 185, 0.08);
+  background: linear-gradient(180deg, rgba(17, 23, 24, 0.96), rgba(10, 14, 15, 0.98));
+}
+
+body.launcher-ui .empty-state p,
+body.launcher-ui .error-state p {
+  margin: 0 0 1rem;
+  color: var(--sf-text-soft);
+}
+
+body.launcher-ui .empty-icon,
+body.launcher-ui .error-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(117, 255, 185, 0.08);
+  color: var(--sf-text);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.launcher-ui .footer-shell {
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  align-items: start;
+}
+
+body.launcher-ui .footer-brand {
+  align-items: start;
+}
+
+body.launcher-ui .footer-brand-copy {
+  max-width: 46ch;
+}
+
+body.launcher-ui .footer-link-groups {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.launcher-ui .footer-trust-strip {
+  grid-column: 1 / -1;
+}
+
+body.launcher-ui .footer-source-copy {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+@media (max-width: 1100px) {
+  body.launcher-ui .cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body.launcher-ui .footer-shell,
+  body.launcher-ui .footer-link-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  body.launcher-ui .hero-section {
+    min-height: 0 !important;
+  }
+
+  body.launcher-ui #trust-bar,
+  body.launcher-ui .featured-stack,
+  body.launcher-ui .dashboard-highlight-grid,
+  body.launcher-ui .cards-grid,
+  body.launcher-ui .filters-row,
+  body.launcher-ui .footer-link-groups {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.launcher-ui .card-footer.card-cta-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+

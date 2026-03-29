@@ -323,8 +323,8 @@ const StorefrontHomeModule = (() => {
   function handleDealsUpdated(event) {
     const deals = event.detail?.deals || (typeof DealsModule !== 'undefined' && DealsModule.getLoadedDeals ? DealsModule.getLoadedDeals() : []);
     if (!deals.length) return;
-    renderRecommended(deals);
-    loadPlatformShelves(deals);
+    if (document.getElementById('home-recommended-grid')) renderRecommended(deals);
+    if (document.getElementById('home-platform-grid')) loadPlatformShelves(deals);
   }
 
   function init() {
@@ -333,19 +333,19 @@ const StorefrontHomeModule = (() => {
 
     bindHeroSearch();
     bindLauncherActions();
-    renderCreators();
-    renderPlatformTabs();
-    renderPlatformShelf();
-    renderFreebiesShelf();
-    renderNewsShelves();
+    if (document.getElementById('home-creators-list')) renderCreators();
+    if (document.getElementById('home-platform-tabs')) renderPlatformTabs();
+    if (document.getElementById('home-platform-grid')) renderPlatformShelf();
+    if (document.getElementById('home-freebies-grid')) renderFreebiesShelf();
+    if (document.getElementById('home-news-grid') || document.getElementById('home-feature-story')) renderNewsShelves();
     document.addEventListener('deals:updated', handleDealsUpdated);
 
     const initialDeals = typeof DealsModule !== 'undefined' && DealsModule.getLoadedDeals
       ? DealsModule.getLoadedDeals()
       : [];
     if (initialDeals.length) {
-      renderRecommended(initialDeals);
-      loadPlatformShelves(initialDeals);
+      if (document.getElementById('home-recommended-grid')) renderRecommended(initialDeals);
+      if (document.getElementById('home-platform-grid')) loadPlatformShelves(initialDeals);
     }
   }
 
@@ -356,8 +356,8 @@ const StorefrontHomeModule = (() => {
       ? DealsModule.getLoadedDeals()
       : [];
     if (deals.length) {
-      renderRecommended(deals);
-      loadPlatformShelves(deals);
+      if (document.getElementById('home-recommended-grid')) renderRecommended(deals);
+      if (document.getElementById('home-platform-grid')) loadPlatformShelves(deals);
     }
   }
 

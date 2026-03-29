@@ -5,7 +5,7 @@
  */
 
 const PWAModule = (() => {
-  const APP_VERSION = '20260329g';
+  const APP_VERSION = '20260329h';
   let deferredPrompt = null;
   let autoDismissTimer = null;
   const DISMISS_KEY = 'pwa_install_dismissed';
